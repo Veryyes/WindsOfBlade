@@ -1,9 +1,11 @@
 package wob;
 
-public class ShopKeeper extends Npc {
+import java.util.LinkedList;
 
+public class ShopKeeper extends Npc {
+	LinkedList<Item> items;
 	public ShopKeeper() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }

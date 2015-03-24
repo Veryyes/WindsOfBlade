@@ -1,9 +1,9 @@
 package wob;
 
 public class Consumable extends Item {
-
+	int hp, mp, sp;
 	public Consumable() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }

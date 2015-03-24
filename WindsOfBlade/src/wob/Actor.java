@@ -1,9 +1,11 @@
 package wob;
 
-public class Actor extends Entity {
+import java.awt.image.BufferedImage;
 
+public abstract class Actor extends Entity {
+	BufferedImage image;
 	public Actor() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }

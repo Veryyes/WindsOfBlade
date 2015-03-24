@@ -1,9 +1,9 @@
 package wob;
 
 public class Door extends Wall {
-
+	byte flags;//Locked, Closed
 	public Door() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }

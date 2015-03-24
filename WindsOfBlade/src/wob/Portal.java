@@ -1,9 +1,9 @@
 package wob;
 
 public class Portal extends Actor {
-
+	Map destination;
 	public Portal() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }
