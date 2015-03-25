@@ -4,13 +4,13 @@ public class Equipment extends Item {
 	char slot;
 	/*
 	 * h elmet
-	 * b ody
+	 * c hest
 	 * p ants
 	 * s hoes
 	 * g loves
 	 * r ight hand
 	 * l eft hand
-	 * p endent
+	 * p endant
 	 */
 	int str, intel, dex, will, agil;
 	int hp, mp, sp;

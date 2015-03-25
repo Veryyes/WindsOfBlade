@@ -12,6 +12,7 @@ public class Player extends Actor {
 	int hp, maxHp;	//Health
 	int mp, maxMp;	//Mana
 	int sp, maxSp;	//Stamina
+	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	public Player() {
 		
 	}
