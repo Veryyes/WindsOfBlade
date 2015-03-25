@@ -38,5 +38,10 @@ public class Player extends Actor implements WorldObject{
 	public void worldRender(Graphics g) {
 		//TODO draw this kid.
 	}
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

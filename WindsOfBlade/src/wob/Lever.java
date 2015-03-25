@@ -6,5 +6,9 @@ public class Lever extends Actor {
 	public Lever() {
 		
 	}
+	public void update() {
+		
+		
+	}
 
 }

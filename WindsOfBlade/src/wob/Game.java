@@ -1,10 +1,12 @@
 package wob;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,6 +26,8 @@ public class Game extends JPanel {
 	public static byte gameStates; //On 1, loading 2, paused 4, main menu 8, world 16, battle 32, cut-scene 64, game-over 128;
 	public static long gameTime;
 	public static long sleepTime;
+	public static Point mousePos;
+	public static LinkedList<WorldObject> worldObjects;
 	/*
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
@@ -45,27 +49,31 @@ public class Game extends JPanel {
 			System.out.println("[WARNING] Game is Lagging");
 		super.paintComponent(g);
 		repaint();
+		mousePos=frame.getMousePosition();
 		//List of Rendering Methods Here:
-		System.out.println(KeyInputManager.pressedKeys);
+		if((gameStates&8)>0){									//Draw Main Menu;
+			
+		}
 	}
 	/*
 	 *  Loading stuff & Initlizaing variables
 	 */
 	private static void init(){
-		frame = new JFrame("Winds of Blade v"+version);
+		frame = new JFrame("Winds of Blade v"+version);			//Setting up the JFrame
 		frame.setSize(frameWidth,frameHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setResizable(false);
-		canvas = new Game();
+		canvas = new Game();									//JPanel that will handle drawing the graphics
 		frame.add(canvas);
-		frameSkip = 1000d/fps;
-		am = new AudioManager();
-		im = new ImageManager();
-		km = new KeyInputManager();
-		frame.addKeyListener(km);
-		gameStates|=1;
-		gameStates|=8;
+		frameSkip = 1000d/fps;									//seconds between each frame
+		am = new AudioManager();								//Loading manager objects for organization	
+		im = new ImageManager();								  
+		km = new KeyInputManager();								 
+		frame.addKeyListener(km);	
+		mousePos=frame.getMousePosition();
+		gameStates|=1;											//Game is now On
+		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
 	}
 	/*
