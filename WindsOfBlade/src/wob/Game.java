@@ -5,10 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Game extends JPanel {
+	public static final float version = .01f;
 	public static JFrame frame;
 	public static int frameWidth;
 	public static int frameHeight;
@@ -18,18 +20,52 @@ public class Game extends JPanel {
 	public static int fps;
 	public static double frameSkip; // = 1000d/fps;
 	public static Game canvas;
-	public static byte gameStates; //On 1, loading 2, paused 3,
-	public static void main(String[] args) {
-		System.out.println("[INFO] Winds of Blade is Launching!");
+	public static byte gameStates; //On 1, loading 2, paused 4,
+	public static long gameTime;
+	public static long sleepTime;
+	/*
+	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
+	 */
+	public static void main(String[] args) throws InterruptedException {
+		System.out.println("[INFO] Winds of Blade v"+version+" is Launching!");
 		loadConfigs();
+		init();
+		System.out.println("[INFO] Winds of Blade v"+version+" Finished Loading!");
 	}
-	public static void init(){
-		gameStates|=1;
-		frame = new JFrame("Winds of Blade");
-	}
+	/*
+	 *  Draw all mah stuff dawg
+	 */
 	public void paintComponent(Graphics g){
-		
+		gameTime+=frameSkip;
+		sleepTime = gameTime - System.currentTimeMillis();
+		if(sleepTime>=0)
+			try {Thread.sleep(sleepTime);} catch (InterruptedException e) {e.printStackTrace();}
+		else
+			System.out.println("[WARNING] Game is Lagging");
+		super.paintComponent(g);
+		repaint();
+		//List of Rendering Methods Here:
 	}
+	/*
+	 *  Loading stuff & Initlizaing variables
+	 */
+	private static void init(){
+		frame = new JFrame("Winds of Blade v"+version);
+		frame.setSize(frameWidth,frameHeight);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		canvas = new Game();
+		frame.add(canvas);
+		frameSkip = 1000d/fps;
+		am = new AudioManager();
+		im = new ImageManager();
+		gameStates|=1;
+		gameTime=System.currentTimeMillis();
+	}
+	/*
+	 * 	Reading config files
+	 */
 	private static void loadConfigs(){
 		try {
 			String raw="";
@@ -63,6 +99,9 @@ public class Game extends JPanel {
 		}
 		
 	}
+	/*
+	 * Creates a standard/Default value config file if its missing or something
+	 */
 	private static void createDefaultConfigs(){
 		try {
 			FileWriter fw = new FileWriter(new File("cfg/settings.cfg"));
