@@ -33,9 +33,12 @@ public class Game extends JPanel {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 		System.out.println("[INFO] Winds of Blade v"+version+" is Launching!");
+		gameStates|=1;	//Game is now On
+		gameStates|=2;	//Game is Loading;
 		loadConfigs();
 		init();
 		System.out.println("[INFO] Winds of Blade v"+version+" Finished Loading!");
+		gameStates&=~2; //Game done loading;
 	}
 	/*
 	 *  Draw all mah stuff dawg
@@ -52,7 +55,7 @@ public class Game extends JPanel {
 		mousePos=frame.getMousePosition();
 		//List of Rendering Methods Here:
 		if((gameStates&8)>0){									//Draw Main Menu;
-			
+			g.drawImage(ImageManager.wbSepia,0,0,null);
 		}
 	}
 	/*
@@ -67,12 +70,11 @@ public class Game extends JPanel {
 		canvas = new Game();									//JPanel that will handle drawing the graphics
 		frame.add(canvas);
 		frameSkip = 1000d/fps;									//seconds between each frame
-		am = new AudioManager();								//Loading manager objects for organization	
-		im = new ImageManager();								  
+		AudioManager.LoadSounds();								//Loading manager objects for organization	
+		ImageManager.LoadImages();								  
 		km = new KeyInputManager();								 
 		frame.addKeyListener(km);	
-		mousePos=frame.getMousePosition();
-		gameStates|=1;											//Game is now On
+		mousePos=frame.getMousePosition();								
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
 	}
