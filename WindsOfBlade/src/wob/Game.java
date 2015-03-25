@@ -16,11 +16,12 @@ public class Game extends JPanel {
 	public static int frameHeight;
 	public static AudioManager am;
 	public static ImageManager im;
+	public static KeyInputManager km;
 	public static SparseMatrix<Map> world;
 	public static int fps;
 	public static double frameSkip; // = 1000d/fps;
 	public static Game canvas;
-	public static byte gameStates; //On 1, loading 2, paused 4,
+	public static byte gameStates; //On 1, loading 2, paused 4, main menu 8, world 16, battle 32, cut-scene 64, game-over 128;
 	public static long gameTime;
 	public static long sleepTime;
 	/*
@@ -45,6 +46,7 @@ public class Game extends JPanel {
 		super.paintComponent(g);
 		repaint();
 		//List of Rendering Methods Here:
+		System.out.println(KeyInputManager.pressedKeys);
 	}
 	/*
 	 *  Loading stuff & Initlizaing variables
@@ -60,7 +62,10 @@ public class Game extends JPanel {
 		frameSkip = 1000d/fps;
 		am = new AudioManager();
 		im = new ImageManager();
+		km = new KeyInputManager();
+		frame.addKeyListener(km);
 		gameStates|=1;
+		gameStates|=8;
 		gameTime=System.currentTimeMillis();
 	}
 	/*
