@@ -14,7 +14,8 @@ public class Player extends Actor implements WorldObject{
 	int mp, maxMp;	//Mana
 	int sp, maxSp;	//Stamina
 	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
-	public Player() {
+	public Player(int x, int y) {
+		super(x,y);//TODO take out x&y parameters b/c player is stationary and world moves
 		name="Hero";
 		level=1;
 		experience=0;
@@ -31,7 +32,8 @@ public class Player extends Actor implements WorldObject{
 		sp=10;
 		maxSp=10;
 	}
-	public Player(String savefile){
+	public Player(int x, int y, String savefile){
+		super(x,y);
 		//TODO need to make a savefile so i can parse it first.
 	}
 	

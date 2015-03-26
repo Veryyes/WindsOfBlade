@@ -10,8 +10,8 @@ public class Enemy extends Actor implements BattleObject{
 	int hp;
 	LinkedList<Item> inventory;
 	String name;
-	public Enemy() {
-		
+	public Enemy(int x,int y) {
+		super(x,y);
 	}
 	public void update() {
 			

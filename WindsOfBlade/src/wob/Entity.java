@@ -6,8 +6,9 @@ public abstract class Entity {
 	int x;
 	int y;
 	Rectangle2D.Double hitBox;
-	public Entity() {
-
+	public Entity(int x, int y) {
+		this.x=x;
+		this.y=y;
 	}
 	public abstract void update();
 

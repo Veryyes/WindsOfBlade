@@ -4,8 +4,8 @@ import java.awt.Graphics;
 
 public class SaveSpot extends Actor implements WorldObject {
 
-	public SaveSpot() {
-		
+	public SaveSpot(int x, int y) {
+		super(x,y);
 	}
 
 	@Override

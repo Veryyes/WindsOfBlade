@@ -5,8 +5,8 @@ import java.awt.Graphics;
 public class Npc extends Actor implements WorldObject{
 	String name;
 	String[] conversation;
-	public Npc() {
-		
+	public Npc(int x, int y) {
+		super(x,y);
 	}
 	@Override
 	public void update() {

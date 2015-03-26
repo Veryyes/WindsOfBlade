@@ -60,8 +60,10 @@ public class Game extends JPanel {
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
+			g.drawRect(quitBtn.x,quitBtn.y,112,40);
 			if(mousePos.x>quitBtn.x&&mousePos.x<quitBtn.x+112&&mousePos.y>quitBtn.y&&mousePos.y<quitBtn.y+40){
-				quitBtn.run(); //TODO shove this into a method
+				//quitBtn.run(); //TODO shove this into a method
+				System.out.println("Hi");
 			}
 		}
 	}
