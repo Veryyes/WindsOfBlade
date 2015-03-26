@@ -56,7 +56,7 @@ public class Game extends JPanel {
 		//List of Rendering Methods Here:
 		if((gameStates&8)>0){									//Draw Main Menu;
 			g.drawImage(ImageManager.wbSepia,0,0,null);
-			//100,400;
+			
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
@@ -66,6 +66,7 @@ public class Game extends JPanel {
 	 *  Loading stuff & Initlizaing variables
 	 */
 	private static void init(){
+		
 		frame = new JFrame("Winds of Blade v"+version);			//Setting up the JFrame
 		frame.setSize(frameWidth,frameHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,6 +83,7 @@ public class Game extends JPanel {
 		mousePos=frame.getMousePosition();								
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
+		AudioManager.play();
 	}
 	/*
 	 * 	Reading config files
