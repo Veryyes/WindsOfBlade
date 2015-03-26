@@ -56,6 +56,10 @@ public class Game extends JPanel {
 		//List of Rendering Methods Here:
 		if((gameStates&8)>0){									//Draw Main Menu;
 			g.drawImage(ImageManager.wbSepia,0,0,null);
+			//100,400;
+			TypeWriter.drawString("Start",200,500,g);
+			TypeWriter.drawString("quit",750,500,g);
+			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
 		}
 	}
 	/*
@@ -71,8 +75,9 @@ public class Game extends JPanel {
 		frame.add(canvas);
 		frameSkip = 1000d/fps;									//seconds between each frame
 		AudioManager.LoadSounds();								//Loading manager objects for organization	
-		ImageManager.LoadImages();								  
-		km = new KeyInputManager();								 
+		ImageManager.LoadImages();	
+		TypeWriter.LoadFont();
+		km = new KeyInputManager();		
 		frame.addKeyListener(km);	
 		mousePos=frame.getMousePosition();								
 		gameStates|=8;											//Game is on Main Menu
