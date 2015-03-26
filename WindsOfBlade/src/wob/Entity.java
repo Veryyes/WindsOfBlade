@@ -7,7 +7,7 @@ public abstract class Entity {
 	int y;
 	Rectangle2D.Double hitBox;
 	public Entity() {
-		
+
 	}
 	public abstract void update();
 

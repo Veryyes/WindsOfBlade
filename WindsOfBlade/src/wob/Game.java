@@ -28,6 +28,7 @@ public class Game extends JPanel {
 	public static long sleepTime;
 	public static Point mousePos;
 	public static LinkedList<WorldObject> worldObjects;
+	public static Button quitBtn;
 	/*
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
@@ -56,10 +57,12 @@ public class Game extends JPanel {
 		//List of Rendering Methods Here:
 		if((gameStates&8)>0){									//Draw Main Menu;
 			g.drawImage(ImageManager.wbSepia,0,0,null);
-			
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
+			if(mousePos.x>quitBtn.x&&mousePos.x<quitBtn.x+112&&mousePos.y>quitBtn.y&&mousePos.y<quitBtn.y+40){
+				quitBtn.run(); //TODO shove this into a method
+			}
 		}
 	}
 	/*
@@ -84,6 +87,11 @@ public class Game extends JPanel {
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
 		AudioManager.play();
+		quitBtn = new Button(750,500,112,40){
+			public void run(){
+				System.exit(0);
+			}
+		};
 	}
 	/*
 	 * 	Reading config files
