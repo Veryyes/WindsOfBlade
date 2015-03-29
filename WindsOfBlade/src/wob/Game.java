@@ -16,8 +16,6 @@ public class Game extends JPanel {
 	public static JFrame frame;
 	public static int frameWidth;
 	public static int frameHeight;
-	public static AudioManager am;
-	public static ImageManager im;
 	public static KeyInputManager km;
 	public static SparseMatrix<Map> world;
 	public static int fps;
@@ -28,7 +26,6 @@ public class Game extends JPanel {
 	public static long sleepTime;
 	public static Point mousePos;
 	public static LinkedList<WorldObject> worldObjects;
-	public static Button quitBtn;
 	/*
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
@@ -60,18 +57,12 @@ public class Game extends JPanel {
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
-			g.drawRect(quitBtn.x,quitBtn.y,112,40);
-			if(mousePos.x>quitBtn.x&&mousePos.x<quitBtn.x+112&&mousePos.y>quitBtn.y&&mousePos.y<quitBtn.y+40){
-				//quitBtn.run(); //TODO shove this into a method
-				System.out.println("Hi");
-			}
 		}
 	}
 	/*
 	 *  Loading stuff & Initlizaing variables
 	 */
 	private static void init(){
-		
 		frame = new JFrame("Winds of Blade v"+version);			//Setting up the JFrame
 		frame.setSize(frameWidth,frameHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,18 +73,15 @@ public class Game extends JPanel {
 		frameSkip = 1000d/fps;									//seconds between each frame
 		AudioManager.LoadSounds();								//Loading manager objects for organization	
 		ImageManager.LoadImages();	
+		UI.LoadUI();
 		TypeWriter.LoadFont();
 		km = new KeyInputManager();		
 		frame.addKeyListener(km);	
-		mousePos=frame.getMousePosition();								
+		mousePos=frame.getMousePosition();	
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
-		AudioManager.play();
-		quitBtn = new Button(750,500,112,40){
-			public void run(){
-				System.exit(0);
-			}
-		};
+		frame.addMouseListener(UI.quitBtn);
+		AudioManager.playBgm(AudioManager.ItsAnAdventure);
 	}
 	/*
 	 * 	Reading config files
