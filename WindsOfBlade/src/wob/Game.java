@@ -52,7 +52,9 @@ public class Game extends JPanel {
 		repaint();
 		mousePos=frame.getMousePosition();
 		//List of Rendering Methods Here:
-		if((gameStates&8)>0){									//Draw Main Menu;
+		if((gameStates&2)>0)										//Draw Loading Screen;
+			g.drawImage(ImageManager.loading,0,0,null);
+		else if((gameStates&8)>0){									//Draw Main Menu;
 			g.drawImage(ImageManager.wbSepia,0,0,null);
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
@@ -81,6 +83,7 @@ public class Game extends JPanel {
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
 		frame.addMouseListener(UI.quitBtn);
+		frame.addMouseListener(UI.startBtn);
 		AudioManager.playBgm(AudioManager.ItsAnAdventure);
 	}
 	/*

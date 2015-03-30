@@ -12,11 +12,17 @@ public class ImageManager {
 	 */
 	private static String warning = "[WARNING] Cannot find file ";
 	public static BufferedImage wbSepia;
+	public static BufferedImage loading;
 	public static void LoadImages(){
 		try {
 			wbSepia=ImageIO.read(new File("res/menu/Winged Blade Sepia.png"));
 		} catch (IOException e) {
 			System.out.println(warning+"\"res/menu/Winged Blade Sepia.png\"");
+		}
+		try{
+			loading=ImageIO.read(new File("res/menu/Loading.png"));
+		}catch (IOException e){
+			System.out.println(warning+"\"res/menu/Loading.png\"");
 		}
 	}
 
