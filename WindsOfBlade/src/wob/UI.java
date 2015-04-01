@@ -18,6 +18,8 @@ public class UI {
 				Game.gameStates&=~8;
 				Game.gameStates|=18;
 				AudioManager.stopBgm();
+				Game.map= new Map("data/maps/test.txt");
+				Game.gameStates&=~2;
 			}
 		};
 		

@@ -10,20 +10,27 @@ public class ImageManager {
 	/*
 	 *  Loads in all Images on initialization
 	 */
-	private static String warning = "[WARNING] Cannot find file ";
 	public static BufferedImage wbSepia;
 	public static BufferedImage loading;
-	public static void LoadImages(){
+	public static BufferedImage tileSet;
+	public static void LoadImages() {
 		try {
 			wbSepia=ImageIO.read(new File("res/menu/Winged Blade Sepia.png"));
 		} catch (IOException e) {
-			System.out.println(warning+"\"res/menu/Winged Blade Sepia.png\"");
+			printWarning("res/menu/Winged Blade Sepia.png");
 		}
-		try{
+		try {
 			loading=ImageIO.read(new File("res/menu/Loading.png"));
-		}catch (IOException e){
-			System.out.println(warning+"\"res/menu/Loading.png\"");
+		} catch (IOException e) {
+			printWarning("res/menu/Loading.png");
+		}
+		try {
+			tileSet=ImageIO.read(new File("res/tiles/tileset.png"));
+		} catch (IOException e) {
+			printWarning("res/tiles/tileset.png");
 		}
 	}
-
+	public static void printWarning(String s){
+		System.out.println("[WARNING] Cannot find file \""+s+"\"");
+	}
 }

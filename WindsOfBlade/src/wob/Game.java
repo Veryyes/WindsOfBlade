@@ -17,7 +17,8 @@ public class Game extends JPanel {
 	public static int frameWidth;
 	public static int frameHeight;
 	public static KeyInputManager km;
-	public static SparseMatrix<Map> world;
+	//public static SparseMatrix<Map> world;
+	public static Map map;
 	public static int fps;
 	public static double frameSkip; // = 1000d/fps;
 	public static Game canvas;
@@ -29,7 +30,7 @@ public class Game extends JPanel {
 	/*
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		System.out.println("[INFO] Winds of Blade v"+version+" is Launching!");
 		gameStates|=1;	//Game is now On
 		gameStates|=2;	//Game is Loading;
@@ -59,7 +60,9 @@ public class Game extends JPanel {
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
-		}
+		}//else if((gameStates&16)>0){
+			//map.render(g);
+		//}
 	}
 	/*
 	 *  Loading stuff & Initlizaing variables
@@ -85,6 +88,7 @@ public class Game extends JPanel {
 		frame.addMouseListener(UI.quitBtn);
 		frame.addMouseListener(UI.startBtn);
 		AudioManager.playBgm(AudioManager.ItsAnAdventure);
+		//map = new Map("data/maps/test.txt");
 	}
 	/*
 	 * 	Reading config files
