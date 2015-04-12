@@ -12,7 +12,7 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequencer;
 
-public class AudioManager {
+public class AudioManager {//TODO this sucks, fix it
 	/*
 	 *  Loads in all Audio on initialization
 	 */

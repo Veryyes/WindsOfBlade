@@ -18,10 +18,11 @@ public class Map {
 			System.out.println("[Warning] Problem reading file \""+filename+"\"");
 		}
 	}
-	public void render(Graphics g){
+	public void render(Graphics g){//TODO fix this
 		for(int i=0;i<background.length;i++){
 			for(int j=0;j<background[0].length;j++){
-				g.drawImage(background[i][j],j*64,i*64,null);
+				if(i*64+Camera.yShift>-64&&i*64+Camera.yShift<Game.frameHeight&&j*64+Camera.xShift>-64&&j*64+Camera.xShift<Game.frameWidth)
+					g.drawImage(background[i][j],j*64+Camera.xShift,i*64+Camera.yShift,null);
 			}
 		}
 	}
@@ -57,7 +58,6 @@ public class Map {
 				numRows++;
 		}
 		numCols/=numRows;
-		//rows = num of \n + 1?
 		//Shoving it in a 2D array && loading in entities
 		char[] data5=data4.toCharArray();
 		BufferedImage[][] map = new BufferedImage[numRows][numCols];

@@ -14,8 +14,8 @@ public class Player extends Actor implements WorldObject{
 	int mp, maxMp;	//Mana
 	int sp, maxSp;	//Stamina
 	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
-	public Player(int x, int y) {
-		super(x,y);//TODO take out x&y parameters b/c player is stationary and world moves
+	public Player() {
+		super(Game.frameWidth/2-32,Game.frameHeight/2-32);//TODO take out x&y parameters b/c player is stationary and world moves
 		name="Hero";
 		level=1;
 		experience=0;

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class Game extends JPanel {
 	public static final float version = .01f;
 	public static JFrame frame;
@@ -47,8 +48,8 @@ public class Game extends JPanel {
 		sleepTime = gameTime - System.currentTimeMillis();
 		if(sleepTime>=0)
 			try {Thread.sleep(sleepTime);} catch (InterruptedException e) {e.printStackTrace();}
-		else
-			System.out.println("[WARNING] Game is Lagging");
+		//else
+			//System.out.println("[WARNING] Game is Lagging");
 		super.paintComponent(g);
 		repaint();
 		mousePos=frame.getMousePosition();
@@ -61,18 +62,19 @@ public class Game extends JPanel {
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
 		}else if((gameStates&16)>0){								//Draw Field
+			Camera.update();
 			map.render(g);
 		}
 	}
 	/*
 	 *  Loading stuff & Initlizaing variables
 	 */
-	private static void init(){
+	private static void init() throws IOException{
 		frame = new JFrame("Winds of Blade v"+version);			//Setting up the JFrame
 		frame.setSize(frameWidth,frameHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		frame.setResizable(false);
+		//frame.setResizable(false);
 		canvas = new Game();									//JPanel that will handle drawing the graphics
 		frame.add(canvas);
 		frameSkip = 1000d/fps;									//seconds between each frame

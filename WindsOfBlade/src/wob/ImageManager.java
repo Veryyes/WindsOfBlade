@@ -18,52 +18,21 @@ public class ImageManager {
 	public static BufferedImage grass;
 	public static BufferedImage bricks;
 	public static BufferedImage wood;
-	public static void LoadImages() {
-		try {
-			wbSepia=ImageIO.read(new File("res/menu/Winged Blade Sepia.png"));
-		} catch (IOException e) {
-			printWarning("res/menu/Winged Blade Sepia.png");
-		}
-		try {
-			loading=ImageIO.read(new File("res/menu/Loading.png"));
-		} catch (IOException e) {
-			printWarning("res/menu/Loading.png");
-		}
-		try {
-			tileSet=ImageIO.read(new File("res/tiles/tileset.png"));
-		} catch (IOException e) {
-			printWarning("res/tiles/tileset.png");
-		}
+	public static BufferedImage player;
+	public static void LoadImages() throws IOException{
+		wbSepia=ImageIO.read(new File("res/menu/Winged Blade Sepia.png"));
+		loading=ImageIO.read(new File("res/menu/Loading.png"));
+		tileSet=ImageIO.read(new File("res/tiles/tileset.png"));
 		loadTiles();
 	}
 	public static void printWarning(String s){
 		System.out.println("[WARNING] Cannot find file \""+s+"\"");
 	}
-	private static void loadTiles(){
-		try {
-			water=ImageIO.read(new File("res/tiles/water.png"));
-		} catch (IOException e) {
-			printWarning("res/tiles/water.png");
-		}
-		try {
-			stone=ImageIO.read(new File("res/tiles/stone.png"));
-		} catch (IOException e) {
-			printWarning("res/tiles/stone.png");
-		}
-		try {
-			grass=ImageIO.read(new File("res/tiles/grass.png"));
-		} catch (IOException e) {
-			printWarning("res/tiles/grass.png");
-		}
-		try {
-			bricks=ImageIO.read(new File("res/tiles/bricks.png"));
-		} catch (IOException e) {
-			printWarning("res/tiles/bricks.png");
-		}
-		try {
-			wood=ImageIO.read(new File("res/tiles/wood.png"));
-		} catch (IOException e) {
-			printWarning("res/tiles/wood.png");
-		}
+	private static void loadTiles() throws IOException{
+		water=ImageIO.read(new File("res/tiles/water.png"));
+		stone=ImageIO.read(new File("res/tiles/stone.png"));
+		grass=ImageIO.read(new File("res/tiles/grass.png"));
+		bricks=ImageIO.read(new File("res/tiles/bricks.png"));
+		wood=ImageIO.read(new File("res/tiles/wood.png"));
 	}
 }
