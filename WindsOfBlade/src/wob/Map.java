@@ -19,7 +19,7 @@ public class Map {
 		}
 	}
 	public void render(Graphics g){
-		for(int i=0;i>background.length;i++){
+		for(int i=0;i<background.length;i++){
 			for(int j=0;j<background[0].length;j++){
 				g.drawImage(background[i][j],j*64,i*64,null);
 			}
@@ -63,7 +63,24 @@ public class Map {
 		BufferedImage[][] map = new BufferedImage[numRows][numCols];
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
-				map[i][j]=ImageManager.tileSet.getSubimage(((j+i*(numRows+1))%8)*64,(int) ((Math.floor((int)((j+i*(numRows+1))/8)))*64), 64, 64);
+				//map[i][j]=ImageManager.tileSet.getSubimage(((j+i*(numRows+1))%8)*64,(int) ((Math.floor((int)((j+i*(numRows+1))/8)))*64), 64, 64);
+				switch(data5[j+i*(numRows+1)]){//TODO make place tiles in an array plz :|
+				case '1':
+					map[i][j]=ImageManager.water;
+					break;
+				case '2':
+					map[i][j]=ImageManager.stone;
+					break;
+				case '3':
+					map[i][j]=ImageManager.grass;
+					break;
+				case '4':
+					map[i][j]=ImageManager.bricks;
+					break;
+				case '5':
+					map[i][j]=ImageManager.wood;
+					break;
+				}
 			}
 		}
 		return map;

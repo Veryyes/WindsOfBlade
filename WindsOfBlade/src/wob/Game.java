@@ -60,9 +60,9 @@ public class Game extends JPanel {
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
-		}//else if((gameStates&16)>0){
-			//map.render(g);
-		//}
+		}else if((gameStates&16)>0){								//Draw Field
+			map.render(g);
+		}
 	}
 	/*
 	 *  Loading stuff & Initlizaing variables
@@ -88,7 +88,7 @@ public class Game extends JPanel {
 		frame.addMouseListener(UI.quitBtn);
 		frame.addMouseListener(UI.startBtn);
 		AudioManager.playBgm(AudioManager.ItsAnAdventure);
-		//map = new Map("data/maps/test.txt");
+		map = new Map("data/maps/test.txt");
 	}
 	/*
 	 * 	Reading config files
