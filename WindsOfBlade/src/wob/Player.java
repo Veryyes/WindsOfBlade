@@ -1,6 +1,8 @@
 package wob;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.LinkedList;
 
 public class Player extends Actor implements WorldObject{
@@ -17,6 +19,8 @@ public class Player extends Actor implements WorldObject{
 	public Player() {
 		super(Game.frameWidth/2-32,Game.frameHeight/2-32);//TODO take out x&y parameters b/c player is stationary and world moves
 		name="Hero";
+		image = ImageManager.player;
+		hitBox = new Rectangle2D.Double(this.x,this.y,64,64);
 		level=1;
 		experience=0;
 		money=0;
@@ -38,7 +42,7 @@ public class Player extends Actor implements WorldObject{
 	}
 	
 	public void worldRender(Graphics g) {
-		//TODO draw this kid.
+		g.drawImage(ImageManager.player,x,y,null);
 	}
 	@Override
 	public void update() {

@@ -23,6 +23,7 @@ public class Game extends JPanel {
 	public static int fps;
 	public static double frameSkip; // = 1000d/fps;
 	public static Game canvas;
+	public static Player player;
 	public static byte gameStates; //On 1, loading 2, paused 4, main menu 8, world 16, battle 32, cut-scene 64, game-over 128;
 	public static long gameTime;
 	public static long sleepTime;
@@ -64,6 +65,8 @@ public class Game extends JPanel {
 		}else if((gameStates&16)>0){								//Draw Field
 			Camera.update();
 			map.render(g);
+			player.worldRender(g);
+			
 		}
 	}
 	/*
@@ -74,7 +77,7 @@ public class Game extends JPanel {
 		frame.setSize(frameWidth,frameHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		//frame.setResizable(false);
+		frame.setResizable(false);
 		canvas = new Game();									//JPanel that will handle drawing the graphics
 		frame.add(canvas);
 		frameSkip = 1000d/fps;									//seconds between each frame

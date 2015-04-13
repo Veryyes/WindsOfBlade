@@ -8,7 +8,7 @@ public class Camera {
 	public Camera() {
 		
 	}
-	public static void update(){//TODO Magnitude of velocity is not always 4; do trig
+	public static void update(){//TODO Magnitude of velocity is not always 3; do trig
 		xVelShift=0;
 		yVelShift=0;
 		if(KeyInputManager.isPressed('W')){

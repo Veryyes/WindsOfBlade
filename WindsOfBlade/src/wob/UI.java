@@ -20,6 +20,7 @@ public class UI {
 				AudioManager.stopBgm();
 				Game.map= new Map("data/maps/test.txt");
 				Game.gameStates&=~2;
+				Game.player=new Player();
 			}
 		};
 		

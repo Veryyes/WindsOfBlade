@@ -23,6 +23,7 @@ public class ImageManager {
 		wbSepia=ImageIO.read(new File("res/menu/Winged Blade Sepia.png"));
 		loading=ImageIO.read(new File("res/menu/Loading.png"));
 		tileSet=ImageIO.read(new File("res/tiles/tileset.png"));
+		player=ImageIO.read(new File("res/sprites/player/tempPlayer.png"));
 		loadTiles();
 	}
 	public static void printWarning(String s){

@@ -6,13 +6,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 
 
 public class Map {
 	BufferedImage[][] background;	//TODO make this int? flags for wall and door and ect?
+	LinkedList<Wall> walls;
 	Portal north,south,east,west;
 	public Map(String filename){
 		try {
+			walls = new LinkedList<Wall>();
 			background=mapLoader(filename);
 		} catch (IOException e) {
 			System.out.println("[Warning] Problem reading file \""+filename+"\"");
@@ -61,12 +64,14 @@ public class Map {
 		//Shoving it in a 2D array && loading in entities
 		char[] data5=data4.toCharArray();
 		BufferedImage[][] map = new BufferedImage[numRows][numCols];
+		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(background[0].length,background.length);
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
 				//map[i][j]=ImageManager.tileSet.getSubimage(((j+i*(numRows+1))%8)*64,(int) ((Math.floor((int)((j+i*(numRows+1))/8)))*64), 64, 64);
 				switch(data5[j+i*(numRows+1)]){//TODO make place tiles in an array plz :|
 				case '1':
 					map[i][j]=ImageManager.water;
+					wally.add(i, j, new Wall(j,i,64,64));
 					break;
 				case '2':
 					map[i][j]=ImageManager.stone;
@@ -83,7 +88,12 @@ public class Map {
 				}
 			}
 		}
+		//TODO optimize walls
+		
 		return map;
+	}
+	private void optimizeWalls(){
+		
 	}
 
 }
