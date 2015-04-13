@@ -64,7 +64,7 @@ public class Map {
 		//Shoving it in a 2D array && loading in entities
 		char[] data5=data4.toCharArray();
 		BufferedImage[][] map = new BufferedImage[numRows][numCols];
-		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(background[0].length,background.length);
+		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(map[0].length,map.length);
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
 				//map[i][j]=ImageManager.tileSet.getSubimage(((j+i*(numRows+1))%8)*64,(int) ((Math.floor((int)((j+i*(numRows+1))/8)))*64), 64, 64);
