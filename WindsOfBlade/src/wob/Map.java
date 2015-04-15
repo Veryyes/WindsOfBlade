@@ -69,7 +69,7 @@ public class Map {
 			for(int j=0;j<map[0].length;j++){
 				//map[i][j]=ImageManager.tileSet.getSubimage(((j+i*(numRows+1))%8)*64,(int) ((Math.floor((int)((j+i*(numRows+1))/8)))*64), 64, 64);
 				switch(data5[j+i*(numRows+1)]){//TODO make place tiles in an array plz :|
-				case '1':
+				case '1'://TODO make tile class so water can animate //TODO make water animations
 					map[i][j]=ImageManager.water;
 					wally.add(i, j, new Wall(j,i,64,64));
 					break;
@@ -92,8 +92,9 @@ public class Map {
 		
 		return map;
 	}
-	private void optimizeWalls(){
-		
+	private LinkedList<Wall> optimizeWalls(SparseMatrix<Wall> parentList, int count){
+		//TODO do this
+		return null;
 	}
 
 }
