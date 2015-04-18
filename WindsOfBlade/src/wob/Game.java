@@ -66,7 +66,9 @@ public class Game extends JPanel {
 			Camera.update();
 			map.render(g);
 			player.worldRender(g);
-			
+			for(Wall w:map.walls){
+				w.worldRender(g);
+			}
 		}
 	}
 	/*

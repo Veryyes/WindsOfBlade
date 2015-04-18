@@ -1,6 +1,7 @@
 package wob;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -71,7 +72,7 @@ public class Map {
 				switch(data5[j+i*(numRows+1)]){//TODO make place tiles in an array plz :|
 				case '1'://TODO make tile class so water can animate //TODO make water animations
 					map[i][j]=ImageManager.water;
-					wally.add(i, j, new Wall(j,i,64,64));
+					wally.add(i, j, new Wall(j*64,i*64,64,64));
 					break;
 				case '2':
 					map[i][j]=ImageManager.stone;
@@ -89,12 +90,26 @@ public class Map {
 			}
 		}
 		//TODO optimize walls
-		
+		//walls = optimizeWalls(wally);
+		for(Cell current = wally.head;current!=null;current=current.getNext()){
+			walls.add((Wall) current.getValue());
+		}
 		return map;
 	}
-	private LinkedList<Wall> optimizeWalls(SparseMatrix<Wall> parentList, int count){
-		//TODO do this
-		return null;
+	private LinkedList<Wall> optimizeWalls(SparseMatrix<Wall> parentList){ //Borken plz fix pl0x;
+		SparseMatrix<Wall> temp = new SparseMatrix<Wall>(parentList.numRows(),parentList.numColumns());
+		for(Cell current=parentList.head;current.getNext().getNext()!=null;current=current.getNext()){
+			if(current.x+(((Wall)(current.getValue())).hitBox.getWidth()/64)==current.getNext().x){
+				Wall big = new Wall(1,1,1,1);
+				Rectangle2D.Double.union(((Wall)current.getValue()).hitBox,((Wall)current.getNext().getValue()).hitBox,big.hitBox);
+				temp.add(current.x,current.y,big);
+			}
+		}
+		LinkedList<Wall> list = new LinkedList<Wall>();
+		for(Cell current = temp.head;current.getNext()!=null;current=current.getNext()){
+			list.add((Wall) current.getValue());
+		}
+		return list;
 	}
 
 }
