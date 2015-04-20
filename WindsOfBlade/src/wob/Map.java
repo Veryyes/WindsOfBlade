@@ -1,6 +1,7 @@
 package wob;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -90,14 +91,14 @@ public class Map {
 			}
 		}
 		//TODO optimize walls
-		//walls = optimizeWalls(wally);
-		for(Cell current = wally.head;current!=null;current=current.getNext()){
-			walls.add((Wall) current.getValue());
-		}
+		walls = optimizeWalls(wally);
+		//for(Cell current = wally.head;current!=null;current=current.getNext()){
+		//	walls.add((Wall) current.getValue());
+		//}
 		return map;
 	}
 	private LinkedList<Wall> optimizeWalls(SparseMatrix<Wall> parentList){ //Borken plz fix pl0x;
-		SparseMatrix<Wall> temp = new SparseMatrix<Wall>(parentList.numRows(),parentList.numColumns());
+		/*SparseMatrix<Wall> temp = new SparseMatrix<Wall>(parentList.numRows(),parentList.numColumns());
 		for(Cell current=parentList.head;current.getNext().getNext()!=null;current=current.getNext()){
 			if(current.x+(((Wall)(current.getValue())).hitBox.getWidth()/64)==current.getNext().x){
 				Wall big = new Wall(1,1,1,1);
@@ -107,6 +108,21 @@ public class Map {
 		}
 		LinkedList<Wall> list = new LinkedList<Wall>();
 		for(Cell current = temp.head;current.getNext()!=null;current=current.getNext()){
+			list.add((Wall) current.getValue());
+		}
+		return list;*/
+		LinkedList<Point> flagsForRemoval = new LinkedList<Point>();
+		for(Cell current = parentList.head;current!=null;current=current.getNext()){
+			if((parentList.get(current.y+1, current.x)!=null)&&(parentList.get(current.y-1, current.x)!=null)&&
+			(parentList.get(current.y, current.x+1)!=null)&&(parentList.get(current.y, current.x-1)!=null)){
+				flagsForRemoval.add(new Point(current.x,current.y));
+			}
+		}
+		for(int i = 0;i<flagsForRemoval.size();i++){
+			parentList.remove(flagsForRemoval.get(i).y, flagsForRemoval.get(i).x);
+		}
+		LinkedList<Wall> list = new LinkedList<Wall>();
+		for(Cell current = parentList.head;current!=null;current=current.getNext()){
 			list.add((Wall) current.getValue());
 		}
 		return list;
