@@ -15,12 +15,19 @@ public class Map {
 	BufferedImage[][] background;	//TODO make this int? flags for wall and door and ect?
 	LinkedList<Wall> walls;
 	Portal north,south,east,west;
+	int animationTimer;
 	public Map(String filename){
+		animationTimer=0;
 		try {
 			walls = new LinkedList<Wall>();
 			background=mapLoader(filename);
 		} catch (IOException e) {
 			System.out.println("[Warning] Problem reading file \""+filename+"\"");
+		}
+	}
+	public void update(){
+		for(Wall w:walls){
+			w.update();
 		}
 	}
 	public void render(Graphics g){//TODO fix this
@@ -42,6 +49,7 @@ public class Map {
 		while((item=br.read())!=-1){
 			data+=(char)item;
 		}
+		br.close();
 		//Removing ","
 		data=data.trim();
 		String[] data1 = data.split(",");
@@ -69,7 +77,6 @@ public class Map {
 		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(map[0].length,map.length);
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
-				//map[i][j]=ImageManager.tileSet.getSubimage(((j+i*(numRows+1))%8)*64,(int) ((Math.floor((int)((j+i*(numRows+1))/8)))*64), 64, 64);
 				switch(data5[j+i*(numRows+1)]){//TODO make place tiles in an array plz :|
 				case '1'://TODO make tile class so water can animate //TODO make water animations
 					map[i][j]=ImageManager.water;
@@ -90,29 +97,13 @@ public class Map {
 				}
 			}
 		}
-		//TODO optimize walls
+		
 		walls = optimizeWalls(wally);
-		//for(Cell current = wally.head;current!=null;current=current.getNext()){
-		//	walls.add((Wall) current.getValue());
-		//}
 		return map;
 	}
-	private LinkedList<Wall> optimizeWalls(SparseMatrix<Wall> parentList){ //Borken plz fix pl0x;
-		/*SparseMatrix<Wall> temp = new SparseMatrix<Wall>(parentList.numRows(),parentList.numColumns());
-		for(Cell current=parentList.head;current.getNext().getNext()!=null;current=current.getNext()){
-			if(current.x+(((Wall)(current.getValue())).hitBox.getWidth()/64)==current.getNext().x){
-				Wall big = new Wall(1,1,1,1);
-				Rectangle2D.Double.union(((Wall)current.getValue()).hitBox,((Wall)current.getNext().getValue()).hitBox,big.hitBox);
-				temp.add(current.x,current.y,big);
-			}
-		}
-		LinkedList<Wall> list = new LinkedList<Wall>();
-		for(Cell current = temp.head;current.getNext()!=null;current=current.getNext()){
-			list.add((Wall) current.getValue());
-		}
-		return list;*/
+	private LinkedList<Wall> optimizeWalls(SparseMatrix<Wall> parentList){//TODO optimize walls more
 		LinkedList<Point> flagsForRemoval = new LinkedList<Point>();
-		for(Cell current = parentList.head;current!=null;current=current.getNext()){
+		for(Cell<Wall> current = parentList.head;current!=null;current=current.getNext()){
 			if((parentList.get(current.y+1, current.x)!=null)&&(parentList.get(current.y-1, current.x)!=null)&&
 			(parentList.get(current.y, current.x+1)!=null)&&(parentList.get(current.y, current.x-1)!=null)){
 				flagsForRemoval.add(new Point(current.x,current.y));
@@ -122,7 +113,7 @@ public class Map {
 			parentList.remove(flagsForRemoval.get(i).y, flagsForRemoval.get(i).x);
 		}
 		LinkedList<Wall> list = new LinkedList<Wall>();
-		for(Cell current = parentList.head;current!=null;current=current.getNext()){
+		for(Cell<Wall> current = parentList.head;current!=null;current=current.getNext()){
 			list.add((Wall) current.getValue());
 		}
 		return list;

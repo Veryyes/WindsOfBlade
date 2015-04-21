@@ -12,12 +12,14 @@ public class Wall extends Entity implements WorldObject{
 		hitBox=new Rectangle2D.Double(x,y,width,height);
 	}
 	public void update() {
-		
+		this.x+=Camera.xVelShift;
+		this.y+=Camera.yVelShift;
+		hitBox=new Rectangle2D.Double(this.x,this.y,hitBox.getWidth(),hitBox.getHeight());
 	}
 	@Override
 	public void worldRender(Graphics g) {
 		g.setColor(Color.WHITE);
-		g.drawRect(x+Camera.xShift,y+Camera.yShift,(int)hitBox.getWidth(),(int)hitBox.getHeight());
+		g.drawRect(x,y,(int)hitBox.getWidth(),(int)hitBox.getHeight());
 	}
 
 }

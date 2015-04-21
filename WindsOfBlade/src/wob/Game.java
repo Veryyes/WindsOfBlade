@@ -18,7 +18,6 @@ public class Game extends JPanel {
 	public static int frameWidth;
 	public static int frameHeight;
 	public static KeyInputManager km;
-	//public static SparseMatrix<Map> world;
 	public static Map map;
 	public static int fps;
 	public static double frameSkip; // = 1000d/fps;
@@ -49,12 +48,12 @@ public class Game extends JPanel {
 		sleepTime = gameTime - System.currentTimeMillis();
 		if(sleepTime>=0)
 			try {Thread.sleep(sleepTime);} catch (InterruptedException e) {e.printStackTrace();}
-		//else
-			//System.out.println("[WARNING] Game is Lagging");
+		else
+			System.out.println("[WARNING] Game is Lagging");
 		super.paintComponent(g);
 		repaint();
 		mousePos=frame.getMousePosition();
-		//List of Rendering Methods Here:
+		//List of Rendering & Update Methods Here:
 		if((gameStates&2)>0)										//Draw Loading Screen;
 			g.drawImage(ImageManager.loading,0,0,null);
 		else if((gameStates&8)>0){									//Draw Main Menu;
@@ -65,11 +64,12 @@ public class Game extends JPanel {
 		}else if((gameStates&16)>0){								//Draw Field
 			Camera.update();
 			player.update();
+			map.update();
 			map.render(g);
 			player.worldRender(g);
-			g.drawRect((int)player.hitBox.x,(int)player.hitBox.y,(int)player.hitBox.getWidth(),(int)player.hitBox.getHeight());
-			for(Wall w:map.walls)
-				w.worldRender(g);
+			//g.drawRect((int)player.hitBox.x,(int)player.hitBox.y,(int)player.hitBox.getWidth(),(int)player.hitBox.getHeight());
+			//for(Wall w:map.walls)
+			//	w.worldRender(g);
 			
 		}
 	}
