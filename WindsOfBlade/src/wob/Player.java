@@ -20,7 +20,7 @@ public class Player extends Actor implements WorldObject{
 		super(Game.frameWidth/2-32,Game.frameHeight/2-32);//TODO take out x&y parameters b/c player is stationary and world moves
 		name="Hero";
 		image = ImageManager.player;
-		hitBox = new Rectangle2D.Double(this.x,this.y,64,64);
+		hitBox = new Rectangle2D.Double(this.x+8,this.y+16,48,48);
 		level=1;
 		experience=0;
 		money=0;
@@ -46,7 +46,7 @@ public class Player extends Actor implements WorldObject{
 	}
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	

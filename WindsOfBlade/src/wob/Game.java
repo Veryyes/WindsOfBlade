@@ -64,11 +64,13 @@ public class Game extends JPanel {
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
 		}else if((gameStates&16)>0){								//Draw Field
 			Camera.update();
+			player.update();
 			map.render(g);
 			player.worldRender(g);
-			for(Wall w:map.walls){
+			g.drawRect((int)player.hitBox.x,(int)player.hitBox.y,(int)player.hitBox.getWidth(),(int)player.hitBox.getHeight());
+			for(Wall w:map.walls)
 				w.worldRender(g);
-			}
+			
 		}
 	}
 	/*
