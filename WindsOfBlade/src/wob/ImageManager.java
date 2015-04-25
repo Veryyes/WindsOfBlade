@@ -28,6 +28,7 @@ public class ImageManager {
 	public static BufferedImage botRightUIBorder;
 	public static BufferedImage botLeftUIBorder;
 	public static BufferedImage defaultBackdrop;
+	public static BufferedImage tempNPC;
 	public static void LoadImages() throws IOException{
 		wbSepia=loadImage("res/menu/Winged Blade Sepia.png");
 		loading=loadImage("res/menu/Loading.png");
@@ -36,6 +37,7 @@ public class ImageManager {
 		loadTiles();
 		loadUI();
 		loadBackdrops();
+		tempNPC=loadImage("res/npc/npc.png");
 	}
 	private static BufferedImage loadImage(String filepath) throws IOException{
 		return ImageIO.read(new File(filepath));

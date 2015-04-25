@@ -19,8 +19,8 @@ public class UI {
 		startBtn=new Button(200,500,140,40){
 			public void run(){
 				Game.gameStates&=~8;
-				//Game.gameStates|=18;
-				Game.gameStates|=34;
+				Game.gameStates|=18;
+				//Game.gameStates|=34;
 				AudioManager.stopBgm();
 				Game.map= new Map("data/maps/test.txt");
 				Game.gameStates&=~2;

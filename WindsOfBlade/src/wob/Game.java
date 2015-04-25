@@ -27,7 +27,7 @@ public class Game extends JPanel {
 	public static long gameTime;
 	public static long sleepTime;
 	public static Point mousePos;
-	public static LinkedList<WorldObject> worldObjects;
+	public static Npc testNPC;
 	/*
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
@@ -104,6 +104,7 @@ public class Game extends JPanel {
 		frame.addMouseListener(UI.startBtn);
 		AudioManager.playBgm(AudioManager.ItsAnAdventure);
 		map = new Map("data/maps/test.txt");
+		testNPC = new Npc(256,256);
 	}
 	/*
 	 * 	Reading config files

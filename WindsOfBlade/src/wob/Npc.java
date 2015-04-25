@@ -15,7 +15,7 @@ public class Npc extends Actor implements WorldObject{
 	}
 	@Override
 	public void worldRender(Graphics g) {
-		// TODO Auto-generated method stub
+		g.drawImage(ImageManager.tempNPC,x,y,null);
 		
 	}
 
