@@ -69,8 +69,14 @@ public class Game extends JPanel {
 			player.worldRender(g);
 			//g.drawRect((int)player.hitBox.x,(int)player.hitBox.y,(int)player.hitBox.getWidth(),(int)player.hitBox.getHeight());
 			//for(Wall w:map.walls)
-			//	w.worldRender(g);
-			
+			//	w.worldRender(g);	
+		}else if((gameStates&32)>0){
+			g.drawImage(ImageManager.defaultBackdrop, 0, 0, null);
+			UI.drawRectUI(15, 436, 995, 173, true, g);
+			TypeWriter.drawString("attack", 32, 448, g);
+			TypeWriter.drawString("technique", 32, 496, g);
+			TypeWriter.drawString("item", 32, 542, g);
+			TypeWriter.drawString("run", 176, 542, g);
 		}
 	}
 	/*
@@ -126,6 +132,7 @@ public class Game extends JPanel {
 					break;
 				}
 			}
+			System.out.println("[INFO] Configs loaded");
 		} catch (Exception e) {
 			System.out.println("[ERROR] Cannot find file \"cfg/settings.cfg\"\n[INFO] Creating \"cfg/settings.cfg\"...\n[INFO] Using Default Settings");
 			frameWidth=1024;
@@ -136,7 +143,7 @@ public class Game extends JPanel {
 		
 	}
 	/*
-	 * Creates a standard/Default value config file if its missing or something
+	 * Creates a standard/Default value config file if it's missing or something
 	 */
 	private static void createDefaultConfigs(){
 		try {

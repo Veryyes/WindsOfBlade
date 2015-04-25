@@ -19,21 +19,45 @@ public class ImageManager {
 	public static BufferedImage bricks;
 	public static BufferedImage wood;
 	public static BufferedImage player;
+	public static BufferedImage topUIBorder;
+	public static BufferedImage botUIBorder;
+	public static BufferedImage leftUIBorder;
+	public static BufferedImage rightUIBorder;
+	public static BufferedImage topRightUIBorder;
+	public static BufferedImage topLeftUIBorder;
+	public static BufferedImage botRightUIBorder;
+	public static BufferedImage botLeftUIBorder;
+	public static BufferedImage defaultBackdrop;
 	public static void LoadImages() throws IOException{
-		wbSepia=ImageIO.read(new File("res/menu/Winged Blade Sepia.png"));
-		loading=ImageIO.read(new File("res/menu/Loading.png"));
-		tileSet=ImageIO.read(new File("res/tiles/tileset.png"));
-		player=ImageIO.read(new File("res/sprites/player/tempPlayer.png"));
+		wbSepia=loadImage("res/menu/Winged Blade Sepia.png");
+		loading=loadImage("res/menu/Loading.png");
+		tileSet=loadImage("res/tiles/tileset.png");
+		player=loadImage("res/sprites/player/tempPlayer.png");
 		loadTiles();
+		loadUI();
+		loadBackdrops();
 	}
-	public static void printWarning(String s){
-		System.out.println("[WARNING] Cannot find file \""+s+"\"");
+	private static BufferedImage loadImage(String filepath) throws IOException{
+		return ImageIO.read(new File(filepath));
+	}
+	private static void loadBackdrops() throws IOException{
+		defaultBackdrop=loadImage("res/backdrop/backdrop.png");
+	}
+	private static void loadUI() throws IOException{
+		topUIBorder=loadImage("res/ui/topBorder.png");
+		botUIBorder=loadImage("res/ui/botBorder.png");
+		leftUIBorder=loadImage("res/ui/leftBorder.png");
+		rightUIBorder=loadImage("res/ui/rightBorder.png");
+		topLeftUIBorder=loadImage("res/ui/topLeftBorder.png");
+		topRightUIBorder=loadImage("res/ui/topRightBorder.png");
+		botLeftUIBorder=loadImage("res/ui/botLeftBorder.png");
+		botRightUIBorder=loadImage("res/ui/botRightBorder.png");
 	}
 	private static void loadTiles() throws IOException{
-		water=ImageIO.read(new File("res/tiles/water.png"));
-		stone=ImageIO.read(new File("res/tiles/stone.png"));
-		grass=ImageIO.read(new File("res/tiles/grass.png"));
-		bricks=ImageIO.read(new File("res/tiles/bricks.png"));
-		wood=ImageIO.read(new File("res/tiles/wood.png"));
+		water=loadImage("res/tiles/water.png");
+		stone=loadImage("res/tiles/stone.png");
+		grass=loadImage("res/tiles/grass.png");
+		bricks=loadImage("res/tiles/bricks.png");
+		wood=loadImage("res/tiles/wood.png");
 	}
 }
