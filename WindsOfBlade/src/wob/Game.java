@@ -48,8 +48,9 @@ public class Game extends JPanel {
 		sleepTime = gameTime - System.currentTimeMillis();
 		if(sleepTime>=0)
 			try {Thread.sleep(sleepTime);} catch (InterruptedException e) {e.printStackTrace();}
-		else
-			System.out.println("[WARNING] Game is Lagging");
+		else{
+			//System.out.println("[WARNING] Game is Lagging");
+		}
 		super.paintComponent(g);
 		repaint();
 		mousePos=frame.getMousePosition();

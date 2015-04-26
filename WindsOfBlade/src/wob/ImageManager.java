@@ -13,7 +13,7 @@ public class ImageManager {
 	public static BufferedImage wbSepia;
 	public static BufferedImage loading;
 	public static BufferedImage tileSet;
-	public static BufferedImage water;
+	public static BufferedImage[] water;
 	public static BufferedImage stone;
 	public static BufferedImage grass;
 	public static BufferedImage bricks;
@@ -56,7 +56,9 @@ public class ImageManager {
 		botRightUIBorder=loadImage("res/ui/botRightBorder.png");
 	}
 	private static void loadTiles() throws IOException{
-		water=loadImage("res/tiles/water.png");
+		water = new BufferedImage[10];
+		for(int i=0;i<water.length;i++)
+			water[i]=loadImage("res/tiles/water/water"+(i+1)+".png");
 		stone=loadImage("res/tiles/stone.png");
 		grass=loadImage("res/tiles/grass.png");
 		bricks=loadImage("res/tiles/bricks.png");

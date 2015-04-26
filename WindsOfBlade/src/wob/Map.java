@@ -12,15 +12,19 @@ import java.util.LinkedList;
 
 
 public class Map {
-	BufferedImage[][] background;	//TODO make this int? flags for wall and door and ect?
+	Tile[][] background;	//TODO make this int? flags for wall and door and ect?
 	LinkedList<Wall> walls;
+	LinkedList<Npc> npcs;
 	Portal north,south,east,west;
-	int animationTimer;
+	float animationTimer;
+	float animationSpeed;
 	public Map(String filename){
-		animationTimer=0;
 		try {
 			walls = new LinkedList<Wall>();
+			npcs = new LinkedList<Npc>();
 			background=mapLoader(filename);
+			animationTimer=0;
+			animationSpeed=.15f;
 		} catch (IOException e) {
 			System.out.println("[Warning] Problem reading file \""+filename+"\"");
 		}
@@ -31,73 +35,67 @@ public class Map {
 		}
 	}
 	public void render(Graphics g){//TODO fix this
+		animationTimer+=animationSpeed;
+		animationTimer%=Float.MAX_VALUE;
 		for(int i=0;i<background.length;i++){
 			for(int j=0;j<background[0].length;j++){
 				if(i*64+Camera.yShift>-64&&i*64+Camera.yShift<Game.frameHeight&&j*64+Camera.xShift>-64&&j*64+Camera.xShift<Game.frameWidth)
-					g.drawImage(background[i][j],j*64+Camera.xShift,i*64+Camera.yShift,null);
+					g.drawImage(background[i][j].getFrame((int)animationTimer),j*64+Camera.xShift,i*64+Camera.yShift,null);
 			}
 		}
 	}
 	public static void loadWorld(){
 		
 	}
-	public BufferedImage[][] mapLoader(String filename) throws IOException{//Going to make this return a SparseMatrix when we go to states
-		//Reading the File
+	public Tile[][] mapLoader(String filename) throws IOException{
+		//Reading the file;
 		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 		int item;
-		String data = "";
-		while((item=br.read())!=-1){
-			data+=(char)item;
-		}
+		String rawInput = "";
+		while((item=br.read())!=-1)
+			rawInput+=(char)item;
 		br.close();
-		//Removing ","
-		data=data.trim();
-		String[] data1 = data.split(",");
-		String data2="";
-		for(String s : data1){
-			data2+=s;
-		}
-		//Removing "\n"
+		//Removing ',' and '\n'
+		String mapData="";
 		int numCols=0;
 		int numRows=1;
-		char[] data3 = data2.toCharArray();
-		String data4 = "";
-		for(int i = 0;i<data3.length;i++){
-			if(data3[i]!='\n'){
-				data4+=data3[i];
-				numCols++;
+		rawInput=rawInput.trim();
+		for(int i = 0;i<rawInput.length();i++){
+			if(rawInput.charAt(i)!=','){
+				if(rawInput.charAt(i)=='\n'){
+					numRows++;
+				}else{
+					numCols++;
+					mapData+=rawInput.charAt(i);
+				}
 			}
-			else
-				numRows++;
 		}
 		numCols/=numRows;
-		//Shoving it in a 2D array && loading in entities
-		char[] data5=data4.toCharArray();
-		BufferedImage[][] map = new BufferedImage[numRows][numCols];
+		//Placing data into a 2d array;
+		Tile[][] map = new Tile[numRows][numCols];
 		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(map[0].length,map.length);
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
-				switch(data5[j+i*(numRows+1)]){//TODO make place tiles in an array plz :|
+				switch(mapData.charAt(j+i*(numRows+1))){//TODO make place tiles in an array plz :|
 				case '1'://TODO make tile class so water can animate //TODO make water animations
-					map[i][j]=ImageManager.water;
+					map[i][j]= new Tile(ImageManager.water);
 					wally.add(i, j, new Wall(j*64,i*64,64,64));
 					break;
 				case '2':
-					map[i][j]=ImageManager.stone;
+					map[i][j]=new Tile(ImageManager.stone);
 					break;
 				case '3':
-					map[i][j]=ImageManager.grass;
+					map[i][j]=new Tile(ImageManager.grass);
 					break;
 				case '4':
-					map[i][j]=ImageManager.bricks;
+					map[i][j]=new Tile(ImageManager.bricks);
 					break;
 				case '5':
-					map[i][j]=ImageManager.wood;
+					map[i][j]=new Tile(ImageManager.wood);
 					break;
 				}
 			}
 		}
-		
 		walls = optimizeWalls(wally);
 		return map;
 	}
