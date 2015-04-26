@@ -28,11 +28,13 @@ public class Map {
 		} catch (IOException e) {
 			System.out.println("[Warning] Problem reading file \""+filename+"\"");
 		}
+		npcs.add(new Npc(256,256));
 	}
 	public void update(){
-		for(Wall w:walls){
+		for(Wall w:walls)
 			w.update();
-		}
+		for(Npc n:npcs)
+			n.update();
 	}
 	public void render(Graphics g){//TODO fix this
 		animationTimer+=animationSpeed;
@@ -43,6 +45,8 @@ public class Map {
 					g.drawImage(background[i][j].getFrame((int)animationTimer),j*64+Camera.xShift,i*64+Camera.yShift,null);
 			}
 		}
+		for(Npc n:npcs)
+			n.worldRender(g);
 	}
 	public static void loadWorld(){
 		

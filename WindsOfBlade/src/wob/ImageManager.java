@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 public class ImageManager {
 	/*
 	 *  Loads in all Images on initialization
+	 *  TODO i need a better way to manage dis shit
+	 *  hashmap?
 	 */
 	public static BufferedImage wbSepia;
 	public static BufferedImage loading;
