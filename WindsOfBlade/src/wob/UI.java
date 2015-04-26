@@ -49,5 +49,8 @@ public class UI {
 			g.drawImage(ImageManager.rightUIBorder,x+width-7,i,null);
 		}
 	}
+	public static void drawRectUI(Graphics g){
+		UI.drawRectUI(15, 436, 995, 173, true, g);
+	}
 
 }

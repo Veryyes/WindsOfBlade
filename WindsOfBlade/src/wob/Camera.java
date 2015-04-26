@@ -35,7 +35,7 @@ public class Camera {
 	 *  can collide with any list of Entities now
 	 */
 	@SuppressWarnings("rawtypes")
-	private static void collisionChecks(Iterable list){
+	private static void collisionChecks(LinkedList list){
 		for(Object o: list){
 			Entity e = (Entity)o;
 			if(new Line2D.Double(Player.topLine.x1-xVelShift,Player.topLine.y1-yVelShift,Player.topLine.x2+-xVelShift,Player.topLine.y2-yVelShift).intersects(e.hitBox)&&(yVelShift>0)){

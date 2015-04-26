@@ -10,6 +10,9 @@ public class KeyInputManager implements KeyListener {
 	 *  the entire interval so now its 0 to 64.
 	 *  every item on the ascii table from 32 to 96 is now represented by a bit on my pressedKeys
 	 */
+	/*
+	 * Some keys are on the same bit.... need to fix TODO;
+	 */
 	static long pressedKeys=0;
 	public void keyPressed(KeyEvent e) {
 		pressedKeys|=(1<<e.getKeyCode()-32);

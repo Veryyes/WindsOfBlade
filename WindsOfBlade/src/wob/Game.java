@@ -73,7 +73,7 @@ public class Game extends JPanel {
 			//	w.worldRender(g);	
 		}else if((gameStates&32)>0){
 			g.drawImage(ImageManager.defaultBackdrop, 0, 0, null);
-			UI.drawRectUI(15, 436, 995, 173, true, g);
+			UI.drawRectUI(g);
 			TypeWriter.drawString("attack", 32, 448, g);
 			TypeWriter.drawString("technique", 32, 496, g);
 			TypeWriter.drawString("item", 32, 542, g);

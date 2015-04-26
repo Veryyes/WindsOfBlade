@@ -48,6 +48,25 @@ public class TypeWriter {
 			g.drawImage(getImage(data[i]),x+i*28,y,null);
 		}
 	}
+	public static void drawMessage(String text ,Graphics g){
+		//35 Chars, max width;
+		//4 chars, max height;
+		//140 chars max area;
+		int widthCounter=0;
+		int heightCounter=0;
+		text=text.toLowerCase();
+		char[] data = text.toCharArray();
+		for(int i=0;i<data.length;i++){
+			if(data[i]==' ')
+				data[i]='_';
+			g.drawImage(getImage(data[i]),32+i*28,448+(40*heightCounter),null);
+			widthCounter++;
+			if(widthCounter>35){ 
+				widthCounter=0;
+				heightCounter++;
+			}
+		}
+	}
 	private static BufferedImage getImage(char c){
 		return fonts[Arrays.binarySearch(chars,c)];
 	}
