@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 public class ShopKeeper extends Npc {
 	LinkedList<Item> items;
-	public ShopKeeper(int x, int y) {
-		super(x,y);
+	public ShopKeeper(int x, int y,String name) {
+		super(x,y,name);
 	}
 
 }

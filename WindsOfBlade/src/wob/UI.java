@@ -22,7 +22,7 @@ public class UI {
 				Game.gameStates|=18;
 				//Game.gameStates|=34;
 				AudioManager.stopBgm();
-				Game.map= new Map("data/maps/test.txt");
+				Game.map= new Map("data/maps/testobj.txt");
 				Game.gameStates&=~2;
 				Game.player=new Player();
 				this.enabled=false;

@@ -28,7 +28,6 @@ public class Map {
 		} catch (IOException e) {
 			System.out.println("[Warning] Problem reading file \""+filename+"\"");
 		}
-		npcs.add(new Npc(256,256));
 	}
 	public void update(){
 		for(Wall w:walls)
@@ -59,11 +58,25 @@ public class Map {
 		while((item=br.read())!=-1)
 			rawInput+=(char)item;
 		br.close();
+		rawInput=rawInput.trim();
+		//Grabing object data
+		String[] objectData = rawInput.split("Object");
+		try{
+			rawInput = (objectData[0].substring(0,objectData[0].indexOf("["))).trim();
+		}catch(Exception e){
+			System.out.println("[WARNING] this map: \""+filename+"\" has no objects in it");
+		}
+		for(int i=1;i<objectData.length;i++){
+			String[] property = objectData[i].split("\n");
+			if(property[1].contains("type=npc")){	//scary code lolol
+				npcs.add(new Npc(64*Integer.parseInt(property[2].split(",")[0].split("=")[1]),
+						64*Integer.parseInt(property[2].split(",")[1]),property[3].split("=")[1]));
+			}
+		}
 		//Removing ',' and '\n'
 		String mapData="";
 		int numCols=0;
 		int numRows=1;
-		rawInput=rawInput.trim();
 		for(int i = 0;i<rawInput.length();i++){
 			if(rawInput.charAt(i)!=','){
 				if(rawInput.charAt(i)=='\n'){
@@ -80,8 +93,8 @@ public class Map {
 		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(map[0].length,map.length);
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
-				switch(mapData.charAt(j+i*(numRows+1))){//TODO make place tiles in an array plz :|
-				case '1'://TODO make tile class so water can animate //TODO make water animations
+				switch(mapData.charAt(j+i*(numRows+1))){
+				case '1':
 					map[i][j]= new Tile(ImageManager.water);
 					wally.add(i, j, new Wall(j*64,i*64,64,64));
 					break;

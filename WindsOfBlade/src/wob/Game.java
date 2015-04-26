@@ -104,8 +104,7 @@ public class Game extends JPanel {
 		frame.addMouseListener(UI.quitBtn);
 		frame.addMouseListener(UI.startBtn);
 		AudioManager.playBgm(AudioManager.ItsAnAdventure);
-		map = new Map("data/maps/test.txt");
-		testNPC = new Npc(256,256);
+		map = new Map("data/maps/testobj.txt");
 	}
 	/*
 	 * 	Reading config files

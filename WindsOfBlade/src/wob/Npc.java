@@ -10,7 +10,7 @@ public class Npc extends Actor implements WorldObject{
 	boolean isTalking;
 	Rectangle2D.Double conversationBox;
 	int waitTime;
-	public Npc(int x, int y) {
+	public Npc(int x, int y, String name) {
 		super(x,y);
 		hitBox=new Rectangle2D.Double(x,y,64,64);
 		isTalking=false;
