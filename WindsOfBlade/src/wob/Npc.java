@@ -2,6 +2,9 @@ package wob;
 
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class Npc extends Actor implements WorldObject{
 	String name;
@@ -17,12 +20,20 @@ public class Npc extends Actor implements WorldObject{
 		conversationIndex=-1;
 		conversationBox = new Rectangle2D.Double(x-8,y-8,80,80);
 		waitTime=0;
-		conversation = new String[5];
-		conversation[0]="Hi.";
-		conversation[1]="How are you?";
-		conversation[2]="Good!";
-		conversation[3]="dogs!";
-		conversation[4]="food!";
+		try{
+			BufferedReader br = new BufferedReader(new FileReader(new File("data/npc/"+name+".txt")));
+			String rawInput = "";
+			int item;
+			while((item=br.read())!=-1)
+				rawInput+=(char)item;
+			br.close();
+			rawInput=rawInput.trim();
+			conversation = rawInput.split("\n");
+		}catch(Exception e){
+			System.out.println("[WARNING] Cannot Find File \"data/npc/"+name+".txt\"");
+			conversation = new String[1];
+			conversation[0] = "Hi";
+		}
 	}
 	@Override
 	public void update() {
