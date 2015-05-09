@@ -1,5 +1,6 @@
 package wob;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
@@ -15,13 +16,14 @@ public class Npc extends Actor implements WorldObject{
 	int waitTime;
 	public Npc(int x, int y, String name) {
 		super(x,y);
+		this.name = name.trim();
 		hitBox=new Rectangle2D.Double(x,y,64,64);
 		isTalking=false;
 		conversationIndex=-1;
 		conversationBox = new Rectangle2D.Double(x-8,y-8,80,80);
 		waitTime=0;
 		try{
-			BufferedReader br = new BufferedReader(new FileReader(new File("data/npc/"+name+".txt")));
+			BufferedReader br = new BufferedReader(new FileReader(new File("data/npc/"+this.name+".txt")));
 			String rawInput = "";
 			int item;
 			while((item=br.read())!=-1)
@@ -30,9 +32,9 @@ public class Npc extends Actor implements WorldObject{
 			rawInput=rawInput.trim();
 			conversation = rawInput.split("\n");
 		}catch(Exception e){
-			System.out.println("[WARNING] Cannot Find File \"data/npc/"+name+".txt\"");
+			System.out.println("[WARNING] Cannot Find File \"data/npc/"+this.name+".txt\"");
 			conversation = new String[1];
-			conversation[0] = "Hi";
+			conversation[0] = name+":Hi";
 		}
 	}
 	@Override
@@ -48,7 +50,7 @@ public class Npc extends Actor implements WorldObject{
 				isTalking=true;
 				conversationIndex++;
 				if(conversationIndex==conversation.length){
-					conversationIndex=0;
+					conversationIndex=-1;
 					isTalking=false;
 				}
 				waitTime=15;
@@ -63,7 +65,12 @@ public class Npc extends Actor implements WorldObject{
 		g.drawImage(ImageManager.tempNPC,x,y,null);
 		if(isTalking){
 			UI.drawRectUI(g);
-			TypeWriter.drawMessage(conversation[conversationIndex], g);
+			if(conversation[conversationIndex].split(":")[0].equals("player"))
+				g.drawImage(ImageManager.player,23,315,113,113,Color.black,null);
+			else
+				g.drawImage(ImageManager.tempNPC,23,315,113,113,Color.black,null);
+			UI.drawRectUI(15,308,128,128,false,g);
+			TypeWriter.drawMessage(conversation[conversationIndex].split(":")[1], g);
 		}
 	}
 

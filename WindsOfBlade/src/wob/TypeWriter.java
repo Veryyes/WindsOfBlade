@@ -54,20 +54,25 @@ public class TypeWriter {
 		//140 chars max area;
 		int widthCounter=0;
 		int heightCounter=0;
-		text=text.toLowerCase();
+		text=text.toLowerCase().trim();
 		char[] data = text.toCharArray();
 		for(int i=0;i<data.length;i++){
 			if(data[i]==' ')
 				data[i]='_';
-			g.drawImage(getImage(data[i]),32+i*28,448+(40*heightCounter),null);
+			g.drawImage(getImage(data[i]),32+widthCounter*28,448+(40*heightCounter),null);
 			widthCounter++;
-			if(widthCounter>35){ 
+			if(widthCounter>34){ 
 				widthCounter=0;
 				heightCounter++;
 			}
 		}
 	}
 	private static BufferedImage getImage(char c){
+		try{
 		return fonts[Arrays.binarySearch(chars,c)];
+		}catch(Exception e){
+			System.out.println(c);//TODO error with '\n'
+			return fonts[Arrays.binarySearch(chars,'_')];
+		}
 	}
 }
