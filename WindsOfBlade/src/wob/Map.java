@@ -10,9 +10,11 @@ import java.util.LinkedList;
 
 
 public class Map {
-	Tile[][] background;	//TODO make this int? flags for wall and door and ect?
+	Tile[][] background;	
 	LinkedList<Wall> walls;
 	LinkedList<Npc> npcs;
+	LinkedList<EncounterSpot> encounterSpots;
+	LinkedList<String> enemyList;
 	Portal north,south,east,west;
 	float animationTimer;
 	float animationSpeed;
@@ -20,6 +22,8 @@ public class Map {
 		try {
 			walls = new LinkedList<Wall>();
 			npcs = new LinkedList<Npc>();
+			encounterSpots = new LinkedList<EncounterSpot>();
+			enemyList = new LinkedList<String>();
 			background=mapLoader(filename);
 			animationTimer=0;
 			animationSpeed=.15f;
@@ -32,6 +36,8 @@ public class Map {
 			w.update();
 		for(Npc n:npcs)
 			n.update();
+		for(EncounterSpot es:encounterSpots)
+			es.update();
 	}
 	public void render(Graphics g){//TODO fix this
 		animationTimer+=animationSpeed;
@@ -44,11 +50,13 @@ public class Map {
 		}
 		for(Npc n:npcs)
 			n.worldRender(g);
+		for(EncounterSpot es:encounterSpots)
+			es.worldRender(g);
 	}
-	public static void loadWorld(){
-		
-	}
-	public Tile[][] mapLoader(String filename) throws IOException{
+	/*
+	 * Parses through a map file and loads it as a map object
+	 */
+	private Tile[][] mapLoader(String filename) throws IOException{
 		//Reading the file;
 		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 		int item;
@@ -57,20 +65,26 @@ public class Map {
 			rawInput+=(char)item;
 		br.close();
 		rawInput=rawInput.trim();
-		//Grabing object data
+		//Grabbing object data
 		String[] objectData = rawInput.split("Object");
 		try{
 			rawInput = (objectData[0].substring(0,objectData[0].indexOf("["))).trim();
 		}catch(Exception e){
 			System.out.println("[WARNING] this map: \""+filename+"\" has no objects in it");
 		}
+		//Parsing Through object data
 		for(int i=1;i<objectData.length;i++){
-			String[] property = objectData[i].split("\n");
-			if(property[1].contains("type=npc")){	//scary code lolol
-				npcs.add(new Npc(64*Integer.parseInt(property[2].split(",")[0].split("=")[1]),
-						64*Integer.parseInt(property[2].split(",")[1]),property[3].split("=")[1]));
+			String[] property = objectData[i].split("\n"); 
+			//NPC
+			if(property[1].contains("type=npc")){	
+				npcs.add(parseNPC(property));
+			}
+			//EncounterSpot
+			if(property[1].contains("type=battle")){
+				encounterSpots.add(parseEncounterSpot(property));
 			}
 		}
+		//Parsing Through Map Data
 		//Removing ',' and '\n'
 		String mapData="";
 		int numCols=0;
@@ -114,6 +128,9 @@ public class Map {
 		walls = optimizeWalls(wally);
 		return map;
 	}
+	/*
+	 * Removes Wall objects that have walls touching all their adjecent sides
+	 */
 	private LinkedList<Wall> optimizeWalls(SparseMatrix<Wall> parentList){//TODO optimize walls more
 		LinkedList<Point> flagsForRemoval = new LinkedList<Point>();
 		for(Cell<Wall> current = parentList.head;current!=null;current=current.getNext()){
@@ -131,5 +148,15 @@ public class Map {
 		}
 		return list;
 	}
-
+	private static Npc parseNPC(String[] strArray){
+		return (new Npc(64*Integer.parseInt(strArray[2].split(",")[0].split("=")[1]),
+				64*Integer.parseInt(strArray[2].split(",")[1]),strArray[3].split("=")[1].trim()));
+	}
+	private static EncounterSpot parseEncounterSpot(String[] strArray){
+		String[] components = strArray[2].split(",");
+		return (new EncounterSpot(64*Integer.parseInt(components[0].split("=")[1]),
+				64*Integer.parseInt(components[1]),64*Integer.parseInt(components[2]),
+				64*Integer.parseInt(components[3].trim()),
+				Float.parseFloat(strArray[4].split("=")[1].trim())));
+	}
 }

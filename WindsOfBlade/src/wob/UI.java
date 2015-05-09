@@ -2,13 +2,15 @@ package wob;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
-public class UI {
 	/*
 	 * Container for buttons and ui stuff...
 	 */
+public class UI {
 	public static Button quitBtn;
 	public static Button startBtn;
+	/*
+	 * Defining what each button should do
+	 */
 	public static void LoadUI(){
 		quitBtn = new Button(750,500,112,40){
 			public void run(){
@@ -20,7 +22,6 @@ public class UI {
 			public void run(){
 				Game.gameStates&=~8;
 				Game.gameStates|=18;
-				//Game.gameStates|=34;
 				AudioManager.stopBgm();
 				Game.map= new Map("data/maps/testobj.txt");
 				Game.gameStates&=~2;

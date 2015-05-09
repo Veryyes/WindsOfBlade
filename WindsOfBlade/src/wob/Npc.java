@@ -16,7 +16,7 @@ public class Npc extends Actor implements WorldObject{
 	int waitTime;
 	public Npc(int x, int y, String name) {
 		super(x,y);
-		this.name = name.trim();
+		this.name = name;
 		hitBox=new Rectangle2D.Double(x,y,64,64);
 		isTalking=false;
 		conversationIndex=-1;
@@ -39,8 +39,7 @@ public class Npc extends Actor implements WorldObject{
 	}
 	@Override
 	public void update() {
-		this.x+=Camera.xVelShift;
-		this.y+=Camera.yVelShift;
+		updateLocation();
 		hitBox=new Rectangle2D.Double(this.x,this.y,hitBox.getWidth(),hitBox.getHeight());
 		conversationBox = new Rectangle2D.Double(x-8,y-8,80,80);
 		if(conversationBox.intersects(Game.player.hitBox)){

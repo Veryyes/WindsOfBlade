@@ -11,5 +11,9 @@ public abstract class Entity {
 		this.y=y;
 	}
 	public abstract void update();
-
+	public void updateLocation(){
+		this.x+=Camera.xVelShift;
+		this.y+=Camera.yVelShift;
+		hitBox=new Rectangle2D.Double(this.x,this.y,hitBox.getWidth(),hitBox.getHeight());
+	}
 }

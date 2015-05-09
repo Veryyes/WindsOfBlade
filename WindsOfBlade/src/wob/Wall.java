@@ -11,8 +11,7 @@ public class Wall extends Entity implements WorldObject{
 		hitBox=new Rectangle2D.Double(x,y,width,height);
 	}
 	public void update() {
-		this.x+=Camera.xVelShift;
-		this.y+=Camera.yVelShift;
+		updateLocation();
 		hitBox=new Rectangle2D.Double(this.x,this.y,hitBox.getWidth(),hitBox.getHeight());
 	}
 	@Override

@@ -18,7 +18,7 @@ public class Player extends Actor implements WorldObject{
 	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	static Line2D.Double topLine,botLine,leftLine,rightLine;
 	public Player() {
-		super(Game.frameWidth/2-32,Game.frameHeight/2-32);//TODO take out x&y parameters b/c player is stationary and world moves
+		super(Game.frameWidth/2-32,Game.frameHeight/2-32);
 		name="Hero";
 		image = ImageManager.player;
 		hitBox = new Rectangle2D.Double(this.x+8,this.y+16,48,48);

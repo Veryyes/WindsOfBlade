@@ -54,29 +54,28 @@ public class Game extends JPanel {
 		repaint();
 		mousePos=frame.getMousePosition();
 		//List of Rendering & Update Methods Here:
-		if((gameStates&2)>0)										//Draw Loading Screen;
+		if((gameStates&2)>0)										//Loading Screen;
 			g.drawImage(ImageManager.loading,0,0,null);
-		else if((gameStates&8)>0){									//Draw Main Menu;
+		else if((gameStates&8)>0){									//Main Menu;
 			g.drawImage(ImageManager.wbSepia,0,0,null);
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
-		}else if((gameStates&16)>0){								//Draw Field
+		}else if((gameStates&16)>0){								//Field
 			Camera.update();
 			player.update();
 			map.update();
 			map.render(g);
-			player.worldRender(g);
-			//g.drawRect((int)player.hitBox.x,(int)player.hitBox.y,(int)player.hitBox.getWidth(),(int)player.hitBox.getHeight());
-			//for(Wall w:map.walls)
-			//	w.worldRender(g);	
-		}else if((gameStates&32)>0){
+			player.worldRender(g);	
+		}else if((gameStates&32)>0){								//Battle
 			g.drawImage(ImageManager.defaultBackdrop, 0, 0, null);
 			UI.drawRectUI(g);
 			TypeWriter.drawString("attack", 32, 448, g);
 			TypeWriter.drawString("technique", 32, 496, g);
 			TypeWriter.drawString("item", 32, 542, g);
 			TypeWriter.drawString("run", 176, 542, g);
+		}else if((gameStates&4)>0){									//Menu/Paused/Inventory
+			
 		}
 	}
 	/*
@@ -86,15 +85,16 @@ public class Game extends JPanel {
 		frame = new JFrame("Winds of Blade v"+version);			//Setting up the JFrame
 		frame.setSize(frameWidth,frameHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
 		frame.setResizable(false);
 		canvas = new Game();									//JPanel that will handle drawing the graphics
 		frame.add(canvas);
 		frameSkip = 1000d/fps;									//seconds between each frame
-		AudioManager.LoadSounds();								//Loading manager objects for organization	
-		ImageManager.LoadImages();	
+		AudioManager.LoadSounds();
+		System.out.println("[INFO] Sounds Loaded");
+		ImageManager.LoadImages();
 		UI.LoadUI();
 		TypeWriter.LoadFont();
+		System.out.println("[INFO] Images Loaded");
 		km = new KeyInputManager();		
 		frame.addKeyListener(km);	
 		mousePos=frame.getMousePosition();	
@@ -103,7 +103,7 @@ public class Game extends JPanel {
 		frame.addMouseListener(UI.quitBtn);
 		frame.addMouseListener(UI.startBtn);
 		AudioManager.playBgm(AudioManager.ItsAnAdventure);
-		//map = new Map("data/maps/testobj.txt");
+		frame.setVisible(true);
 	}
 	/*
 	 * 	Reading config files

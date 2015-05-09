@@ -8,9 +8,7 @@ public class Camera {
 	static int yShift;
 	static int xVelShift;
 	static int yVelShift;
-	public Camera() {
-		
-	}
+
 	public static void update(){//TODO Magnitude of velocity is not always 3; do trig
 		xVelShift=0;
 		yVelShift=0;
@@ -51,5 +49,8 @@ public class Camera {
 				xVelShift=0;
 			}
 		}
+	}
+	public static boolean isMoving(){
+		return !(xVelShift+yVelShift==0);
 	}
 }
