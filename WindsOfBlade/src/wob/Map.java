@@ -2,8 +2,6 @@ package wob;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

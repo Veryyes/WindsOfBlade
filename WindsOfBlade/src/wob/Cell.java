@@ -4,8 +4,8 @@ public class Cell<anyType> {
 	int x;
 	int y;
 	anyType value;
-	Cell next;
-	public Cell(int myX, int myY, anyType data, Cell myNext){
+	Cell<anyType> next;
+	public Cell(int myX, int myY, anyType data, Cell<anyType> myNext){
 		x=myX;
 		y=myY;
 		value=data;
@@ -14,13 +14,13 @@ public class Cell<anyType> {
 	public anyType getValue(){
 		return value;
 	}
-	public Cell getNext(){
+	public Cell<anyType> getNext(){
 		return next;
 	}
 	public void setValue(anyType myValue){
 		value=myValue;
 	}
-	public void setNext(Cell myNext){
+	public void setNext(Cell<anyType> myNext){
 		next=myNext;
 	}
 }

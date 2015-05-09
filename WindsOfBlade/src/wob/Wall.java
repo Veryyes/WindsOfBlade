@@ -3,7 +3,6 @@ package wob;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 
 public class Wall extends Entity implements WorldObject{
 

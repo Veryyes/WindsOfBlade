@@ -1,7 +1,7 @@
 package wob;
 
 public class SparseMatrix<anyType> implements Matrixable<anyType> {
-	Cell head;
+	Cell<anyType> head;
 	private int rowMax;
 	private int colMax;
 	public SparseMatrix(int row, int col) {
@@ -69,11 +69,11 @@ public class SparseMatrix<anyType> implements Matrixable<anyType> {
 			return false;
 		Cell<anyType> current = head;
 		if(current==null){
-			head=new Cell(col,row,x,null);
+			head=new Cell<anyType>(col,row,x,null);
 			return true;
 		}
 		if(getIndex(row,col)<getIndex(head)){
-			head=new Cell(col,row,x,current);
+			head=new Cell<anyType>(col,row,x,current);
 			return true;
 		}
 		while(current.getNext()!=null&&getIndex(current.getNext())<getIndex(row,col)){
@@ -83,7 +83,7 @@ public class SparseMatrix<anyType> implements Matrixable<anyType> {
 			if(getIndex(current)==getIndex(row,col))
 				return false;
 			if(getIndex(current)<getIndex(row,col)){
-				current.setNext(new Cell(col,row,x,current.getNext()));
+				current.setNext(new Cell<anyType>(col,row,x,current.getNext()));
 				return true;
 			}
 			if(getIndex(current)>getIndex(row,col)){
@@ -93,7 +93,7 @@ public class SparseMatrix<anyType> implements Matrixable<anyType> {
 		if(getIndex(current.getNext())==getIndex(row,col))
 			return false;
 		
-		current.setNext(new Cell(col,row,x,current.getNext()));
+		current.setNext(new Cell<anyType>(col,row,x,current.getNext()));
 		return true;
 	}
 	//post - removes item at given coordinates
