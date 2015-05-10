@@ -13,11 +13,10 @@ public class EncounterSpot extends Entity implements WorldObject{
 	
 	public void update() {
 		updateLocation();
-		if(Game.player.hitBox.intersects(hitBox))
-		System.out.println("UPDATING");
 		if(Camera.isMoving()&&Math.random()<encounterRate&&Game.player.hitBox.intersects(hitBox)){
 			Game.gameStates&=~16;
 			Game.gameStates|=32;
+			UI.enableBattelBtns();
 			//Load other battle stuff
 		}
 	}

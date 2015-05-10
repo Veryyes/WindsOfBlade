@@ -2,12 +2,18 @@ package wob;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 	/*
 	 * Container for buttons and ui stuff...
 	 */
-public class UI {
+public class UI implements MouseListener{
 	public static Button quitBtn;
 	public static Button startBtn;
+	public static Button attackBtn;
+	public static Button techniqueBtn;
+	public static Button itemBtn;
+	public static Button runBtn;
 	/*
 	 * Defining what each button should do
 	 */
@@ -30,7 +36,38 @@ public class UI {
 				quitBtn.enabled=false;
 			}
 		};
-		
+		attackBtn=new Button(32,448,168,40){
+			public void run(){
+				//Switch to target selection menu
+				System.out.println("attack");
+				this.enabled=false;
+			}
+		};
+		attackBtn.enabled=false;
+		techniqueBtn=new Button(32,496,252,40){
+			public void run(){
+				//switch to technique list
+				System.out.println("tech");
+				this.enabled=false;
+			}
+		};
+		techniqueBtn.enabled=false;
+		itemBtn=new Button(32,542,112,40){
+			public void run(){
+				//switch to item list
+				System.out.println("item");
+				this.enabled=false;
+			}
+		};
+		itemBtn.enabled=false;
+		runBtn=new Button(176,542,84,40){
+			public void run(){
+				//%chance to get away
+				System.out.println("run");
+				this.enabled=false;
+			}
+		};
+		runBtn.enabled=false;
 	}
 	public static void drawRectUI(int x, int y, int width, int height, boolean filled, Graphics g){
 		if(filled){
@@ -53,5 +90,23 @@ public class UI {
 	public static void drawRectUI(Graphics g){
 		UI.drawRectUI(15, 436, 995, 173, true, g);
 	}
+	public static void enableBattelBtns(){
+		attackBtn.enabled=true;
+		techniqueBtn.enabled=true;
+		itemBtn.enabled=true;
+		runBtn.enabled=true;
+	}
+	public void mousePressed(MouseEvent arg0) {
+		startBtn.update();
+		quitBtn.update();
+		attackBtn.update();
+		techniqueBtn.update();
+		itemBtn.update();
+		runBtn.update();
+	}
+	public void mouseClicked(MouseEvent arg0) {}
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0)  {}
+	public void mouseReleased(MouseEvent arg0){}
 
 }

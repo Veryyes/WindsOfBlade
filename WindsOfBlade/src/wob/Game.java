@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class Game extends JPanel {
+public class Game extends JPanel{
 	public static final float version = .01f;
 	public static JFrame frame;
 	public static int frameWidth;
@@ -70,10 +70,7 @@ public class Game extends JPanel {
 		}else if((gameStates&32)>0){								//Battle
 			g.drawImage(ImageManager.defaultBackdrop, 0, 0, null);
 			UI.drawRectUI(g);
-			TypeWriter.drawString("attack", 32, 448, g);
-			TypeWriter.drawString("technique", 32, 496, g);
-			TypeWriter.drawString("item", 32, 542, g);
-			TypeWriter.drawString("run", 176, 542, g);
+			BattleManager.render(g);
 		}else if((gameStates&4)>0){									//Menu/Paused/Inventory
 			
 		}
@@ -97,11 +94,11 @@ public class Game extends JPanel {
 		System.out.println("[INFO] Images Loaded");
 		km = new KeyInputManager();		
 		frame.addKeyListener(km);	
+		UI mouselistener = new UI();
+		frame.addMouseListener(mouselistener);
 		mousePos=frame.getMousePosition();	
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
-		frame.addMouseListener(UI.quitBtn);
-		frame.addMouseListener(UI.startBtn);
 		AudioManager.playBgm(AudioManager.ItsAnAdventure);
 		frame.setVisible(true);
 	}
@@ -155,5 +152,4 @@ public class Game extends JPanel {
 			e1.printStackTrace();
 		}
 	}
-
 }
