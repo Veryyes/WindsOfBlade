@@ -40,7 +40,10 @@ public class UI implements MouseListener{
 			public void run(){
 				//Switch to target selection menu
 				System.out.println("attack");
-				this.enabled=false;
+				BattleManager.battleState|=2;
+				BattleManager.battleState|=4;
+				BattleManager.battleState&=~1;
+				disableBattleBtns();
 			}
 		};
 		attackBtn.enabled=false;
@@ -48,7 +51,9 @@ public class UI implements MouseListener{
 			public void run(){
 				//switch to technique list
 				System.out.println("tech");
-				this.enabled=false;
+				BattleManager.battleState|=8;
+				BattleManager.battleState&=~1;
+				disableBattleBtns();
 			}
 		};
 		techniqueBtn.enabled=false;
@@ -56,7 +61,9 @@ public class UI implements MouseListener{
 			public void run(){
 				//switch to item list
 				System.out.println("item");
-				this.enabled=false;
+				BattleManager.battleState|=16;
+				BattleManager.battleState&=~1;
+				disableBattleBtns();
 			}
 		};
 		itemBtn.enabled=false;
@@ -64,7 +71,9 @@ public class UI implements MouseListener{
 			public void run(){
 				//%chance to get away
 				System.out.println("run");
-				this.enabled=false;
+				BattleManager.battleState|=32;
+				BattleManager.battleState&=~1;
+				disableBattleBtns();
 			}
 		};
 		runBtn.enabled=false;
@@ -90,11 +99,17 @@ public class UI implements MouseListener{
 	public static void drawRectUI(Graphics g){
 		UI.drawRectUI(15, 436, 995, 173, true, g);
 	}
-	public static void enableBattelBtns(){
+	public static void enableBattleBtns(){
 		attackBtn.enabled=true;
 		techniqueBtn.enabled=true;
 		itemBtn.enabled=true;
 		runBtn.enabled=true;
+	}
+	public static void disableBattleBtns(){
+		attackBtn.enabled=false;
+		techniqueBtn.enabled=false;
+		itemBtn.enabled=false;
+		runBtn.enabled=false;
 	}
 	public void mousePressed(MouseEvent arg0) {
 		startBtn.update();
