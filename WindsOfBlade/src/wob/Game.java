@@ -102,6 +102,7 @@ public class Game extends JPanel{
 		gameTime=System.currentTimeMillis();
 		AudioManager.playBgm(AudioManager.ItsAnAdventure);
 		frame.setVisible(true);
+		player = new Player();
 	}
 	/*
 	 * 	Reading config files

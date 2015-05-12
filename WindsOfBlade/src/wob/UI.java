@@ -14,6 +14,7 @@ public class UI implements MouseListener{
 	public static Button techniqueBtn;
 	public static Button itemBtn;
 	public static Button runBtn;
+	public static BattleButton[][] battleButtons = new BattleButton[3][3];
 	/*
 	 * Defining what each button should do
 	 */
@@ -53,7 +54,13 @@ public class UI implements MouseListener{
 				System.out.println("tech");
 				BattleManager.battleState|=8;
 				BattleManager.battleState&=~1;
+				BattleManager.buttonShift=0;
 				disableBattleBtns();
+				for(int i=0;i<battleButtons[0].length;i++){
+					for(int j=0;j<battleButtons.length;j++){
+						battleButtons[i][j].enabled=true;
+					}
+				}
 			}
 		};
 		techniqueBtn.enabled=false;
@@ -63,7 +70,13 @@ public class UI implements MouseListener{
 				System.out.println("item");
 				BattleManager.battleState|=16;
 				BattleManager.battleState&=~1;
+				BattleManager.buttonShift=0;
 				disableBattleBtns();
+				for(int i=0;i<battleButtons[0].length;i++){
+					for(int j=0;j<battleButtons.length;j++){
+						battleButtons[i][j].enabled=true;
+					}
+				}
 			}
 		};
 		itemBtn.enabled=false;
@@ -77,6 +90,24 @@ public class UI implements MouseListener{
 			}
 		};
 		runBtn.enabled=false;
+		for(int i=0;i<battleButtons[0].length;i++){
+			for(int j=0;j<battleButtons.length;j++){
+				battleButtons[i][j]=new BattleButton(32+330*j,448+50*i,330,50){
+					public void run(){
+						this.selected=true;
+						BattleManager.battleState&=~8;
+						BattleManager.battleState&=~16;
+						BattleManager.battleState|=4;
+						for(int i=0;i<UI.battleButtons[0].length;i++){
+							for(int j=0;j<UI.battleButtons.length;j++){
+								battleButtons[i][j].enabled=false;
+							}
+						}
+					}
+				};
+				battleButtons[i][j].enabled=false;
+			}
+		}
 	}
 	public static void drawRectUI(int x, int y, int width, int height, boolean filled, Graphics g){
 		if(filled){
@@ -112,12 +143,18 @@ public class UI implements MouseListener{
 		runBtn.enabled=false;
 	}
 	public void mousePressed(MouseEvent arg0) {
+		for(int i=0;i<battleButtons[0].length;i++){
+			for(int j=0;j<battleButtons.length;j++){
+				battleButtons[i][j].update();
+			}
+		}
 		startBtn.update();
 		quitBtn.update();
 		attackBtn.update();
 		techniqueBtn.update();
 		itemBtn.update();
 		runBtn.update();
+		
 	}
 	public void mouseClicked(MouseEvent arg0) {}
 	public void mouseEntered(MouseEvent arg0) {}

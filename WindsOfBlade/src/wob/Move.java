@@ -42,7 +42,7 @@ public class Move {
 	public static void loadMoves() throws IOException{
 		database = new LinkedList<Move>();
 		BufferedReader bf = new BufferedReader(new FileReader(new File("data/moves.txt")));
-		int item;
+		int item = 0;
 		String rawdata="";
 		while((item=bf.read())!=-1)
 			rawdata+=(char)item;

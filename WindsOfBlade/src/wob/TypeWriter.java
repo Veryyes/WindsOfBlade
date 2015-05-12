@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
@@ -12,6 +13,9 @@ public class TypeWriter {
 	public static char[] chars = {'/','.','?',';','_',',','!','$','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	public static BufferedImage[] fonts;
 	//28x40
+	/*
+	 * Loads all the fonts & the characters in them
+	 */
 	public static void LoadFont(){
 		Arrays.sort(chars);
 		fonts = new BufferedImage[chars.length];
@@ -39,6 +43,9 @@ public class TypeWriter {
 			}
 		}
 	}
+	/*
+	 * Draws a string on the screen
+	 */
 	public static void drawString(String text, int x,int y,Graphics g){
 		text=text.toLowerCase();
 		char[] data = text.toCharArray();
@@ -48,6 +55,9 @@ public class TypeWriter {
 			g.drawImage(getImage(data[i]),x+i*28,y,null);
 		}
 	}
+	/*
+	 * Draws a string; meant for the bottom UI dialoge box
+	 */
 	public static void drawMessage(String text ,Graphics g){
 		//35 Chars, max width;
 		//4 chars, max height;
@@ -67,9 +77,33 @@ public class TypeWriter {
 			}
 		}
 	}
+	/*
+	 * Used to overcome the IndexOutofBoundsException thrown when LinkedList.get(index),
+	 * where the index is out of range (index < 0 || index >= size())
+	 */
+	public static void drawMoveName(LinkedList<Move> m, int index,int x, int y, Graphics g){
+		try{
+			drawString(m.get(index+BattleManager.buttonShift*3).name,x,y,g);
+		}catch(java.lang.IndexOutOfBoundsException e){
+			drawString("",x,y,g);
+		}
+	}
+	/*
+	 * Same as above, but barely changed for Item objects
+	 */
+	public static void drawItemName(LinkedList<Item> m, int index,int x, int y, Graphics g){
+		try{
+			drawString(m.get(index+BattleManager.buttonShift*3).name,x,y,g);
+		}catch(java.lang.IndexOutOfBoundsException e){
+			drawString("",x,y,g);
+		}
+	}
+	/*
+	 * binary Search for a specific char & grabs the corresponding Image in a parallel array
+	 */
 	private static BufferedImage getImage(char c){
 		try{
-		return fonts[Arrays.binarySearch(chars,c)];
+			return fonts[Arrays.binarySearch(chars,c)];
 		}catch(Exception e){
 			System.out.println(c);//TODO error with '\n'
 			return fonts[Arrays.binarySearch(chars,'_')];

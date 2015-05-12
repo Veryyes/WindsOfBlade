@@ -11,6 +11,7 @@ public class Player extends Actor implements WorldObject{
 	int experience;
 	int money;
 	LinkedList<Item> inventory;
+	LinkedList<Move> techniques;
 	int str, intel, dex, will, agil;
 	int hp, maxHp;	//Health
 	int mp, maxMp;	//Mana
@@ -26,6 +27,8 @@ public class Player extends Actor implements WorldObject{
 		botLine = new Line2D.Double(x+8,y+16+48,x+8+48,y+16+48);
 		leftLine = new Line2D.Double(x+8,y+16,x+8,y+16+48);
 		rightLine = new Line2D.Double(x+8+48,y+16,x+8+48,y+16+48);
+		inventory = new LinkedList<Item>();
+		techniques = new LinkedList<Move>();
 		level=1;
 		experience=0;
 		money=0;
@@ -40,6 +43,8 @@ public class Player extends Actor implements WorldObject{
 		maxMp=10;
 		sp=10;
 		maxSp=10;
+		for(Move m: Move.database)
+			techniques.add(m);
 	}
 	public Player(int x, int y, String savefile){
 		super(x,y);
