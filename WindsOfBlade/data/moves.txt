@@ -1,0 +1,15 @@
+name=Flare Jet
+base=10
+accuracy=85
+description=Shoot pulses of flames from your hands
+type=fire
+physical=false
+effect=burn;
+
+name=Wet Whip
+base=15
+accuracy=70
+description =A stream of water to whip and lash your opponents
+type=water
+physical=true
+effect=none;

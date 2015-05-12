@@ -18,7 +18,13 @@ public class BattleManager {
 			TypeWriter.drawString("technique", 32, 496, g);
 			TypeWriter.drawString("item", 32, 542, g);
 			TypeWriter.drawString("run", 176, 542, g);
-		}else if((battleState&4)>0){						//Target Selection Screen
+		}else if((battleState&8)>0){						//Technique List
+			
+		}else if((battleState&16)>0){						//Item List
+			
+		}else if((battleState&32)>0){						//Run
+			
+		}else if((battleState&4)>0){						//Target Selection
 			
 		}
 	}
