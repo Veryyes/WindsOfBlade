@@ -17,10 +17,35 @@ public class UI implements MouseListener, MouseWheelListener{
 	public static Button itemBtn;
 	public static Button runBtn;
 	public static BattleButton[][] battleButtons = new BattleButton[3][3];
+	public static Button backBtn;
 	/*
 	 * Defining what each button should do
 	 */
 	public static void LoadUI(){
+		backBtn = new Button(15,372,64,64){
+			public void run(){
+				if(BattleManager.isAttackPhase()){
+					BattleManager.battleState|=1;
+					BattleManager.battleState&=~4;
+					enableSelectionBtns();
+				}else if(BattleManager.selectedTechnique!=null&&(BattleManager.battleState&4)>0){
+					BattleManager.battleState|=8;
+					BattleManager.battleState&=~4;
+					BattleManager.selectedTechnique=null;
+					enableBattleBtns();
+				}else if(BattleManager.selectedItem!=null&&(BattleManager.battleState&4)>0){
+					BattleManager.battleState|=16;
+					BattleManager.battleState&=~4;
+					BattleManager.selectedItem=null;
+					enableBattleBtns();
+				}else{
+					BattleManager.battleState|=1;
+					BattleManager.battleState&=~24;
+					enableSelectionBtns();
+				}
+			}
+		};
+		backBtn.enabled=false;
 		quitBtn = new Button(750,500,112,40){
 			public void run(){
 				Game.gameStates&=~1;
@@ -46,7 +71,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.battleState|=2;
 				BattleManager.battleState|=4;
 				BattleManager.battleState&=~1;
-				disableBattleBtns();
+				disableSelectionBtns();
 			}
 		};
 		attackBtn.enabled=false;
@@ -57,12 +82,8 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.battleState|=8;
 				BattleManager.battleState&=~1;
 				BattleManager.buttonShift=0;
-				disableBattleBtns();
-				for(int i=0;i<battleButtons[0].length;i++){
-					for(int j=0;j<battleButtons.length;j++){
-						battleButtons[i][j].enabled=true;
-					}
-				}
+				disableSelectionBtns();
+				enableBattleBtns();
 			}
 		};
 		techniqueBtn.enabled=false;
@@ -73,12 +94,8 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.battleState|=16;
 				BattleManager.battleState&=~1;
 				BattleManager.buttonShift=0;
-				disableBattleBtns();
-				for(int i=0;i<battleButtons[0].length;i++){
-					for(int j=0;j<battleButtons.length;j++){
-						battleButtons[i][j].enabled=true;
-					}
-				}
+				disableSelectionBtns();
+				enableBattleBtns();
 			}
 		};
 		itemBtn.enabled=false;
@@ -88,22 +105,29 @@ public class UI implements MouseListener, MouseWheelListener{
 				System.out.println("run");
 				BattleManager.battleState|=32;
 				BattleManager.battleState&=~1;
-				disableBattleBtns();
+				disableSelectionBtns();
 			}
 		};
 		runBtn.enabled=false;
 		for(int i=0;i<battleButtons[0].length;i++){
 			for(int j=0;j<battleButtons.length;j++){
-				battleButtons[i][j]=new BattleButton(32+330*j,448+50*i,330,50){
+				battleButtons[i][j]=new BattleButton(32+330*j,448+50*i,330,50,j+i*battleButtons.length){
 					public void run(){
-						this.selected=true;
-						BattleManager.battleState&=~8;
-						BattleManager.battleState&=~16;
-						BattleManager.battleState|=4;
-						for(int i=0;i<UI.battleButtons[0].length;i++){
-							for(int j=0;j<UI.battleButtons.length;j++){
-								battleButtons[i][j].enabled=false;
+						try{
+							this.selected=true;
+							if((BattleManager.battleState&8)>0){
+								BattleManager.selectedTechnique=Game.player.techniques.get(this.index+BattleManager.buttonShift*3);
+								System.out.println(BattleManager.selectedTechnique);
+							}else if((BattleManager.battleState&16)>0){
+								BattleManager.selectedItem=Game.player.inventory.get(this.index+BattleManager.buttonShift*3);
+								System.out.println(BattleManager.selectedItem);
 							}
+							BattleManager.battleState&=~8;
+							BattleManager.battleState&=~16;
+							BattleManager.battleState|=4;
+							UI.enableBattleBtns();
+						}catch(java.lang.IndexOutOfBoundsException e){//Catches if you pick something that doesn't exist
+							//Do nothing
 						}
 					}
 				};
@@ -132,17 +156,31 @@ public class UI implements MouseListener, MouseWheelListener{
 	public static void drawRectUI(Graphics g){
 		UI.drawRectUI(15, 436, 995, 173, true, g);
 	}
-	public static void enableBattleBtns(){
+	public static void enableSelectionBtns(){
 		attackBtn.enabled=true;
 		techniqueBtn.enabled=true;
 		itemBtn.enabled=true;
 		runBtn.enabled=true;
 	}
-	public static void disableBattleBtns(){
+	public static void disableSelectionBtns(){
 		attackBtn.enabled=false;
 		techniqueBtn.enabled=false;
 		itemBtn.enabled=false;
 		runBtn.enabled=false;
+	}
+	public static void enableBattleBtns(){
+		for(int i=0;i<UI.battleButtons[0].length;i++){
+			for(int j=0;j<UI.battleButtons.length;j++){
+				battleButtons[i][j].enabled=true;
+			}
+		}
+	}
+	public static void dsiableBattleBtns(){
+		for(int i=0;i<UI.battleButtons[0].length;i++){
+			for(int j=0;j<UI.battleButtons.length;j++){
+				battleButtons[i][j].enabled=false;
+			}
+		}
 	}
 	public void mousePressed(MouseEvent arg0) {
 		for(int i=0;i<battleButtons[0].length;i++){
@@ -156,7 +194,7 @@ public class UI implements MouseListener, MouseWheelListener{
 		techniqueBtn.update();
 		itemBtn.update();
 		runBtn.update();
-		
+		backBtn.update();
 	}
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		BattleManager.buttonShift+=e.getWheelRotation();

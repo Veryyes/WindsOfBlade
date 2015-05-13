@@ -1,3 +1,0 @@
-font-family = Courier new
-font-size = 36
-anti-aliasing = false;

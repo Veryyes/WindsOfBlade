@@ -23,6 +23,8 @@ public class BattleManager {
 			TypeWriter.drawString("item", 32, 542, g);
 			TypeWriter.drawString("run", 176, 542, g);
 		}else if((battleState&8)>0){						//Technique List
+			UI.drawRectUI(15,372,64,64,true,g);
+			g.drawImage(ImageManager.backArrow,33,384,null);
 			TypeWriter.drawMoveName(Game.player.techniques, 0, 32, 448, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 1, 362, 448, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 2, 692, 448, g);
@@ -30,11 +32,13 @@ public class BattleManager {
 			TypeWriter.drawMoveName(Game.player.techniques, 3, 32, 498, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 4, 362, 498, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 5, 692, 498, g);
-			            				//TODO disable the buttons where techniques/items are missing
+			
 			TypeWriter.drawMoveName(Game.player.techniques, 6, 32, 548, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 7, 362, 548, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 8, 692, 548, g);
 		}else if((battleState&16)>0){						//Item List
+			UI.drawRectUI(15,372,64,64,true,g);
+			g.drawImage(ImageManager.backArrow,33,384,null);
 			TypeWriter.drawItemName(Game.player.inventory, 0, 32, 448, g);
 			TypeWriter.drawItemName(Game.player.inventory, 1, 362, 448, g);
 			TypeWriter.drawItemName(Game.player.inventory, 2, 692, 448, g);
@@ -49,11 +53,14 @@ public class BattleManager {
 		}else if((battleState&32)>0){						//Run
 			
 		}else if((battleState&4)>0){						//Target Selection
-			
+			UI.drawRectUI(15,372,64,64,true,g);
+			g.drawImage(ImageManager.backArrow,33,384,null);
 			for(int i=0;i<enemies.length;i++){
 				
 			}
 		}
 	}
-
+	public static boolean isAttackPhase(){
+		return(selectedTechnique==null&&selectedItem==null&&(battleState&4)>0);
+	}
 }
