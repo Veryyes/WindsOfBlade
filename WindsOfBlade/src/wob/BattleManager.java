@@ -28,7 +28,7 @@ public class BattleManager {
 			TypeWriter.drawMoveName(Game.player.techniques, 3, 32, 498, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 4, 362, 498, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 5, 692, 498, g);
-			            
+			            				//TODO disable the buttons where techniques/items are missing
 			TypeWriter.drawMoveName(Game.player.techniques, 6, 32, 548, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 7, 362, 548, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 8, 692, 548, g);

@@ -37,8 +37,8 @@ public class Player extends Actor implements WorldObject{
 		dex=10;
 		will=10;
 		agil=10;
-		hp=10;
-		maxHp=10;
+		hp=20;
+		maxHp=20;
 		mp=10;
 		maxMp=10;
 		sp=10;

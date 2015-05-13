@@ -1,15 +1,71 @@
 name=Flare Jet
 base=10
-accuracy=85
+accuracy=70
 description=Shoot pulses of flames from your hands
 type=fire
 physical=false
 effect=burn;
 
 name=Wet Whip
-base=15
-accuracy=70
-description =A stream of water to whip and lash your opponents
+base=10
+accuracy=85
+description=A stream of water to whip and lash your opponents
 type=water
 physical=true
+effect=none;
+
+name=Frost Shard
+base=10
+accuracy=80
+description=Shards of sharp ice is thrown
+type=ice
+physical=true
+effect=bleed;
+
+name=Breeze Blast
+base=8
+accuracy=95
+description=A powerful gust of wind is fired
+type=wind
+physical=false
+effect=none;
+
+name=Peat Punch
+base=15
+accuracy=65
+description=Cumulate clay, sand and dirt on your fist to punch
+type=earth
+physical=true
+effect=none;
+
+name=Oak Smash
+base=13
+accuracy=70
+description=Punch your foe with the power to smash through planks of wood
+type=wood
+physical=true
+effect=confusion;
+
+name=Static Bolt
+base=10
+accuracy=50
+description=A quick bolt of electricity shoots from your finger
+type=electric
+physical=false
+effect=none;
+
+name=Black Jab
+base=9
+accuracy=85
+description=A fast and dirty jab to the face
+type=dark
+physical=true
+effect=none;
+
+name=Light Bolt
+base=10
+accuracy=80
+description=Holy energy flies out of your hand
+type=divine
+physical=false
 effect=none;
