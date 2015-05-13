@@ -97,6 +97,7 @@ public class Game extends JPanel{
 		frame.addKeyListener(km);	
 		UI mouselistener = new UI();
 		frame.addMouseListener(mouselistener);
+		frame.addMouseWheelListener(mouselistener);
 		mousePos=frame.getMousePosition();	
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();

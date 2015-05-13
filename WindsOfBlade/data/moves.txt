@@ -38,6 +38,14 @@ type=earth
 physical=true
 effect=none;
 
+name=Sharp Shrapenel 
+base=11
+accuracy=80
+description=Fling metallic shrapenel pieces
+type=metal
+physical=true
+effect=bleed;
+
 name=Oak Smash
 base=13
 accuracy=70

@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 	/*
 	 * Container for buttons and ui stuff...
 	 */
-public class UI implements MouseListener{
+public class UI implements MouseListener, MouseWheelListener{
 	public static Button quitBtn;
 	public static Button startBtn;
 	public static Button attackBtn;
@@ -156,9 +158,13 @@ public class UI implements MouseListener{
 		runBtn.update();
 		
 	}
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		BattleManager.buttonShift+=e.getWheelRotation();
+		if(BattleManager.buttonShift<0)
+			BattleManager.buttonShift=0;
+	}
 	public void mouseClicked(MouseEvent arg0) {}
 	public void mouseEntered(MouseEvent arg0) {}
 	public void mouseExited(MouseEvent arg0)  {}
 	public void mouseReleased(MouseEvent arg0){}
-
 }

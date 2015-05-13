@@ -14,6 +14,8 @@ public class BattleManager {
 	public static byte battleState = 0;
 	public static byte buttonShift = 0;
 	public static Enemy[] enemies= new Enemy[3];
+	public static Move selectedTechnique;
+	public static Item selectedItem;
 	public static void render(Graphics g){
 		if((battleState&1)>0){								//Menu
 			TypeWriter.drawString("attack", 32, 448, g);

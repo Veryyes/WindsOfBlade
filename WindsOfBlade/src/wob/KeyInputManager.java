@@ -24,8 +24,5 @@ public class KeyInputManager implements KeyListener {
 	public static boolean isPressed(char key){
 		return((pressedKeys&(1<<(int)key))!=0);
 	}
-	public void keyTyped(KeyEvent e) {
-		//Not going to use this
-	}
-
+	public void keyTyped(KeyEvent e) {}
 }
