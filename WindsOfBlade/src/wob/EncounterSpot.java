@@ -22,11 +22,8 @@ public class EncounterSpot extends Entity implements WorldObject{
 			//Load other battle stuff
 		}
 	}
-
-	@Override
 	public void worldRender(Graphics g) {
 		g.drawRect(x, y, (int)hitBox.getWidth(), (int)hitBox.getHeight());
-		
 	}
 
 }

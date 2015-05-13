@@ -51,7 +51,9 @@ public class BattleManager {
 			TypeWriter.drawItemName(Game.player.inventory, 7, 362, 548, g);
 			TypeWriter.drawItemName(Game.player.inventory, 8, 692, 548, g);
 		}else if((battleState&32)>0){						//Run
-			
+			battleState=0;
+			Game.gameStates|=16;
+			Game.gameStates&=~32;
 		}else if((battleState&4)>0){						//Target Selection
 			UI.drawRectUI(15,372,64,64,true,g);
 			g.drawImage(ImageManager.backArrow,33,384,null);

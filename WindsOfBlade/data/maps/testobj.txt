@@ -45,5 +45,5 @@ name=joe
 type=battle
 location=0,23,32,9
 name=southofwater
-rate=1
+rate=.005
 

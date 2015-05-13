@@ -50,8 +50,8 @@ public class Map {
 		}
 		for(Npc n:npcs)
 			n.worldRender(g);
-		for(EncounterSpot es:encounterSpots)
-			es.worldRender(g);
+		//for(EncounterSpot es:encounterSpots)
+		//	es.worldRender(g);
 	}
 	/*
 	 * Parses through a map file and loads it as a map object

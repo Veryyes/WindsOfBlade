@@ -66,8 +66,6 @@ public class UI implements MouseListener, MouseWheelListener{
 		};
 		attackBtn=new Button(32,448,168,40){
 			public void run(){
-				//Switch to target selection menu
-				System.out.println("attack");
 				BattleManager.battleState|=2;
 				BattleManager.battleState|=4;
 				BattleManager.battleState&=~1;
@@ -77,8 +75,6 @@ public class UI implements MouseListener, MouseWheelListener{
 		attackBtn.enabled=false;
 		techniqueBtn=new Button(32,496,252,40){
 			public void run(){
-				//switch to technique list
-				System.out.println("tech");
 				BattleManager.battleState|=8;
 				BattleManager.battleState&=~1;
 				BattleManager.buttonShift=0;
@@ -89,8 +85,6 @@ public class UI implements MouseListener, MouseWheelListener{
 		techniqueBtn.enabled=false;
 		itemBtn=new Button(32,542,112,40){
 			public void run(){
-				//switch to item list
-				System.out.println("item");
 				BattleManager.battleState|=16;
 				BattleManager.battleState&=~1;
 				BattleManager.buttonShift=0;
@@ -101,8 +95,6 @@ public class UI implements MouseListener, MouseWheelListener{
 		itemBtn.enabled=false;
 		runBtn=new Button(176,542,84,40){
 			public void run(){
-				//%chance to get away
-				System.out.println("run");
 				BattleManager.battleState|=32;
 				BattleManager.battleState&=~1;
 				disableSelectionBtns();
