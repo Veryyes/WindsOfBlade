@@ -132,17 +132,17 @@ public class UI implements MouseListener, MouseWheelListener{
 			g.setColor(Color.black);
 			g.fillRect(x+7,y+7,width-14,height-14);
 		}
-		g.drawImage(ImageManager.topLeftUIBorder,x,y,null);
-		g.drawImage(ImageManager.botLeftUIBorder,x,y+height-15,null);
-		g.drawImage(ImageManager.topRightUIBorder,x+width-15,y,null);
-		g.drawImage(ImageManager.botRightUIBorder,x+width-15,y+height-15,null);
+		g.drawImage(ImageManager.getImage("res/ui/topLeftBorder.png"),x,y,null);
+		g.drawImage(ImageManager.getImage("res/ui/botLeftBorder.png"),x,y+height-15,null);
+		g.drawImage(ImageManager.getImage("res/ui/topRightBorder.png"),x+width-15,y,null);
+		g.drawImage(ImageManager.getImage("res/ui/botRightBorder.png"),x+width-15,y+height-15,null);
 		for(int j = x+15;j<x+width-15;j++){
-			g.drawImage(ImageManager.topUIBorder,j,y,null);
-			g.drawImage(ImageManager.botUIBorder,j,y+height-7,null);
+			g.drawImage(ImageManager.getImage("res/ui/topBorder.png"),j,y,null);
+			g.drawImage(ImageManager.getImage("res/ui/botBorder.png"),j,y+height-7,null);
 		}
 		for(int i = y+15; i<y+height-15;i++){
-			g.drawImage(ImageManager.leftUIBorder,x,i,null);
-			g.drawImage(ImageManager.rightUIBorder,x+width-7,i,null);
+			g.drawImage(ImageManager.getImage("res/ui/leftBorder.png"),x,i,null);
+			g.drawImage(ImageManager.getImage("res/ui/rightBorder.png"),x+width-7,i,null);
 		}
 	}
 	public static void drawRectUI(Graphics g){

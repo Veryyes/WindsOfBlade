@@ -9,20 +9,15 @@ public class Enemy extends Actor implements BattleObject{
 	int level;
 	int hp;
 	LinkedList<Item> inventory;
+	LinkedList<Move> techniques;
 	String name;
 	public Enemy(int x,int y) {
 		super(x,y);
 	}
 	public void update() {
-			
+		
 	}
 	public void battleRender(Graphics g) {
-		
-	}
-	public void takeDamage(int value) {
-		
-	}
-	public void useMove(Move attack, int index) {
 		
 	}
 }

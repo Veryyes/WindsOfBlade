@@ -23,23 +23,23 @@ public class TypeWriter {
 			try {
 				switch(chars[i]){
 				case '/':
-					fonts[i]=ImageIO.read(new File("res/font/forwardslash.png"));
+					fonts[i]=ImageIO.read(new File("font/forwardslash.png"));
 					break;
 				case '.':
-					fonts[i]=ImageIO.read(new File("res/font/period.png"));
+					fonts[i]=ImageIO.read(new File("font/period.png"));
 					break;
 				case '?':
-					fonts[i]=ImageIO.read(new File("res/font/question.png"));
+					fonts[i]=ImageIO.read(new File("font/question.png"));
 					break;
 				case ';':
-					fonts[i]=ImageIO.read(new File("res/font/semicolon.png"));
+					fonts[i]=ImageIO.read(new File("font/semicolon.png"));
 					break;
 				default:
-					fonts[i]=ImageIO.read(new File("res/font/"+chars[i]+".png"));
+					fonts[i]=ImageIO.read(new File("font/"+chars[i]+".png"));
 					break;
 				}
 			} catch (IOException e) {
-				System.out.println("[WARNING] Can not find file \"res/font/"+chars[i]+".png\"");
+				System.out.println("[WARNING] Can not find file \"font/"+chars[i]+".png\"");
 			}
 		}
 	}

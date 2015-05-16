@@ -17,6 +17,7 @@ public class Npc extends Actor implements WorldObject{
 	public Npc(int x, int y, String name) {
 		super(x,y);
 		this.name = name;
+		animation=new Animation(ImageManager.getImage("res/npc/npc.png"));
 		hitBox=new Rectangle2D.Double(x,y,64,64);
 		isTalking=false;
 		conversationIndex=-1;
@@ -61,13 +62,13 @@ public class Npc extends Actor implements WorldObject{
 	}
 	@Override
 	public void worldRender(Graphics g) {
-		g.drawImage(ImageManager.tempNPC,x,y,null);
+		g.drawImage(animation.getFrame(0),x,y,null);
 		if(isTalking){
 			UI.drawRectUI(g);
 			if(conversation[conversationIndex].split(":")[0].equals("player"))
-				g.drawImage(ImageManager.player,23,315,113,113,Color.black,null);
+				g.drawImage(animation.getFrame(0),23,315,113,113,Color.black,null);
 			else
-				g.drawImage(ImageManager.tempNPC,23,315,113,113,Color.black,null);
+				g.drawImage(animation.getFrame(0),23,315,113,113,Color.black,null);
 			UI.drawRectUI(15,308,128,128,false,g);
 			TypeWriter.drawMessage(conversation[conversationIndex].split(":")[1], g);
 		}

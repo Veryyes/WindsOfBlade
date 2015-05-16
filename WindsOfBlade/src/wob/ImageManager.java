@@ -3,69 +3,59 @@ package wob;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
 public class ImageManager {
 	/*
 	 *  Loads in all Images on initialization
-	 *  TODO i need a better way to manage dis shit
-	 *  hashmap?
 	 */
-	public static BufferedImage wbSepia;
-	public static BufferedImage loading;
-	public static BufferedImage tileSet;
-	public static BufferedImage[] water;
-	public static BufferedImage stone;
-	public static BufferedImage grass;
-	public static BufferedImage bricks;
-	public static BufferedImage wood;
-	public static BufferedImage player;
-	public static BufferedImage topUIBorder;
-	public static BufferedImage botUIBorder;
-	public static BufferedImage leftUIBorder;
-	public static BufferedImage rightUIBorder;
-	public static BufferedImage topRightUIBorder;
-	public static BufferedImage topLeftUIBorder;
-	public static BufferedImage botRightUIBorder;
-	public static BufferedImage botLeftUIBorder;
-	public static BufferedImage defaultBackdrop;
-	public static BufferedImage tempNPC;
-	public static BufferedImage backArrow;
-	public static void LoadImages() throws IOException{
-		wbSepia=loadImage("res/menu/Winged Blade Sepia.png");
-		loading=loadImage("res/menu/Loading.png");
-		tileSet=loadImage("res/tiles/tileset.png");
-		player=loadImage("res/sprites/player/tempPlayer.png");
-		loadTiles();
-		loadUI();
-		loadBackdrops();
-		tempNPC=loadImage("res/npc/npc.png");
-		backArrow=loadImage("res/ui/backArrow.png");
+	public static String[] imageNames;
+	public static BufferedImage[] images;
+	private static LinkedList<String> tempNames = new LinkedList<String>();
+	public static void LoadImages(String root) throws IOException{
+		loadImageNames(root);
+		imageNames = new String[tempNames.size()];
+		images = new BufferedImage[imageNames.length];
+		for(int i=0;i<images.length;i++)
+			imageNames[i]=tempNames.get(i);
+		Arrays.sort(imageNames);
+		for(int i=0;i<images.length;i++){
+			images[i]=loadImage(imageNames[i]);
+		}
+	}
+	public static BufferedImage getImage(String filepath){
+		int index = Arrays.binarySearch(imageNames, filepath);
+		if(index<0){
+			System.out.println("[WARNING] Missing or Invalid Image \""+filepath+"\"");
+			return null;
+		}
+		return images[index];
+	}
+	public static BufferedImage[] getImageList(String filepath, int imageListLength){
+		BufferedImage[] list = new BufferedImage[imageListLength];
+		for(int i=0;i<imageListLength;i++)
+			list[i]=getImage(filepath.split("\\.")[0]+(i+1)+"."+filepath.split("\\.")[1]);
+		return list;
+	}
+	public static BufferedImage[] getImageList(String ... filepaths){
+		BufferedImage[] list = new BufferedImage[filepaths.length];
+		for(int i=0;i<list.length;i++)
+			list[i]=getImage(filepaths[i]);
+		return list;
+	}
+	private static void loadImageNames(String root){
+		File imageResources = new File(root);
+		for(String s: imageResources.list()){
+			if(!s.contains("."))
+				loadImageNames(root+"/"+s);
+			else
+				tempNames.add(root+"/"+s);
+		}
 	}
 	private static BufferedImage loadImage(String filepath) throws IOException{
 		return ImageIO.read(new File(filepath));
-	}
-	private static void loadBackdrops() throws IOException{
-		defaultBackdrop=loadImage("res/backdrop/backdrop.png");
-	}
-	private static void loadUI() throws IOException{
-		topUIBorder=loadImage("res/ui/topBorder.png");
-		botUIBorder=loadImage("res/ui/botBorder.png");
-		leftUIBorder=loadImage("res/ui/leftBorder.png");
-		rightUIBorder=loadImage("res/ui/rightBorder.png");
-		topLeftUIBorder=loadImage("res/ui/topLeftBorder.png");
-		topRightUIBorder=loadImage("res/ui/topRightBorder.png");
-		botLeftUIBorder=loadImage("res/ui/botLeftBorder.png");
-		botRightUIBorder=loadImage("res/ui/botRightBorder.png");
-	}
-	private static void loadTiles() throws IOException{
-		water = new BufferedImage[10];
-		for(int i=0;i<water.length;i++)
-			water[i]=loadImage("res/tiles/water/water"+(i+1)+".png");
-		stone=loadImage("res/tiles/stone.png");
-		grass=loadImage("res/tiles/grass.png");
-		bricks=loadImage("res/tiles/bricks.png");
-		wood=loadImage("res/tiles/wood.png");
 	}
 }

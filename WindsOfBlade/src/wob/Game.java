@@ -55,9 +55,9 @@ public class Game extends JPanel{
 		mousePos=frame.getMousePosition();
 		//List of Rendering & Update Methods Here:
 		if((gameStates&2)>0)										//Loading Screen;
-			g.drawImage(ImageManager.loading,0,0,null);
+			g.drawImage(ImageManager.getImage("res/menu/Loading.png"),0,0,null);
 		else if((gameStates&8)>0){									//Main Menu;
-			g.drawImage(ImageManager.wbSepia,0,0,null);
+			g.drawImage(ImageManager.getImage("res/menu/Winged Blade Sepia.png"),0,0,null);
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
@@ -68,7 +68,7 @@ public class Game extends JPanel{
 			map.render(g);
 			player.worldRender(g);	
 		}else if((gameStates&32)>0){								//Battle
-			g.drawImage(ImageManager.defaultBackdrop, 0, 0, null);
+			g.drawImage(ImageManager.getImage("res/backdrop/backdrop.png"),0,0,null);
 			UI.drawRectUI(g);
 			BattleManager.render(g);
 		}else if((gameStates&4)>0){									//Menu/Paused/Inventory
@@ -88,7 +88,7 @@ public class Game extends JPanel{
 		frameSkip = 1000d/fps;									//seconds between each frame
 		AudioManager.LoadSounds();
 		System.out.println("[INFO] Sounds Loaded");
-		ImageManager.LoadImages();
+		ImageManager.LoadImages("res");
 		UI.LoadUI();
 		TypeWriter.LoadFont();
 		System.out.println("[INFO] Images Loaded");

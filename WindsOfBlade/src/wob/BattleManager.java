@@ -16,6 +16,7 @@ public class BattleManager {
 	public static Enemy[] enemies= new Enemy[3];
 	public static Move selectedTechnique;
 	public static Item selectedItem;
+	private static Animation backArrow = new Animation(ImageManager.getImage("res/ui/backArrow.png"));
 	public static void render(Graphics g){
 		if((battleState&1)>0){								//Menu
 			TypeWriter.drawString("attack", 32, 448, g);
@@ -24,7 +25,7 @@ public class BattleManager {
 			TypeWriter.drawString("run", 176, 542, g);
 		}else if((battleState&8)>0){						//Technique List
 			UI.drawRectUI(15,372,64,64,true,g);
-			g.drawImage(ImageManager.backArrow,33,384,null);
+			g.drawImage(backArrow.getFrame(0),33,384,null);
 			TypeWriter.drawMoveName(Game.player.techniques, 0, 32, 448, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 1, 362, 448, g);
 			TypeWriter.drawMoveName(Game.player.techniques, 2, 692, 448, g);
@@ -38,7 +39,7 @@ public class BattleManager {
 			TypeWriter.drawMoveName(Game.player.techniques, 8, 692, 548, g);
 		}else if((battleState&16)>0){						//Item List
 			UI.drawRectUI(15,372,64,64,true,g);
-			g.drawImage(ImageManager.backArrow,33,384,null);
+			g.drawImage(backArrow.getFrame(0),33,384,null);
 			TypeWriter.drawItemName(Game.player.inventory, 0, 32, 448, g);
 			TypeWriter.drawItemName(Game.player.inventory, 1, 362, 448, g);
 			TypeWriter.drawItemName(Game.player.inventory, 2, 692, 448, g);
@@ -56,7 +57,7 @@ public class BattleManager {
 			Game.gameStates&=~32;
 		}else if((battleState&4)>0){						//Target Selection
 			UI.drawRectUI(15,372,64,64,true,g);
-			g.drawImage(ImageManager.backArrow,33,384,null);
+			g.drawImage(backArrow.getFrame(0),33,384,null);
 			for(int i=0;i<enemies.length;i++){
 				
 			}

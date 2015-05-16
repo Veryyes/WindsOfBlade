@@ -19,7 +19,7 @@ public class AudioManager {//TODO this sucks, fix it
 	public static final int LostInMyBasement = 5;
 	public static final int ThatHauntedHouse = 6;
 	public static void LoadSounds(){
-		File[] directory = new File("res/bgm").listFiles();
+		File[] directory = new File("sound/bgm").listFiles();
 		bgm = new Sequencer[directory.length];
 		for(int i=0;i<directory.length;i++){
 			try{

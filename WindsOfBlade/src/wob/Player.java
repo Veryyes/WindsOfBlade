@@ -5,7 +5,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
-public class Player extends Actor implements WorldObject{
+public class Player extends Actor implements WorldObject, BattleObject{
 	String name;
 	int level;
 	int experience;
@@ -18,10 +18,12 @@ public class Player extends Actor implements WorldObject{
 	int sp, maxSp;	//Stamina
 	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	static Line2D.Double topLine,botLine,leftLine,rightLine;
+	float animationTimer;
+	float animationSpeed;
 	public Player() {
 		super(Game.frameWidth/2-32,Game.frameHeight/2-32);
 		name="Hero";
-		image = ImageManager.player;
+		animation = new Animation(ImageManager.getImage("res/sprites/player/tempPlayer.png"));
 		hitBox = new Rectangle2D.Double(this.x+8,this.y+16,48,48);
 		topLine = new Line2D.Double(x+8,y+16,x+8+48,y+16);
 		botLine = new Line2D.Double(x+8,y+16+48,x+8+48,y+16+48);
@@ -43,6 +45,8 @@ public class Player extends Actor implements WorldObject{
 		maxMp=10;
 		sp=10;
 		maxSp=10;
+		animationTimer=0;
+		animationSpeed=.15f;
 		for(Move m: Move.database)
 			techniques.add(m);
 	}
@@ -52,11 +56,14 @@ public class Player extends Actor implements WorldObject{
 	}
 	
 	public void worldRender(Graphics g) {
-		g.drawImage(ImageManager.player,x,y,null);
+		g.drawImage(animation.getFrame((int)animationTimer),x,y,null);
 	}
-	
-	public void update() {
+	public void battleRender(Graphics g) {
 		
+	}
+	public void update() {
+		animationTimer+=animationSpeed;
+		animationTimer%=Float.MAX_VALUE;
 	}
 	
 }

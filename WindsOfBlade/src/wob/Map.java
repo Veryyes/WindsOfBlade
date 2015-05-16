@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 
 public class Map {
-	Tile[][] background;	
+	Animation[][] background;	
 	LinkedList<Wall> walls;
 	LinkedList<Npc> npcs;
 	LinkedList<EncounterSpot> encounterSpots;
@@ -28,7 +28,8 @@ public class Map {
 			animationTimer=0;
 			animationSpeed=.15f;
 		} catch (IOException e) {
-			System.out.println("[Warning] Problem reading file \""+filename+"\"");
+			System.out.println("[SEVERE] Problem reading map file \""+filename+"\"");
+			System.exit(1);
 		}
 	}
 	public void update(){
@@ -56,7 +57,7 @@ public class Map {
 	/*
 	 * Parses through a map file and loads it as a map object
 	 */
-	private Tile[][] mapLoader(String filename) throws IOException{
+	private Animation[][] mapLoader(String filename) throws IOException{
 		//Reading the file;
 		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 		int item;
@@ -101,26 +102,26 @@ public class Map {
 		}
 		numCols/=numRows;
 		//Placing data into a 2d array;
-		Tile[][] map = new Tile[numRows][numCols];
+		Animation[][] map = new Animation[numRows][numCols];
 		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(map[0].length,map.length);
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
 				switch(mapData.charAt(j+i*(numRows+1))){
 				case '1':
-					map[i][j]= new Tile(ImageManager.water);
+					map[i][j]= new Animation(ImageManager.getImageList("res/tiles/water/water.png",10));
 					wally.add(i, j, new Wall(j*64,i*64,64,64));
 					break;
 				case '2':
-					map[i][j]=new Tile(ImageManager.stone);
+					map[i][j]=new Animation(ImageManager.getImage("res/tiles/stone.png"));
 					break;
 				case '3':
-					map[i][j]=new Tile(ImageManager.grass);
+					map[i][j]=new Animation(ImageManager.getImage("res/tiles/grass.png"));
 					break;
 				case '4':
-					map[i][j]=new Tile(ImageManager.bricks);
+					map[i][j]=new Animation(ImageManager.getImage("res/tiles/bricks.png"));
 					break;
 				case '5':
-					map[i][j]=new Tile(ImageManager.wood);
+					map[i][j]=new Animation(ImageManager.getImage("res/tiles/wood.png"));
 					break;
 				}
 			}
