@@ -10,12 +10,12 @@ import java.util.LinkedList;
 
 
 public class Map {
-	Animation[][] background;	
+	Tile[][] background;	
 	LinkedList<Wall> walls;
 	LinkedList<Npc> npcs;
 	LinkedList<EncounterSpot> encounterSpots;
-	LinkedList<String> enemyList;
-	Portal north,south,east,west;
+	LinkedList<Enemy> enemies;
+	LinkedList<Portal> portals;
 	float animationTimer;
 	float animationSpeed;
 	public Map(String filename){
@@ -23,7 +23,8 @@ public class Map {
 			walls = new LinkedList<Wall>();
 			npcs = new LinkedList<Npc>();
 			encounterSpots = new LinkedList<EncounterSpot>();
-			enemyList = new LinkedList<String>();
+			enemies = new LinkedList<Enemy>();
+			portals = new LinkedList<Portal>();
 			background=mapLoader(filename);
 			animationTimer=0;
 			animationSpeed=.15f;
@@ -39,6 +40,8 @@ public class Map {
 			n.update();
 		for(EncounterSpot es:encounterSpots)
 			es.update();
+		for(Portal p:portals)
+			p.update();
 	}
 	public void render(Graphics g){//TODO fix this
 		animationTimer+=animationSpeed;
@@ -49,15 +52,20 @@ public class Map {
 					g.drawImage(background[i][j].getFrame((int)animationTimer),j*64+Camera.xShift,i*64+Camera.yShift,null);
 			}
 		}
+		
+		for(Portal p:portals)
+			p.worldRender(g);
 		for(Npc n:npcs)
 			n.worldRender(g);
-		//for(EncounterSpot es:encounterSpots)
-		//	es.worldRender(g);
+		for(EncounterSpot es:encounterSpots)
+			es.worldRender(g);
+		for(Wall w:walls)
+			w.worldRender(g);
 	}
 	/*
 	 * Parses through a map file and loads it as a map object
 	 */
-	private Animation[][] mapLoader(String filename) throws IOException{
+	private Tile[][] mapLoader(String filename) throws IOException{
 		//Reading the file;
 		BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 		int item;
@@ -76,14 +84,14 @@ public class Map {
 		//Parsing Through object data
 		for(int i=1;i<objectData.length;i++){
 			String[] property = objectData[i].split("\n"); 
-			//NPC
-			if(property[1].contains("type=npc")){	
+			if(property[1].contains("type=npc"))
 				npcs.add(parseNPC(property));
-			}
-			//EncounterSpot
-			if(property[1].contains("type=battle")){
+			else if(property[1].contains("type=battle"))
 				encounterSpots.add(parseEncounterSpot(property));
-			}
+			else if(property[1].contains("type=enemy"))
+				enemies.add(parseEnemy(property));
+			else if(property[1].contains("type=portal"))
+				portals.add(parsePortal(property));
 		}
 		//Parsing Through Map Data
 		//Removing ',' and '\n'
@@ -102,26 +110,26 @@ public class Map {
 		}
 		numCols/=numRows;
 		//Placing data into a 2d array;
-		Animation[][] map = new Animation[numRows][numCols];
+		Tile[][] map = new Tile[numRows][numCols];
 		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(map[0].length,map.length);
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
 				switch(mapData.charAt(j+i*(numRows+1))){
 				case '1':
-					map[i][j]= new Animation(ImageManager.getImageList("res/tiles/water/water.png",10));
+					map[i][j]= new Tile(ImageManager.getImageList("res/tiles/water/water.png",10));
 					wally.add(i, j, new Wall(j*64,i*64,64,64));
 					break;
 				case '2':
-					map[i][j]=new Animation(ImageManager.getImage("res/tiles/stone.png"));
+					map[i][j]=new Tile(ImageManager.getImage("res/tiles/stone.png"));
 					break;
 				case '3':
-					map[i][j]=new Animation(ImageManager.getImage("res/tiles/grass.png"));
+					map[i][j]=new Tile(ImageManager.getImage("res/tiles/grass.png"));
 					break;
 				case '4':
-					map[i][j]=new Animation(ImageManager.getImage("res/tiles/bricks.png"));
+					map[i][j]=new Tile(ImageManager.getImage("res/tiles/bricks.png"));
 					break;
 				case '5':
-					map[i][j]=new Animation(ImageManager.getImage("res/tiles/wood.png"));
+					map[i][j]=new Tile(ImageManager.getImage("res/tiles/wood.png"));
 					break;
 				}
 			}
@@ -149,15 +157,22 @@ public class Map {
 		}
 		return list;
 	}
-	private static Npc parseNPC(String[] strArray){
-		return (new Npc(64*Integer.parseInt(strArray[2].split(",")[0].split("=")[1]),
-				64*Integer.parseInt(strArray[2].split(",")[1]),strArray[3].split("=")[1].trim()));
+	private static Npc parseNPC(String[] line){
+		return (new Npc(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),
+				64*Integer.parseInt(line[2].split(",")[1]),line[3].split("=")[1].trim()));
 	}
-	private static EncounterSpot parseEncounterSpot(String[] strArray){
-		String[] components = strArray[2].split(",");
+	private static Enemy parseEnemy(String[] line){
+		return (new Enemy(line[1]));
+	}
+	private static EncounterSpot parseEncounterSpot(String[] line){
+		String[] components = line[2].split(",");
 		return (new EncounterSpot(64*Integer.parseInt(components[0].split("=")[1]),
 				64*Integer.parseInt(components[1]),64*Integer.parseInt(components[2]),
 				64*Integer.parseInt(components[3].trim()),
-				Float.parseFloat(strArray[4].split("=")[1].trim())));
+				Float.parseFloat(line[4].split("=")[1].trim())));
+	}
+	private static Portal parsePortal(String[] line){
+		return (new Portal(64*Integer.parseInt(line[2].split("=")[1].split(",")[0].trim()),
+				64*Integer.parseInt(line[2].split(",")[1]),line[3].split("=")[1]));
 	}
 }

@@ -57,7 +57,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				Game.gameStates&=~8;
 				Game.gameStates|=18;
 				AudioManager.stopBgm();
-				Game.map= new Map("data/maps/testobj.txt");
+				Game.map= new Map("data/maps/alpha.txt");
 				Game.gameStates&=~2;
 				Game.player=new Player();
 				this.enabled=false;
@@ -167,7 +167,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		}
 	}
-	public static void dsiableBattleBtns(){
+	public static void disableBattleBtns(){
 		for(int i=0;i<UI.battleButtons[0].length;i++){
 			for(int j=0;j<UI.battleButtons.length;j++){
 				battleButtons[i][j].enabled=false;

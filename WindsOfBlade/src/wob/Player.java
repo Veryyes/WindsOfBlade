@@ -18,8 +18,6 @@ public class Player extends Actor implements WorldObject, BattleObject{
 	int sp, maxSp;	//Stamina
 	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	static Line2D.Double topLine,botLine,leftLine,rightLine;
-	float animationTimer;
-	float animationSpeed;
 	public Player() {
 		super(Game.frameWidth/2-32,Game.frameHeight/2-32);
 		name="Hero";
@@ -45,8 +43,6 @@ public class Player extends Actor implements WorldObject, BattleObject{
 		maxMp=10;
 		sp=10;
 		maxSp=10;
-		animationTimer=0;
-		animationSpeed=.15f;
 		for(Move m: Move.database)
 			techniques.add(m);
 	}
@@ -56,14 +52,13 @@ public class Player extends Actor implements WorldObject, BattleObject{
 	}
 	
 	public void worldRender(Graphics g) {
-		g.drawImage(animation.getFrame((int)animationTimer),x,y,null);
+		g.drawImage(animation.getFrame(),x,y,null);
 	}
-	public void battleRender(Graphics g) {
+	public void battleRender(Graphics g, int x, int y) {
 		
 	}
 	public void update() {
-		animationTimer+=animationSpeed;
-		animationTimer%=Float.MAX_VALUE;
+		animation.update();
 	}
 	
 }

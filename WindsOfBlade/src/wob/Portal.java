@@ -1,21 +1,30 @@
 package wob;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 
 public class Portal extends Actor implements WorldObject {
-	Map destination;
-	public Portal(int x, int y) {
+	String destination;
+	public Portal(int x, int y, String nextMap) {
 		super(x, y);
+		animation = new Animation(ImageManager.getImage("res/tiles/portal.png"));
+		hitBox=new Rectangle2D.Double(x,y,64,64);
+		destination=nextMap;
 	}
-	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		updateLocation();
+		animation.update();
+		if(hitBox.intersects(Game.player.hitBox)){
+			Game.gameStates|=2;
+			Game.map = new Map("data/maps/"+destination+".txt");
+			Game.gameStates&=~2;
+			//TODO Account for x&y shift in maps when moving between them
+			//Variable for where to put the player after moving through portal
+			//Shift accordingly
+		}
 	}
-	@Override
 	public void worldRender(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(animation.getFrame(),x,y,null);
 	}
 
 }

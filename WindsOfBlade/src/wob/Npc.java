@@ -41,7 +41,7 @@ public class Npc extends Actor implements WorldObject{
 	@Override
 	public void update() {
 		updateLocation();
-		hitBox=new Rectangle2D.Double(this.x,this.y,hitBox.getWidth(),hitBox.getHeight());
+		//hitBox=new Rectangle2D.Double(this.x,this.y,hitBox.getWidth(),hitBox.getHeight());
 		conversationBox = new Rectangle2D.Double(x-8,y-8,80,80);
 		if(conversationBox.intersects(Game.player.hitBox)){
 			waitTime--;
@@ -66,7 +66,7 @@ public class Npc extends Actor implements WorldObject{
 		if(isTalking){
 			UI.drawRectUI(g);
 			if(conversation[conversationIndex].split(":")[0].equals("player"))
-				g.drawImage(animation.getFrame(0),23,315,113,113,Color.black,null);
+				g.drawImage(Game.player.animation.getFrame(0),23,315,113,113,Color.black,null);
 			else
 				g.drawImage(animation.getFrame(0),23,315,113,113,Color.black,null);
 			UI.drawRectUI(15,308,128,128,false,g);
