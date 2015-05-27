@@ -18,7 +18,8 @@ public class Map {
 	LinkedList<Portal> portals;
 	float animationTimer;
 	float animationSpeed;
-	public Map(String filename){
+	
+	public Map(String filename){//Obj Shift
 		try {
 			walls = new LinkedList<Wall>();
 			npcs = new LinkedList<Npc>();
@@ -40,10 +41,11 @@ public class Map {
 			n.update();
 		for(EncounterSpot es:encounterSpots)
 			es.update();
-		for(Portal p:portals)
+		for(Portal p:portals){
 			p.update();
+		}
 	}
-	public void render(Graphics g){//TODO fix this
+	public void render(Graphics g){
 		animationTimer+=animationSpeed;
 		animationTimer%=Float.MAX_VALUE;
 		for(int i=0;i<background.length;i++){
@@ -157,22 +159,42 @@ public class Map {
 		}
 		return list;
 	}
-	private static Npc parseNPC(String[] line){
+	private Npc parseNPC(String[] line){
 		return (new Npc(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),
 				64*Integer.parseInt(line[2].split(",")[1]),line[3].split("=")[1].trim()));
 	}
-	private static Enemy parseEnemy(String[] line){
+	private Enemy parseEnemy(String[] line){
 		return (new Enemy(line[1]));
 	}
-	private static EncounterSpot parseEncounterSpot(String[] line){
+	private EncounterSpot parseEncounterSpot(String[] line){
 		String[] components = line[2].split(",");
 		return (new EncounterSpot(64*Integer.parseInt(components[0].split("=")[1]),
 				64*Integer.parseInt(components[1]),64*Integer.parseInt(components[2]),
 				64*Integer.parseInt(components[3].trim()),
 				Float.parseFloat(line[4].split("=")[1].trim())));
 	}
-	private static Portal parsePortal(String[] line){
+	private Portal parsePortal(String[] line){
 		return (new Portal(64*Integer.parseInt(line[2].split("=")[1].split(",")[0].trim()),
-				64*Integer.parseInt(line[2].split(",")[1]),line[3].split("=")[1]));
+				64*Integer.parseInt(line[2].split(",")[1]),
+				line[4].split("=")[1],
+				new Point(64*Integer.parseInt(line[3].split(",")[0].split("=")[1]),64*Integer.parseInt(line[3].split(",")[1].trim()))));
+	}
+	public void shiftObjects(int xShift, int yShift){
+		for(Wall w:walls){
+			w.x+=xShift;
+			w.y+=yShift;
+		}
+		for(Npc n:npcs){
+			n.x+=xShift;
+			n.y+=yShift;
+		}
+		for(EncounterSpot es:encounterSpots){
+			es.x+=xShift;
+			es.y+=yShift;
+		}
+		for(Portal p:portals){
+			p.x+=xShift;
+			p.y+=yShift;
+		}
 	}
 }

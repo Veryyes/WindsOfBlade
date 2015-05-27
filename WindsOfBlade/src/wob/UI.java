@@ -57,7 +57,12 @@ public class UI implements MouseListener, MouseWheelListener{
 				Game.gameStates&=~8;
 				Game.gameStates|=18;
 				AudioManager.stopBgm();
+				//Camera.xShift=0;
+				//Camera.yShift=0;
+				Camera.xShift=(int) -(9*64-Game.player.x+64*Math.cos(Math.toRadians(90)));
+				Camera.yShift=(int) -(8*64-Game.player.y+64*Math.sin(Math.toRadians(90)));
 				Game.map= new Map("data/maps/alpha.txt");
+				Game.map.shiftObjects(Camera.xShift, Camera.yShift);
 				Game.gameStates&=~2;
 				Game.player=new Player();
 				this.enabled=false;
