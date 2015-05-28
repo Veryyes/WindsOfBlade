@@ -98,6 +98,13 @@ public class TypeWriter {
 			drawString("",x,y,g);
 		}
 	}
+	public static void drawTargetName(LinkedList<Actor> a, int index,int x, int y, Graphics g){
+		try{
+			drawString(a.get(index+BattleManager.buttonShift*3).name,x,y,g);
+		}catch(java.lang.IndexOutOfBoundsException e){
+			drawString("",x,y,g);
+		}
+	}
 	/*
 	 * binary Search for a specific char & grabs the corresponding Image in a parallel array
 	 */

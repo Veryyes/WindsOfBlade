@@ -22,6 +22,7 @@ public class UI implements MouseListener, MouseWheelListener{
 	 * Defining what each button should do
 	 */
 	public static void LoadUI(){
+
 		backBtn = new Button(15,372,64,64){
 			public void run(){
 				if(BattleManager.isAttackPhase()){
@@ -74,7 +75,12 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.battleState|=2;
 				BattleManager.battleState|=4;
 				BattleManager.battleState&=~1;
+				BattleManager.attack=true;
+				BattleManager.selectedItem=null;
+				BattleManager.selectedTarget=null;
+				BattleManager.selectedTechnique=null;
 				disableSelectionBtns();
+				enableBattleBtns();
 			}
 		};
 		attackBtn.enabled=false;
@@ -114,15 +120,22 @@ public class UI implements MouseListener, MouseWheelListener{
 							this.selected=true;
 							if((BattleManager.battleState&8)>0){
 								BattleManager.selectedTechnique=Game.player.techniques.get(this.index+BattleManager.buttonShift*3);
-								System.out.println(BattleManager.selectedTechnique);
+								BattleManager.battleState&=~8;
+								BattleManager.battleState|=4;
+								//System.out.println(BattleManager.selectedTechnique.name);
 							}else if((BattleManager.battleState&16)>0){
 								BattleManager.selectedItem=Game.player.inventory.get(this.index+BattleManager.buttonShift*3);
-								System.out.println(BattleManager.selectedItem);
+								BattleManager.battleState&=~16;
+								BattleManager.battleState|=4;
+								//System.out.println(BattleManager.selectedItem.name);
+							}else if((BattleManager.battleState&4)>0){
+								BattleManager.selectedTarget=BattleManager.targets.get(this.index+BattleManager.buttonShift*3);
+								BattleManager.battleState&=~4;
+								BattleManager.battleState|=64;
+								//System.out.println(BattleManager.selectedTarget.name);
+								UI.disableBattleBtns();
+								backBtn.enabled=false;
 							}
-							BattleManager.battleState&=~8;
-							BattleManager.battleState&=~16;
-							BattleManager.battleState|=4;
-							UI.enableBattleBtns();
 						}catch(java.lang.IndexOutOfBoundsException e){//Catches if you pick something that doesn't exist
 							//Do nothing
 						}

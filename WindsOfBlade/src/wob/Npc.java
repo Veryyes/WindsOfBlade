@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileReader;
 
 public class Npc extends Actor implements WorldObject{
-	String name;
 	String[] conversation;
 	int conversationIndex;
 	boolean isTalking;

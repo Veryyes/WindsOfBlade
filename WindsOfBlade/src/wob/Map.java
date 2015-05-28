@@ -90,8 +90,12 @@ public class Map {
 				npcs.add(parseNPC(property));
 			else if(property[1].contains("type=battle"))
 				encounterSpots.add(parseEncounterSpot(property));
-			else if(property[1].contains("type=enemy"))
-				enemies.add(parseEnemy(property));
+			else if(property[1].contains("type=enemy")){
+				for(int j=3;j<property.length;j++){
+					enemies.add(new Enemy(property[j].substring(0,property[j].length()-1)));
+				}
+
+			}
 			else if(property[1].contains("type=portal"))
 				portals.add(parsePortal(property));
 		}
@@ -162,9 +166,6 @@ public class Map {
 	private Npc parseNPC(String[] line){
 		return (new Npc(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),
 				64*Integer.parseInt(line[2].split(",")[1]),line[3].split("=")[1].trim()));
-	}
-	private Enemy parseEnemy(String[] line){
-		return (new Enemy(line[1]));
 	}
 	private EncounterSpot parseEncounterSpot(String[] line){
 		String[] components = line[2].split(",");

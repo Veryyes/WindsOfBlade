@@ -7,8 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Enemy extends Actor implements BattleObject{
-	String name;
+public class Enemy extends Actor{
 	int hp, damage, level, money, exp;
 	LinkedList<Item> inventory;
 	LinkedList<Move> techniques;
@@ -24,11 +23,11 @@ public class Enemy extends Actor implements BattleObject{
 				rawData+=(char)item;
 			br.close();
 			String[] lines = rawData.split("\n");
-			hp = Integer.parseInt(lines[0].split("=")[1]);
-			damage = Integer.parseInt(lines[1].split("=")[1]);
-			level = Integer.parseInt(lines[2].split("=")[1]);
-			money = Integer.parseInt(lines[3].split("=")[1]);
-			exp = Integer.parseInt(lines[4].split("=")[1]);
+			hp = Integer.parseInt(lines[0].split("=")[1].trim());
+			damage = Integer.parseInt(lines[1].split("=")[1].trim());
+			level = Integer.parseInt(lines[2].split("=")[1].trim());
+			money = Integer.parseInt(lines[3].split("=")[1].trim());
+			exp = Integer.parseInt(lines[4].split("=")[1].trim());
 			
 		} catch (IOException e) {
 			System.out.println("[WARNING] Missing Enemy Data - \"data/enemy/"+name+".txt\"");
@@ -36,10 +35,6 @@ public class Enemy extends Actor implements BattleObject{
 		}
 	}
 	public void update() {
-		
-	}
-	public void battleRender(Graphics g, int x, int y) {
-		
 		
 	}
 }

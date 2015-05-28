@@ -5,13 +5,13 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
-public class Player extends Actor implements WorldObject, BattleObject{
-	String name;
+public class Player extends Actor implements WorldObject{
 	int level;
 	int experience;
 	int money;
 	LinkedList<Item> inventory;
 	LinkedList<Move> techniques;
+	LinkedList<Partner> party;
 	int str, intel, dex, will, agil;
 	int hp, maxHp;	//Health
 	int mp, maxMp;	//Mana
@@ -29,6 +29,7 @@ public class Player extends Actor implements WorldObject, BattleObject{
 		rightLine = new Line2D.Double(x+8+48,y+16,x+8+48,y+16+48);
 		inventory = new LinkedList<Item>();
 		techniques = new LinkedList<Move>();
+		party = new LinkedList<Partner>();
 		level=1;
 		experience=0;
 		money=0;
@@ -53,9 +54,6 @@ public class Player extends Actor implements WorldObject, BattleObject{
 	
 	public void worldRender(Graphics g) {
 		g.drawImage(animation.getFrame(),x,y,null);
-	}
-	public void battleRender(Graphics g, int x, int y) {
-		
 	}
 	public void update() {
 		animation.update();
