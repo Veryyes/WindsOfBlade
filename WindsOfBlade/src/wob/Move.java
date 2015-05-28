@@ -36,6 +36,12 @@ public class Move {
 		fw.write("\nname="+m.name+"\nbase="+m.base+"\naccuracy="+m.accuracy+"\ndescription="+m.description+"\ntype="+m.type+"\nphysical="+m.physical+"\neffect="+m.effect+";");
 		fw.close();
 	}
+	public int damageDelt(Fighter user, Fighter target){
+		return (int) (user.str*.5*Math.log(base));
+	}
+	public boolean hit(Fighter user, Fighter target){
+		return Math.random()< accuracy+(.0005*user.dex)-(.001*target.agil);
+	}
 	/*
 	 * Reads from file all the moves & adds them to database
 	 */

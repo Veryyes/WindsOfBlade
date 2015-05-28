@@ -5,17 +5,11 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
-public class Player extends Actor implements WorldObject{
-	int level;
-	int experience;
+public class Player extends Fighter implements WorldObject{
 	int money;
 	LinkedList<Item> inventory;
 	LinkedList<Move> techniques;
 	LinkedList<Partner> party;
-	int str, intel, dex, will, agil;
-	int hp, maxHp;	//Health
-	int mp, maxMp;	//Mana
-	int sp, maxSp;	//Stamina
 	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	static Line2D.Double topLine,botLine,leftLine,rightLine;
 	public Player() {

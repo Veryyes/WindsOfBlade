@@ -7,8 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Enemy extends Actor{
-	int hp, damage, level, money, exp;
+public class Enemy extends Fighter{
+	int damage;
+	int money;
 	LinkedList<Item> inventory;
 	LinkedList<Move> techniques;
 	public Enemy(String name) {
@@ -27,7 +28,7 @@ public class Enemy extends Actor{
 			damage = Integer.parseInt(lines[1].split("=")[1].trim());
 			level = Integer.parseInt(lines[2].split("=")[1].trim());
 			money = Integer.parseInt(lines[3].split("=")[1].trim());
-			exp = Integer.parseInt(lines[4].split("=")[1].trim());
+			experience = Integer.parseInt(lines[4].split("=")[1].trim());
 			
 		} catch (IOException e) {
 			System.out.println("[WARNING] Missing Enemy Data - \"data/enemy/"+name+".txt\"");
