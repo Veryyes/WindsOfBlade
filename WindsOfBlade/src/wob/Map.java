@@ -59,10 +59,10 @@ public class Map {
 			p.worldRender(g);
 		for(Npc n:npcs)
 			n.worldRender(g);
-		for(EncounterSpot es:encounterSpots)
-			es.worldRender(g);
-		for(Wall w:walls)
-			w.worldRender(g);
+		//for(EncounterSpot es:encounterSpots)
+		//	es.worldRender(g);
+		//for(Wall w:walls)
+			//w.worldRender(g);
 	}
 	/*
 	 * Parses through a map file and loads it as a map object

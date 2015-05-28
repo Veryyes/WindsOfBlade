@@ -9,7 +9,7 @@ public class Portal extends Actor implements WorldObject {
 	Point exit;
 	public Portal(int x, int y, String nextMap, Point exit) {
 		super(x, y);
-		animation = new Animation(ImageManager.getImage("res/tiles/portal.png"));
+		animation = new Animation(ImageManager.getImageList("res/tiles/portal/portal.png",20));
 		hitBox=new Rectangle2D.Double(x,y,64,64);
 		destination=nextMap;
 		this.exit=exit;
