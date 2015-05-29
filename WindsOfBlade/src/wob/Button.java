@@ -17,7 +17,6 @@ public class Button extends Entity{
 		if(enabled&&isInside( Game.frame.getMousePosition())){
 			run();
 		}
-		
 	}
 	public void run(){};
 }

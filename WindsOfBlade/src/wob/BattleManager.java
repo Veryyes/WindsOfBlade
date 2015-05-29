@@ -15,7 +15,7 @@ public class BattleManager {
 	//64 - Damage Calc & Animation;
 	public static byte battleState = 0;
 	public static byte buttonShift = 0;
-	public static LinkedList<Enemy> enemies= new LinkedList<Enemy>();
+	//public static LinkedList<Enemy> enemies= new LinkedList<Enemy>();
 	public static LinkedList<Fighter> targets = new LinkedList<Fighter>();
 	public static Move selectedTechnique;
 	public static Item selectedItem;
@@ -26,8 +26,8 @@ public class BattleManager {
 	private static int waitTimer = 0;
 	private static Animation backArrow = new Animation(ImageManager.getImage("res/ui/backArrow.png"));
 	public static void render(Graphics g){
-		for(int i=0;i<enemies.size();i++){
-			g.drawImage(ImageManager.getImage("res/enemy/"+enemies.get(i).name+".png"),256*(i+1)-128,128,null);
+		for(int i=1+Game.player.party.size();i<targets.size();i++){
+				g.drawImage(ImageManager.getImage("res/enemy/"+targets.get(i).name+".png"),256*(i-Game.player.party.size())-128,128,null);
 		}
 		if((battleState&1)>0){								//Menu
 			TypeWriter.drawString("attack", 32, 448, g);
@@ -102,14 +102,15 @@ public class BattleManager {
 			}else if(selectedItem!=null){
 				
 			}
-			for(int i=0;i<enemies.size();i++){
-				if(enemies.get(i).hp<=0){
-					money+=enemies.get(i).money;
-					exp+=enemies.get(i).experience;
-					enemies.remove(i);
+			for(int i=1+Game.player.party.size();i<targets.size();i++){
+				if(targets.get(i).hp<=0){
+					money+=((Enemy)targets.get(i)).money;
+					System.out.println(((Enemy)targets.get(i)).money);
+					exp+=targets.get(i).experience;
+					targets.remove(i);
 				}
 			}
-			if(enemies.size()<=0){
+			if(targets.size()-Game.player.party.size()-1<=0){
 				UI.disableSelectionBtns();
 				UI.disableBattleBtns();
 				Game.player.money+=money;

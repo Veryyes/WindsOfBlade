@@ -19,19 +19,16 @@ public class EncounterSpot extends Entity implements WorldObject{
 			UI.enableSelectionBtns();
 			BattleManager.battleState|=1;
 			UI.backBtn.enabled=true;
-			BattleManager.enemies.clear();
 			BattleManager.targets.clear();
 			BattleManager.selectedItem=null;
 			BattleManager.selectedTarget=null;
 			BattleManager.selectedTechnique=null;
-			byte enemyNum = (byte) (Math.random()*3 +1);
-			for(byte i = 0;i<enemyNum;i++)//TODO different instances
-				BattleManager.enemies.add(Game.map.enemies.get((int)(Math.random()*Game.map.enemies.size())).clone());
 			BattleManager.targets.add(Game.player);
 			for(byte i = 0;i<Game.player.party.size();i++)
 				BattleManager.targets.add(Game.player.party.get(i));
-			for(byte i = 0;i<BattleManager.enemies.size();i++)
-				BattleManager.targets.add(BattleManager.enemies.get(i));
+			byte enemyNum = (byte) (Math.random()*3 +1);
+			for(byte i = 0;i<enemyNum;i++)
+				BattleManager.targets.add(Game.map.enemies.get((int)(Math.random()*Game.map.enemies.size())).clone());
 			//Load other battle stuff
 		}
 	}

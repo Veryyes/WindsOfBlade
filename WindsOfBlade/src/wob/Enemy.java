@@ -1,6 +1,5 @@
 package wob;
 
-import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -46,6 +45,7 @@ public class Enemy extends Fighter{
 		e.animation=animation;
 		e.level=level;
 		e.experience=experience;
+		e.money=money;
 		e.str=str;
 		e.intel=intel;
 		e.dex=dex;
