@@ -10,4 +10,10 @@ public abstract class Fighter extends Actor {
 	public Fighter(int x, int y) {
 		super(x, y);
 	}
+	public int getDefence(){
+		return (int) (20*Math.log10((str/10f)+level+10)-20);
+	}
+	public int getMagicDefence(){
+		return (int) (20*Math.log10((intel/10f)+level+10)-20);
+	}
 }

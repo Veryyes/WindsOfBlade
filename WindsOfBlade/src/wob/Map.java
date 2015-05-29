@@ -177,7 +177,7 @@ public class Map {
 	private Portal parsePortal(String[] line){
 		return (new Portal(64*Integer.parseInt(line[2].split("=")[1].split(",")[0].trim()),
 				64*Integer.parseInt(line[2].split(",")[1]),
-				line[4].split("=")[1],
+				line[4].split("=")[1].trim(),
 				new Point(64*Integer.parseInt(line[3].split(",")[0].split("=")[1]),64*Integer.parseInt(line[3].split(",")[1].trim()))));
 	}
 	public void shiftObjects(int xShift, int yShift){

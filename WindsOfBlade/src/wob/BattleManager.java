@@ -16,11 +16,14 @@ public class BattleManager {
 	public static byte battleState = 0;
 	public static byte buttonShift = 0;
 	public static LinkedList<Enemy> enemies= new LinkedList<Enemy>();
-	public static LinkedList<Actor> targets = new LinkedList<Actor>();
+	public static LinkedList<Fighter> targets = new LinkedList<Fighter>();
 	public static Move selectedTechnique;
 	public static Item selectedItem;
-	public static Actor selectedTarget;
+	public static Fighter selectedTarget;
+	public static int money;
+	public static int exp;
 	public static boolean attack = false;
+	private static int waitTimer = 0;
 	private static Animation backArrow = new Animation(ImageManager.getImage("res/ui/backArrow.png"));
 	public static void render(Graphics g){
 		for(int i=0;i<enemies.size();i++){
@@ -78,16 +81,59 @@ public class BattleManager {
 			TypeWriter.drawTargetName(targets, 7, 362, 548, g);
 			TypeWriter.drawTargetName(targets, 8, 692, 548, g);
 		}else if((battleState&64)>0){						//Damage Calc & Animation;
+			/*
+			 * TODO make this queue up for party member attacks
+			 */
 			if(attack==true){
-				
+				if(Move.attackHit((Fighter)Game.player, selectedTarget)){
+					//System.out.print("\n"+selectedTarget.hp+" => ");
+					selectedTarget.hp-=(Move.attackDamageDelt((Fighter)Game.player, selectedTarget)-selectedTarget.getDefence());
+					//System.out.print(selectedTarget.hp + "\nDamage Taken = "+(Move.attackDamageDelt((Fighter)Game.player, selectedTarget)-selectedTarget.getDefence())+"\n");
+				}
 			}else if(selectedTechnique!=null){
-				
+				if(selectedTechnique.hit((Fighter)Game.player, selectedTarget)){
+				//	System.out.print("\n"+selectedTarget.hp+" => ");
+					if(selectedTechnique.physicalDamage((Fighter)Game.player,selectedTarget)-selectedTarget.getDefence()>=0)
+						selectedTarget.hp-=(selectedTechnique.physicalDamage((Fighter)Game.player,selectedTarget)-selectedTarget.getDefence());
+					if(selectedTechnique.magicDamage((Fighter)Game.player,selectedTarget)-selectedTarget.getMagicDefence()>=0)
+						selectedTarget.hp-=(selectedTechnique.magicDamage((Fighter)Game.player,selectedTarget)-selectedTarget.getMagicDefence());
+					//System.out.print(selectedTarget.hp);
+				}
 			}else if(selectedItem!=null){
 				
 			}
-			//On finish
-			//BattleManager.battleState&=~64;
-			//BattleManager.battleState|=1;
+			for(int i=0;i<enemies.size();i++){
+				if(enemies.get(i).hp<=0){
+					money+=enemies.get(i).money;
+					exp+=enemies.get(i).experience;
+					enemies.remove(i);
+				}
+			}
+			if(enemies.size()<=0){
+				UI.disableSelectionBtns();
+				UI.disableBattleBtns();
+				Game.player.money+=money;
+				Game.player.experience+=exp;
+				//TODO add exp to party members too
+				TypeWriter.drawString("Experience Gained "+exp,32, 448, g);
+				TypeWriter.drawString("Money Gained "+money,32, 488, g);
+				if(waitTimer>80){
+					waitTimer=0;
+					Game.gameStates|=16;
+					Game.gameStates&=~32;
+					BattleManager.battleState&=~1;
+				}else 
+					waitTimer++;
+			}else{
+				BattleManager.battleState&=~64;
+				BattleManager.battleState|=1;
+				//TODO reenable buttons
+				UI.enableSelectionBtns();
+				UI.backBtn.enabled=true;
+				BattleManager.selectedItem=null;
+				BattleManager.selectedTarget=null;
+				BattleManager.selectedTechnique=null;
+			}
 		}
 	}
 	public static boolean isAttackPhase(){

@@ -98,9 +98,9 @@ public class TypeWriter {
 			drawString("",x,y,g);
 		}
 	}
-	public static void drawTargetName(LinkedList<Actor> a, int index,int x, int y, Graphics g){
+	public static void drawTargetName(LinkedList<Fighter> f, int index,int x, int y, Graphics g){
 		try{
-			drawString(a.get(index+BattleManager.buttonShift*3).name,x,y,g);
+			drawString(f.get(index+BattleManager.buttonShift*3).name,x,y,g);
 		}catch(java.lang.IndexOutOfBoundsException e){
 			drawString("",x,y,g);
 		}

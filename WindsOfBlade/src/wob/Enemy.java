@@ -35,6 +35,30 @@ public class Enemy extends Fighter{
 			//TODO Initiate default Enemy
 		}
 	}
+	public Enemy(){
+		super(0,0);
+	}
+	public Enemy clone(){
+		Enemy e = new Enemy();
+		e.x=x;
+		e.y=y;
+		e.name=name;
+		e.animation=animation;
+		e.level=level;
+		e.experience=experience;
+		e.str=str;
+		e.intel=intel;
+		e.dex=dex;
+		e.will=will;
+		e.agil=agil;
+		e.hp=hp;
+		e.maxHp=maxHp;
+		e.sp=sp;
+		e.maxSp=maxSp;
+		e.mp=mp;
+		e.maxMp=maxMp;
+		return e;
+	}
 	public void update() {
 		
 	}

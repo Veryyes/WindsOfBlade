@@ -18,8 +18,8 @@ public class Move {
 	String type;
 	boolean physical;
 	String effect;
-
-	public Move(String name, int base, int accuracy, String descrip, String type,boolean physical, String effect ) {
+	int hp, mp, sp;
+	public Move(String name, int base, int accuracy, String descrip, String type,boolean physical, String effect, int hp, int mp, int sp ) {
 		this.name=name;
 		this.base=base;
 		this.accuracy=accuracy;
@@ -27,20 +27,39 @@ public class Move {
 		this.type=type;
 		this.effect=effect;
 		this.physical=physical;
+		this.hp=hp;
+		this.mp=mp;
+		this.sp=sp;
 	}
 	/*
 	 * Adds a new move to files
 	 */
-	public static void addMove(Move m) throws IOException{
+	public static void saveMove(Move m) throws IOException{
 		FileWriter fw = new FileWriter(new File("data/moves.txt"),true);
 		fw.write("\nname="+m.name+"\nbase="+m.base+"\naccuracy="+m.accuracy+"\ndescription="+m.description+"\ntype="+m.type+"\nphysical="+m.physical+"\neffect="+m.effect+";");
 		fw.close();
+		database.add(m);
 	}
-	public int damageDelt(Fighter user, Fighter target){
-		return (int) (user.str*.5*Math.log(base));
+	public int physicalDamage(Fighter user, Fighter target){
+		return (int)((sp/(mp+sp))*user.str*.5*Math.log(base));
+	}
+	public int magicDamage(Fighter user, Fighter target){
+		return (int)((mp/(mp+sp))*user.intel*.5*Math.log(base));
 	}
 	public boolean hit(Fighter user, Fighter target){
-		return Math.random()< accuracy+(.0005*user.dex)-(.001*target.agil);
+		return Math.random() < accuracy+(.0005*user.dex)-(.001*target.agil);
+	}
+	public static boolean attackHit(Fighter user, Fighter target){
+		return Math.random() < 90+(.0005*user.dex)-(.001*target.agil);
+	}
+	public static int attackDamageDelt(Fighter user, Fighter target){
+		return (int) (user.str*.5);
+	}
+	
+	public void consume(Fighter user){
+		user.hp-=hp;
+		user.mp-=mp;
+		user.sp-=sp;
 	}
 	/*
 	 * Reads from file all the moves & adds them to database
@@ -69,7 +88,10 @@ public class Move {
 						lines[3].split("=")[1].trim(),
 						lines[4].split("=")[1].trim(),
 						Boolean.parseBoolean(lines[5].split("=")[1].trim()),
-						lines[6].split("=")[1].trim()));
+						lines[6].split("=")[1].trim(),
+						Integer.parseInt(lines[7].split("=")[1].trim()),
+						Integer.parseInt(lines[8].split("=")[1].trim()),
+						Integer.parseInt(lines[9].split("=")[1].trim())));
 	}
 	public String toString(){
 		return(name);
