@@ -10,6 +10,7 @@ public class AudioManager {//TODO this sucks, fix it
 	/*
 	 *  Loads in all Audio on initialization
 	 */
+	//TODO make this like the other loaders
 	public static Sequencer[] bgm;
 	public static final int Duskypath = 0;
 	public static final int EriePath = 1;
