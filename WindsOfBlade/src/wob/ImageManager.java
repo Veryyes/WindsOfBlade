@@ -25,6 +25,7 @@ public class ImageManager {
 		for(int i=0;i<images.length;i++){
 			images[i]=loadImage(imageNames[i]);
 		}
+		tempNames.clear();
 	}
 	public static BufferedImage getImage(String filepath){
 		int index = Arrays.binarySearch(imageNames, filepath);

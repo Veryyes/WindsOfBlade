@@ -57,7 +57,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			public void run(){
 				Game.gameStates&=~8;
 				Game.gameStates|=18;
-				AudioManager.stopBgm();
+				AudioManager.stopBgm("sound/bgm/ItsAnAdventure.mid");
 				//Camera.xShift=0;
 				//Camera.yShift=0;
 				Camera.xShift=(int) -(9*64-Game.player.x+64*Math.cos(Math.toRadians(90)));

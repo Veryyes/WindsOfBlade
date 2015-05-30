@@ -86,7 +86,7 @@ public class Game extends JPanel{
 		canvas = new Game();									//JPanel that will handle drawing the graphics
 		frame.add(canvas);
 		frameSkip = 1000d/fps;									//seconds between each frame
-		AudioManager.LoadSounds();
+		AudioManager.LoadAudio("sound");
 		System.out.println("[INFO] Sounds Loaded");
 		ImageManager.LoadImages("res");
 		UI.LoadUI();
@@ -101,7 +101,7 @@ public class Game extends JPanel{
 		mousePos=frame.getMousePosition();	
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
-		AudioManager.playBgm(AudioManager.ItsAnAdventure);
+		AudioManager.playBgm("sound/bgm/ItsAnAdventure.mid");
 		frame.setVisible(true);
 		player = new Player();
 	}
