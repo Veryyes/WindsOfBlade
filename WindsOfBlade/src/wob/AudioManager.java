@@ -1,6 +1,6 @@
 package wob;
 
-import java.awt.image.BufferedImage;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
