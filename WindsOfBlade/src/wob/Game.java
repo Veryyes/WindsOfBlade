@@ -16,7 +16,7 @@ public class Game extends JPanel{
 	public static JFrame frame;
 	public static int frameWidth;
 	public static int frameHeight;
-	public static KeyInputManager km;
+	public static KeyManager km;
 	public static Map map;
 	public static int fps;
 	public static double frameSkip; // = 1000d/fps;
@@ -26,7 +26,6 @@ public class Game extends JPanel{
 	public static long gameTime;
 	public static long sleepTime;
 	public static Point mousePos;
-	public static Npc testNPC;
 	/*
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
@@ -43,6 +42,7 @@ public class Game extends JPanel{
 	 *  Draw all mah stuff dawg
 	 */
 	public void paintComponent(Graphics g){
+		//System.out.println((KeyInputManager.pressedKeys));
 		gameTime+=frameSkip;
 		sleepTime = gameTime - System.currentTimeMillis();
 		if(sleepTime>=0)
@@ -72,7 +72,8 @@ public class Game extends JPanel{
 			UI.drawRectUI(g);
 			BattleManager.render(g);
 		}else if((gameStates&4)>0){									//Menu/Paused/Inventory
-			
+			UI.drawRectUI(0,0,frameWidth,frameHeight,true,g);
+
 		}
 	}
 	/*
@@ -93,7 +94,7 @@ public class Game extends JPanel{
 		TypeWriter.LoadFont();
 		System.out.println("[INFO] Images Loaded");
 		Move.loadMoves();
-		km = new KeyInputManager();		
+		km = new KeyManager();		
 		frame.addKeyListener(km);	
 		UI mouselistener = new UI();
 		frame.addMouseListener(mouselistener);

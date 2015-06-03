@@ -41,10 +41,10 @@ public class Move {
 		database.add(m);
 	}
 	public int physicalDamage(Fighter user, Fighter target){
-		return (int)((sp/(mp+sp))*user.str*.5*Math.log(base));
+		return (int)((sp/(mp+sp))*user.str*.5*Math.log(base)*Type.effectiveness(this,target));
 	}
 	public int magicDamage(Fighter user, Fighter target){
-		return (int)((mp/(mp+sp))*user.intel*.5*Math.log(base));
+		return (int)((mp/(mp+sp))*user.intel*.5*Math.log(base)*Type.effectiveness(this,target));
 	}
 	public boolean hit(Fighter user, Fighter target){
 		return Math.random() < accuracy+(.0005*user.dex)-(.001*target.agil);

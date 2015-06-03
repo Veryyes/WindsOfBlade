@@ -33,6 +33,9 @@ public class Type {
 	public static float effectiveness(int attackType, int defenceType){
 		return table[attackType][defenceType];
 	}
+	public static float effectiveness(Move m, Fighter f){
+		return effectiveness(Type.parseType(m.type),f.type);
+	}
 	public static String toString(int type){
 		switch (type){
 		case DARK:

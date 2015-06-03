@@ -7,6 +7,7 @@ public abstract class Fighter extends Actor {
 	int hp, maxHp;	//Health
 	int mp, maxMp;	//Mana
 	int sp, maxSp;	//Stamina
+	int type;
 	public Fighter(int x, int y) {
 		super(x, y);
 	}

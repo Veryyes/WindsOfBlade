@@ -38,6 +38,7 @@ public class Player extends Fighter implements WorldObject{
 		maxMp=10;
 		sp=10;
 		maxSp=10;
+		type=Type.NORMAL;
 		for(Move m: Move.database)
 			techniques.add(m);
 	}

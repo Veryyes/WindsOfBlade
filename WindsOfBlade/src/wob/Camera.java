@@ -12,16 +12,16 @@ public class Camera {
 	public static void update(){//TODO Magnitude of velocity is not always 3; do trig
 		xVelShift=0;
 		yVelShift=0;
-		if(KeyInputManager.isPressed('W')){
+		if(KeyManager.isPressed('W')){
 			yVelShift=3;
 		}
-		if(KeyInputManager.isPressed('S')){
+		if(KeyManager.isPressed('S')){
 			yVelShift=-3;
 		}
-		if(KeyInputManager.isPressed('A')){
+		if(KeyManager.isPressed('A')){
 			xVelShift=3;
 		}
-		if(KeyInputManager.isPressed('D')){
+		if(KeyManager.isPressed('D')){
 			xVelShift=-3;
 		}
 		collisionChecks(Game.map.walls);

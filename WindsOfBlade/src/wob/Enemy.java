@@ -28,7 +28,7 @@ public class Enemy extends Fighter{
 			level = Integer.parseInt(lines[2].split("=")[1].trim());
 			money = Integer.parseInt(lines[3].split("=")[1].trim());
 			experience = Integer.parseInt(lines[4].split("=")[1].trim());
-			
+			type = Type.parseType(lines[5].split("=")[1].trim());
 		} catch (IOException e) {
 			System.out.println("[WARNING] Missing Enemy Data - \"data/enemy/"+name+".txt\"");
 			//TODO Initiate default Enemy

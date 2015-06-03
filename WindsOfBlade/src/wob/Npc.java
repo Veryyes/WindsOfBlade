@@ -45,7 +45,7 @@ public class Npc extends Actor implements WorldObject{
 		if(conversationBox.intersects(Game.player.hitBox)){
 			waitTime--;
 			if(waitTime<0) waitTime=0;
-			if(KeyInputManager.isPressed(' ')&&waitTime==0){
+			if(KeyManager.isPressed(' ')&&waitTime==0){
 				isTalking=true;
 				conversationIndex++;
 				if(conversationIndex==conversation.length){
