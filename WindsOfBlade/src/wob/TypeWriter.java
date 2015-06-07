@@ -1,5 +1,6 @@
 package wob;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,6 +13,10 @@ import javax.imageio.ImageIO;
 public class TypeWriter {
 	public static char[] chars = {'/','.','?',';','_',',','!','$','0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	public static BufferedImage[] fonts;
+	public static final float SMALL = .5f;
+	public static final byte MEDIUM = 1;
+	public static final byte LARGE = 2;
+	private static float size = MEDIUM;
 	//28x40
 	/*
 	 * Loads all the fonts & the characters in them
@@ -52,7 +57,8 @@ public class TypeWriter {
 		for(int i=0;i<data.length;i++){
 			if(data[i]==' ')
 				data[i]='_';
-			g.drawImage(getImage(data[i]),x+i*28,y,null);
+			BufferedImage img = getImage(data[i]);
+			g.drawImage(img,(int)(x+i*img.getWidth()*size),y,(int)(img.getWidth()*size),(int)(img.getHeight()*size),new Color(0,0,0,0),null);
 		}
 	}
 	/*
@@ -69,7 +75,9 @@ public class TypeWriter {
 		for(int i=0;i<data.length;i++){
 			if(data[i]==' ')
 				data[i]='_';
-			g.drawImage(getImage(data[i]),32+widthCounter*28,448+(40*heightCounter),null);
+			g.drawImage(getImage(data[i]),(int)(32+widthCounter*getImage(data[i]).getWidth()*size),(int)(448+(getImage(data[i]).getHeight()*heightCounter*size)),
+					(int)(getImage(data[i]).getWidth()*size),(int)(getImage(data[i]).getHeight()*size),
+					new Color(0,0,0,0), null);
 			widthCounter++;
 			if(widthCounter>34){ 
 				widthCounter=0;
@@ -115,5 +123,8 @@ public class TypeWriter {
 			System.out.println(c);//TODO error with '\n'
 			return fonts[Arrays.binarySearch(chars,'_')];
 		}
+	}
+	public static void setSize(float sizeMultiplyer){
+		size=sizeMultiplyer;
 	}
 }

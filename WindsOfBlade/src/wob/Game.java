@@ -1,5 +1,6 @@
 package wob;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.io.File;
@@ -42,7 +43,6 @@ public class Game extends JPanel{
 	 *  Draw all mah stuff dawg
 	 */
 	public void paintComponent(Graphics g){
-		//System.out.println((KeyInputManager.pressedKeys));
 		gameTime+=frameSkip;
 		sleepTime = gameTime - System.currentTimeMillis();
 		if(sleepTime>=0)
@@ -67,14 +67,25 @@ public class Game extends JPanel{
 			map.update();
 			map.render(g);
 			player.worldRender(g);	
+			if(KeyManager.isPressed((char)27)){
+				gameStates&=~16;
+				gameStates|=4;
+			}
 		}else if((gameStates&32)>0){								//Battle
 			g.drawImage(ImageManager.getImage("res/backdrop/backdrop.png"),0,0,null);
 			UI.drawRectUI(g);
 			BattleManager.render(g);
+			
 		}else if((gameStates&4)>0){									//Menu/Paused/Inventory
-			UI.drawRectUI(0,0,frameWidth,frameHeight,true,g);
-
+			g.setColor(Color.black);
+			g.fillRect(0,0,frameWidth,frameHeight);
+			UI.drawMenuUI(g);
+			if(KeyManager.isPressed((char)27)){
+				gameStates&=~4;
+				gameStates|=16;
+			}
 		}
+		UI.render(g);
 	}
 	/*
 	 *  Loading stuff & Initlizaing variables

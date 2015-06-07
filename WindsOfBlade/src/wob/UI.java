@@ -22,13 +22,13 @@ public class UI implements MouseListener, MouseWheelListener{
 	 * Defining what each button should do
 	 */
 	public static void LoadUI(){
-
 		backBtn = new Button(15,372,64,64){
 			public void run(){
 				if(BattleManager.isAttackPhase()){
 					BattleManager.battleState|=1;
 					BattleManager.battleState&=~4;
 					enableSelectionBtns();
+					this.enabled=false;
 				}else if(BattleManager.selectedTechnique!=null&&(BattleManager.battleState&4)>0){
 					BattleManager.battleState|=8;
 					BattleManager.battleState&=~4;
@@ -43,6 +43,7 @@ public class UI implements MouseListener, MouseWheelListener{
 					BattleManager.battleState|=1;
 					BattleManager.battleState&=~24;
 					enableSelectionBtns();
+					this.enabled=false;
 				}
 			}
 		};
@@ -57,6 +58,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			public void run(){
 				Game.gameStates&=~8;
 				Game.gameStates|=18;
+				//Game.gameStates|=6;
 				AudioManager.stopBgm("sound/bgm/ItsAnAdventure.mid");
 				//Camera.xShift=0;
 				//Camera.yShift=0;
@@ -81,6 +83,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.selectedTechnique=null;
 				disableSelectionBtns();
 				enableBattleBtns();
+				backBtn.enabled=true;
 			}
 		};
 		attackBtn.enabled=false;
@@ -91,6 +94,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.buttonShift=0;
 				disableSelectionBtns();
 				enableBattleBtns();
+				backBtn.enabled=true;
 			}
 		};
 		techniqueBtn.enabled=false;
@@ -101,6 +105,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.buttonShift=0;
 				disableSelectionBtns();
 				enableBattleBtns();
+				backBtn.enabled=true;
 			}
 		};
 		itemBtn.enabled=false;
@@ -109,12 +114,13 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.battleState|=32;
 				BattleManager.battleState&=~1;
 				disableSelectionBtns();
+				backBtn.enabled=false;
 			}
 		};
 		runBtn.enabled=false;
 		for(int i=0;i<battleButtons[0].length;i++){
 			for(int j=0;j<battleButtons.length;j++){
-				battleButtons[i][j]=new BattleButton(32+330*j,448+50*i,330,50,j+i*battleButtons.length){
+				battleButtons[i][j]=new BattleButton(32+330*j,448+50*i,300,50,j+i*battleButtons.length){
 					public void run(){
 						try{
 							this.selected=true;
@@ -164,7 +170,21 @@ public class UI implements MouseListener, MouseWheelListener{
 		}
 	}
 	public static void drawRectUI(Graphics g){
-		UI.drawRectUI(15, 436, 995, 173, true, g);
+		drawRectUI(15, 436, 995, 173, true, g);
+	}
+	public static void drawMenuUI(Graphics g){
+		//TypeWriter.setSize(TypeWriter.SMALL);
+		drawRectUI(0,0,(int)((Game.frameWidth-6)*.25),Game.frameHeight-28,false,g);
+		drawRectUI((int)((Game.frameWidth-6)*.25),0,(int)((Game.frameWidth-6)*.25),Game.frameHeight-28,false,g);
+		drawRectUI((int)((Game.frameWidth-6)*.5),0,(int)((Game.frameWidth-6)*.25),Game.frameHeight-28,false,g);
+		drawRectUI((int)((Game.frameWidth-6)*.75),0,(int)((Game.frameWidth-6)*.25),Game.frameHeight-28,false,g);
+		g.drawImage(Game.player.animation.getFrame(0),(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2),16,(int)((Game.frameWidth-6)*.1875),(int)((Game.frameWidth-6)*.1875),Color.white,null);
+		TypeWriter.drawString(Game.player.name,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+16, g);
+		TypeWriter.drawString(Game.player.name,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+16, g);
+		for(int i = 0;i<Game.player.party.size();i++){
+			g.drawImage(Game.player.animation.getFrame(0),((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2),16,
+					(int)((Game.frameWidth-6)*.1875),(int)((Game.frameWidth-6)*.1875),Color.white,null);
+		}
 	}
 	public static void enableSelectionBtns(){
 		attackBtn.enabled=true;
@@ -191,6 +211,20 @@ public class UI implements MouseListener, MouseWheelListener{
 				battleButtons[i][j].enabled=false;
 			}
 		}
+	}
+	public static void render(Graphics g){
+		for(int i=0;i<battleButtons[0].length;i++){
+			for(int j=0;j<battleButtons.length;j++){
+				battleButtons[i][j].render(g);
+			}
+		}
+		startBtn.render(g);
+		quitBtn.render(g);
+		attackBtn.render(g);
+		techniqueBtn.render(g);
+		itemBtn.render(g);
+		runBtn.render(g);
+		backBtn.render(g);
 	}
 	public void mousePressed(MouseEvent arg0) {
 		for(int i=0;i<battleButtons[0].length;i++){

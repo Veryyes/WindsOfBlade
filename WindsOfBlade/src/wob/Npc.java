@@ -37,7 +37,6 @@ public class Npc extends Actor implements WorldObject{
 			conversation[0] = name+":Hi";
 		}
 	}
-	@Override
 	public void update() {
 		updateLocation();
 		//hitBox=new Rectangle2D.Double(this.x,this.y,hitBox.getWidth(),hitBox.getHeight());
@@ -59,7 +58,6 @@ public class Npc extends Actor implements WorldObject{
 			conversationIndex=-1;
 		}
 	}
-	@Override
 	public void worldRender(Graphics g) {
 		g.drawImage(animation.getFrame(0),x,y,null);
 		if(isTalking){

@@ -18,7 +18,7 @@ public class EncounterSpot extends Entity implements WorldObject{
 			Game.gameStates|=32;
 			UI.enableSelectionBtns();
 			BattleManager.battleState|=1;
-			UI.backBtn.enabled=true;
+			UI.backBtn.enabled=false;
 			BattleManager.targets.clear();
 			BattleManager.selectedItem=null;
 			BattleManager.selectedTarget=null;
