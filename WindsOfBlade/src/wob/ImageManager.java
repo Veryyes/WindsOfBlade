@@ -1,5 +1,7 @@
 package wob;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -59,4 +61,26 @@ public class ImageManager {
 	private static BufferedImage loadImage(String filepath) throws IOException{
 		return ImageIO.read(new File(filepath));
 	}
+	//http://stackoverflow.com/questions/4248104/applying-a-tint-to-an-image-in-java
+	/*public BufferedImage colorImage(BufferedImage loadImg, int red, int green, int blue) {
+	    BufferedImage img = new BufferedImage(loadImg.getWidth(), loadImg.getHeight(),
+	        BufferedImage.TRANSLUCENT);
+	    Graphics2D graphics = img.createGraphics(); 
+	    Color newColor = new Color(red, green, blue, 0 );
+	    graphics.setXORMode(newColor);
+	    graphics.drawImage(loadImg, null, 0, 0);
+	    graphics.dispose();
+	    return img;
+	}
+	public static BufferedImage colorImage(BufferedImage loadImg, Color c) {
+	    BufferedImage img = new BufferedImage(loadImg.getWidth(), loadImg.getHeight(),
+	        BufferedImage.TRANSLUCENT);
+	    Graphics2D graphics = img.createGraphics(); 
+	    Color newColor = new Color(c.getRed(), c.getGreen(), c.getBlue(), 0 );
+	    graphics.setXORMode(newColor);
+	    graphics.drawImage(loadImg, null, 0, 0);
+	    graphics.dispose();
+	    return img;
+	}*/
+	
 }

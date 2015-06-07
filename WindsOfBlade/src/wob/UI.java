@@ -178,13 +178,13 @@ public class UI implements MouseListener, MouseWheelListener{
 		drawRectUI((int)((Game.frameWidth-6)*.25),0,(int)((Game.frameWidth-6)*.25),Game.frameHeight-28,false,g);
 		drawRectUI((int)((Game.frameWidth-6)*.5),0,(int)((Game.frameWidth-6)*.25),Game.frameHeight-28,false,g);
 		drawRectUI((int)((Game.frameWidth-6)*.75),0,(int)((Game.frameWidth-6)*.25),Game.frameHeight-28,false,g);
-		g.drawImage(Game.player.animation.getFrame(0),(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2),16,(int)((Game.frameWidth-6)*.1875),(int)((Game.frameWidth-6)*.1875),Color.white,null);
-		TypeWriter.drawString(Game.player.name,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+16, g);
-		TypeWriter.drawString(Game.player.name,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+16, g);
+		TypeWriter.setSize(.7f);
+		drawPlayerMenuStats(g);
 		for(int i = 0;i<Game.player.party.size();i++){
-			g.drawImage(Game.player.animation.getFrame(0),((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2),16,
-					(int)((Game.frameWidth-6)*.1875),(int)((Game.frameWidth-6)*.1875),Color.white,null);
+		//	g.drawImage(Game.player.animation.getFrame(0),((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2),16,
+			//		(int)((Game.frameWidth-6)*.1875),(int)((Game.frameWidth-6)*.1875),Color.white,null);
 		}
+		TypeWriter.setSize(TypeWriter.MEDIUM);
 	}
 	public static void enableSelectionBtns(){
 		attackBtn.enabled=true;
@@ -212,7 +212,10 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		}
 	}
-	public static void render(Graphics g){
+	public static void toolbarRender(Graphics g){
+		drawRectUI(Game.frameWidth/8,Game.frameHeight-96,(int)((Game.frameWidth*3)/4f),128,true,g);
+	}
+	public static void buttonRender(Graphics g){
 		for(int i=0;i<battleButtons[0].length;i++){
 			for(int j=0;j<battleButtons.length;j++){
 				battleButtons[i][j].render(g);
@@ -244,6 +247,19 @@ public class UI implements MouseListener, MouseWheelListener{
 		BattleManager.buttonShift+=e.getWheelRotation();
 		if(BattleManager.buttonShift<0)
 			BattleManager.buttonShift=0;
+	}
+	private static void drawPlayerMenuStats(Graphics g){
+		g.drawImage(Game.player.animation.getFrame(0),(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2),16,(int)((Game.frameWidth-6)*.1875),(int)((Game.frameWidth-6)*.1875),Color.white,null);
+		TypeWriter.drawString(Game.player.name,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+16, g);
+		TypeWriter.drawString("Level "+Game.player.level,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+52, g);
+		TypeWriter.drawString("Type "+Type.toString(Game.player.type),(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+88, g);
+		TypeWriter.drawString("HP "+Game.player.hp+"/"+Game.player.maxHp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+124, g);
+		TypeWriter.drawString("SP "+Game.player.sp+"/"+Game.player.maxSp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+160, g);		
+		TypeWriter.drawString("MP "+Game.player.mp+"/"+Game.player.maxMp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+196, g);
+		TypeWriter.drawString("str "+Game.player.str,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+232, g);
+		TypeWriter.drawString("int "+Game.player.intel,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+268, g);
+		TypeWriter.drawString("dex "+Game.player.dex,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+304, g);
+		TypeWriter.drawString("agil "+Game.player.agil,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
 	}
 	public void mouseClicked(MouseEvent arg0) {}
 	public void mouseEntered(MouseEvent arg0) {}

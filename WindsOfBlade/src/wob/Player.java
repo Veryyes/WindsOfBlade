@@ -1,5 +1,6 @@
 package wob;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -14,7 +15,7 @@ public class Player extends Fighter implements WorldObject{
 	static Line2D.Double topLine,botLine,leftLine,rightLine;
 	public Player() {
 		super(Game.frameWidth/2-32,Game.frameHeight/2-32);
-		name="Hero";
+		name="Heroine";
 		animation = new Animation(ImageManager.getImage("res/sprites/player/tempPlayer.png"));
 		hitBox = new Rectangle2D.Double(this.x+8,this.y+16,48,48);
 		topLine = new Line2D.Double(x+8,y+16,x+8+48,y+16);

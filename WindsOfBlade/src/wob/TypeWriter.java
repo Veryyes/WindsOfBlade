@@ -1,6 +1,5 @@
 package wob;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -58,7 +57,7 @@ public class TypeWriter {
 			if(data[i]==' ')
 				data[i]='_';
 			BufferedImage img = getImage(data[i]);
-			g.drawImage(img,(int)(x+i*img.getWidth()*size),y,(int)(img.getWidth()*size),(int)(img.getHeight()*size),new Color(0,0,0,0),null);
+			g.drawImage(img,(int)(x+i*img.getWidth()*size),y,(int)(img.getWidth()*size),(int)(img.getHeight()*size),null);
 		}
 	}
 	/*
@@ -77,7 +76,7 @@ public class TypeWriter {
 				data[i]='_';
 			g.drawImage(getImage(data[i]),(int)(32+widthCounter*getImage(data[i]).getWidth()*size),(int)(448+(getImage(data[i]).getHeight()*heightCounter*size)),
 					(int)(getImage(data[i]).getWidth()*size),(int)(getImage(data[i]).getHeight()*size),
-					new Color(0,0,0,0), null);
+					 null);
 			widthCounter++;
 			if(widthCounter>34){ 
 				widthCounter=0;

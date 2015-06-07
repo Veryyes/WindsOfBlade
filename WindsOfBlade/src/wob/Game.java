@@ -27,6 +27,8 @@ public class Game extends JPanel{
 	public static long gameTime;
 	public static long sleepTime;
 	public static Point mousePos;
+	public static boolean menuWait;
+	public static int menuTimer;
 	/*
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
@@ -67,10 +69,12 @@ public class Game extends JPanel{
 			map.update();
 			map.render(g);
 			player.worldRender(g);	
-			if(KeyManager.isPressed((char)27)){
+			if(KeyManager.isPressed(KeyManager.ESC)&&menuTimer>30){
+				menuTimer=0;
 				gameStates&=~16;
 				gameStates|=4;
-			}
+			}else
+				menuTimer++;
 		}else if((gameStates&32)>0){								//Battle
 			g.drawImage(ImageManager.getImage("res/backdrop/backdrop.png"),0,0,null);
 			UI.drawRectUI(g);
@@ -80,12 +84,14 @@ public class Game extends JPanel{
 			g.setColor(Color.black);
 			g.fillRect(0,0,frameWidth,frameHeight);
 			UI.drawMenuUI(g);
-			if(KeyManager.isPressed((char)27)){
+			if(KeyManager.isPressed(KeyManager.ESC)&&menuTimer>30){
+				menuTimer=0;
 				gameStates&=~4;
 				gameStates|=16;
-			}
+			}else
+				menuTimer++;
 		}
-		UI.render(g);
+		UI.buttonRender(g);
 	}
 	/*
 	 *  Loading stuff & Initlizaing variables
@@ -116,6 +122,8 @@ public class Game extends JPanel{
 		AudioManager.playBgm("sound/bgm/ItsAnAdventure.mid");
 		frame.setVisible(true);
 		player = new Player();
+		Partner.loadPartners();
+		player.party.add(Partner.mage);
 	}
 	/*
 	 * 	Reading config files
