@@ -18,10 +18,44 @@ public class UI implements MouseListener, MouseWheelListener{
 	public static Button runBtn;
 	public static BattleButton[][] battleButtons = new BattleButton[3][3];
 	public static Button backBtn;
+	public static Button statBtn;
+	public static Button techListBtn;
+	public static Button itemListBtn;
+	public static Button saveBtn;
 	/*
 	 * Defining what each button should do
 	 */
 	public static void LoadUI(){
+		statBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16,28*5,40){
+			public void run(){
+				Game.gameStates&=~16;
+				Game.gameStates|=4;
+				this.enabled=false;
+				UI.techListBtn.enabled=false;
+				UI.itemListBtn.enabled=false;
+				UI.saveBtn.enabled=false;
+				Game.menuOn=false;
+			}
+		};
+		statBtn.enabled=false;
+		techListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+48,28*10,40){
+			public void run(){
+				//this.enabled=false;
+			}
+		};
+		techListBtn.enabled=false;
+		itemListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+96,28*5,40){
+			public void run(){
+				//this.enabled=false;
+			}
+		};
+		itemListBtn.enabled=false;
+		saveBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+144,28*4,40){
+			public void run(){
+				//this.enabled=false;
+			}
+		};
+		saveBtn.enabled=false;
 		backBtn = new Button(15,372,64,64){
 			public void run(){
 				if(BattleManager.isAttackPhase()){
@@ -228,6 +262,10 @@ public class UI implements MouseListener, MouseWheelListener{
 		itemBtn.render(g);
 		runBtn.render(g);
 		backBtn.render(g);
+		statBtn.render(g);
+		techListBtn.render(g);
+		itemListBtn.render(g);
+		saveBtn.render(g);
 	}
 	public void mousePressed(MouseEvent arg0) {
 		for(int i=0;i<battleButtons[0].length;i++){
@@ -242,6 +280,10 @@ public class UI implements MouseListener, MouseWheelListener{
 		itemBtn.update();
 		runBtn.update();
 		backBtn.update();
+		statBtn.update();
+		techListBtn.update();
+		itemListBtn.update();
+		saveBtn.update();
 	}
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		BattleManager.buttonShift+=e.getWheelRotation();
@@ -252,14 +294,14 @@ public class UI implements MouseListener, MouseWheelListener{
 		g.drawImage(Game.player.animation.getFrame(0),(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2),16,(int)((Game.frameWidth-6)*.1875),(int)((Game.frameWidth-6)*.1875),Color.white,null);
 		TypeWriter.drawString(Game.player.name,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+16, g);
 		TypeWriter.drawString("Level "+Game.player.level,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+52, g);
-		TypeWriter.drawString("Type "+Type.toString(Game.player.type),(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+88, g);
-		TypeWriter.drawString("HP "+Game.player.hp+"/"+Game.player.maxHp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+124, g);
-		TypeWriter.drawString("SP "+Game.player.sp+"/"+Game.player.maxSp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+160, g);		
-		TypeWriter.drawString("MP "+Game.player.mp+"/"+Game.player.maxMp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+196, g);
-		TypeWriter.drawString("str "+Game.player.str,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+232, g);
-		TypeWriter.drawString("int "+Game.player.intel,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+268, g);
-		TypeWriter.drawString("dex "+Game.player.dex,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+304, g);
-		TypeWriter.drawString("agil "+Game.player.agil,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
+		//TypeWriter.drawString("Type "+Type.toString(Game.player.type),(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+88, g);
+		TypeWriter.drawString("HP "+Game.player.hp+"/"+Game.player.maxHp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+88, g);
+		TypeWriter.drawString("SP "+Game.player.sp+"/"+Game.player.maxSp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+124, g);		
+		TypeWriter.drawString("MP "+Game.player.mp+"/"+Game.player.maxMp,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+160, g);
+		TypeWriter.drawString("str "+Game.player.str,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+196, g);
+		TypeWriter.drawString("int "+Game.player.intel,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+232, g);
+		TypeWriter.drawString("dex "+Game.player.dex,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+268, g);
+		TypeWriter.drawString("agil "+Game.player.agil,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+304, g);
 	}
 	public void mouseClicked(MouseEvent arg0) {}
 	public void mouseEntered(MouseEvent arg0) {}

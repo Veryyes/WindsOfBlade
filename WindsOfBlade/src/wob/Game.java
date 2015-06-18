@@ -23,12 +23,13 @@ public class Game extends JPanel{
 	public static double frameSkip; // = 1000d/fps;
 	public static Game canvas;
 	public static Player player;
-	public static byte gameStates; //On 1, loading 2, paused 4, main menu 8, world 16, battle 32, cut-scene 64, game-over 128;
+	public static byte gameStates; //On 1, loading 2, stats 4, main menu 8, world 16, battle 32, cut-scene 64, game-over 128;
 	public static long gameTime;
 	public static long sleepTime;
 	public static Point mousePos;
 	public static boolean menuWait;
 	public static int menuTimer;
+	public static boolean menuOn;
 	/*
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
@@ -71,10 +72,25 @@ public class Game extends JPanel{
 			player.worldRender(g);	
 			if(KeyManager.isPressed(KeyManager.ESC)&&menuTimer>30){
 				menuTimer=0;
-				gameStates&=~16;
-				gameStates|=4;
+				menuOn=!menuOn;
+				UI.statBtn.enabled=!UI.statBtn.enabled;
+				UI.techListBtn.enabled=!UI.techListBtn.enabled;
+				UI.itemListBtn.enabled=!UI.itemListBtn.enabled;
+				UI.saveBtn.enabled=!UI.saveBtn.enabled;
+				//gameStates&=~16;
+				//gameStates|=4;
 			}else
 				menuTimer++;
+			if(menuOn){
+				UI.drawRectUI((int)((2f/3f)*frameWidth-8),8,(int)((1f/3f)*frameWidth),(int)(.75*frameHeight),true,g);
+				TypeWriter.drawString("Stats", (int)((2f/3f)*Game.frameWidth-8)+16,16, g);
+				TypeWriter.drawString("techniques",(int)((2f/3f)*Game.frameWidth-8)+16,16+48,g);
+				TypeWriter.drawString("Items",(int)((2f/3f)*Game.frameWidth-8)+16,16+96, g);
+				TypeWriter.drawString("save",(int)((2f/3f)*Game.frameWidth-8)+16,16+144,g);
+				
+				TypeWriter.drawString("Money: "+player.money,(int)((2f/3f)*Game.frameWidth-8)+16, 16+192, g);
+			}
+			
 		}else if((gameStates&32)>0){								//Battle
 			g.drawImage(ImageManager.getImage("res/backdrop/backdrop.png"),0,0,null);
 			UI.drawRectUI(g);
