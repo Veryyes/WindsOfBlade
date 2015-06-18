@@ -18,6 +18,7 @@ public class Map {
 	LinkedList<Portal> portals;
 	float animationTimer;
 	float animationSpeed;
+	String filename;
 	
 	public Map(String filename){//Obj Shift
 		try {
@@ -29,6 +30,7 @@ public class Map {
 			background=mapLoader(filename);
 			animationTimer=0;
 			animationSpeed=.15f;
+			this.filename=filename;
 		} catch (IOException e) {
 			System.out.println("[SEVERE] Problem reading map file \""+filename+"\"");
 			System.exit(1);

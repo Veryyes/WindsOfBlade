@@ -116,8 +116,6 @@ public class BattleManager {
 				if(targets.size()-Game.player.party.size()-1<=0){	//Battle End Cond check
 					UI.disableSelectionBtns();
 					UI.disableBattleBtns();
-					Game.player.money+=money;
-					Game.player.experience+=exp;
 					//TODO add exp to party members too
 					TypeWriter.drawString("Experience Gained "+exp,32, 448, g);
 					TypeWriter.drawString("Money Gained "+money,32, 488, g);
@@ -126,6 +124,8 @@ public class BattleManager {
 						Game.gameStates|=16;
 						Game.gameStates&=~32;
 						BattleManager.battleState&=~1;
+						Game.player.money+=money;
+						Game.player.experience+=exp;
 					}else 
 						endTimer++;
 				}else{

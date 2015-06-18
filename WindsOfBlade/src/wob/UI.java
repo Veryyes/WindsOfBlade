@@ -6,12 +6,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 	/*
 	 * Container for buttons and ui stuff...
 	 */
 public class UI implements MouseListener, MouseWheelListener{
 	public static Button quitBtn;
 	public static Button startBtn;
+	public static Button loadBtn;
 	public static Button attackBtn;
 	public static Button techniqueBtn;
 	public static Button itemBtn;
@@ -40,19 +46,91 @@ public class UI implements MouseListener, MouseWheelListener{
 		statBtn.enabled=false;
 		techListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+48,28*10,40){
 			public void run(){
-				//this.enabled=false;
+				this.enabled=false;
+				UI.statBtn.enabled=false;
+				UI.itemListBtn.enabled=false;
+				UI.saveBtn.enabled=false;
+				Game.menuOn=false;
+				//TODO open window with stats
 			}
 		};
 		techListBtn.enabled=false;
 		itemListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+96,28*5,40){
 			public void run(){
-				//this.enabled=false;
+				this.enabled=false;
+				UI.techListBtn.enabled=false;
+				UI.statBtn.enabled=false;
+				UI.saveBtn.enabled=false;
+				Game.menuOn=false;
+				//TODO open window with items
 			}
 		};
 		itemListBtn.enabled=false;
 		saveBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+144,28*4,40){
 			public void run(){
-				//this.enabled=false;
+				this.enabled=false;
+				UI.techListBtn.enabled=false;
+				UI.itemListBtn.enabled=false;
+				UI.statBtn.enabled=false;
+				Game.menuOn=false;
+				//TODO make this better
+				try {
+					FileWriter fw = new FileWriter(new File("data/save.dat"));
+					fw.write(Camera.xShift+"\n"+Camera.yShift+"\n");
+					fw.write(Game.map.filename+"\n");
+					fw.write(Game.player.level+"\n"+Game.player.experience+"\n"+Game.player.money+"\n");
+					fw.write(Game.player.str+"\n"+Game.player.intel+"\n"+Game.player.dex+"\n"+Game.player.will+"\n"+Game.player.agil+"\n");
+					fw.write(Game.player.hp+"\n"+Game.player.maxHp+"\n"+Game.player.mp+"\n"+Game.player.maxMp+"\n"+Game.player.sp+"\n"+Game.player.maxSp);
+					//Add items, tech, equipment, and party members & their stats
+					fw.close();
+				} catch (IOException e) {
+					System.out.println("[ERROR] Problem Writing save file to disk");
+					e.printStackTrace();
+				}
+			}
+		};
+		loadBtn=new Button(460,500,4*28,40){
+			public void run(){
+				this.enabled=false;
+				startBtn.enabled=false;
+				quitBtn.enabled=false;
+				Game.gameStates&=~8;
+				Game.gameStates|=18;
+				Game.gameStates&=~2;
+				AudioManager.stopBgm("sound/bgm/ItsAnAdventure.mid");
+				//Loading stuff in
+				try{
+					String rawInput="";
+					int item;
+					BufferedReader br = new BufferedReader(new FileReader(new File("data/save.dat")));
+					while((item=br.read())!=-1)
+						rawInput+=(char)item;
+					br.close();
+					rawInput=rawInput.trim();
+					String[] data = rawInput.split("\n");
+					Camera.xShift=Integer.parseInt(data[0]);
+					Camera.yShift=Integer.parseInt(data[1]);
+					Game.map= new Map(data[2]);
+					Game.player=new Player();
+					Game.player.level=Integer.parseInt(data[3]);
+					Game.player.experience=Integer.parseInt(data[4]);
+					Game.player.money=Integer.parseInt(data[5]);
+					Game.player.str=Integer.parseInt(data[6]);
+					Game.player.intel=Integer.parseInt(data[7]);
+					Game.player.dex=Integer.parseInt(data[8]);
+					Game.player.will=Integer.parseInt(data[9]);
+					Game.player.agil=Integer.parseInt(data[10]);
+					Game.player.hp=Integer.parseInt(data[11]);
+					Game.player.maxHp=Integer.parseInt(data[12]);
+					Game.player.mp=Integer.parseInt(data[13]);
+					Game.player.maxMp=Integer.parseInt(data[14]);
+					Game.player.sp=Integer.parseInt(data[15]);
+					Game.player.maxSp=Integer.parseInt(data[16]);
+					Game.map.shiftObjects(Camera.xShift, Camera.yShift);
+				}catch(Exception e){
+					System.out.println("[SEVERE] Problems reading save file");
+					System.exit(1);
+				}
 			}
 		};
 		saveBtn.enabled=false;
@@ -104,6 +182,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				Game.player=new Player();
 				this.enabled=false;
 				quitBtn.enabled=false;
+				loadBtn.enabled=false;
 			}
 		};
 		attackBtn=new Button(32,448,168,40){
@@ -266,6 +345,7 @@ public class UI implements MouseListener, MouseWheelListener{
 		techListBtn.render(g);
 		itemListBtn.render(g);
 		saveBtn.render(g);
+		loadBtn.render(g);
 	}
 	public void mousePressed(MouseEvent arg0) {
 		for(int i=0;i<battleButtons[0].length;i++){
@@ -284,6 +364,7 @@ public class UI implements MouseListener, MouseWheelListener{
 		techListBtn.update();
 		itemListBtn.update();
 		saveBtn.update();
+		loadBtn.update();
 	}
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		BattleManager.buttonShift+=e.getWheelRotation();

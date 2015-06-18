@@ -62,6 +62,7 @@ public class Game extends JPanel{
 		else if((gameStates&8)>0){									//Main Menu;
 			g.drawImage(ImageManager.getImage("res/menu/Winged Blade Sepia.png"),0,0,null);
 			TypeWriter.drawString("Start",200,500,g);
+			TypeWriter.drawString("load",460,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
 		}else if((gameStates&16)>0){								//Field

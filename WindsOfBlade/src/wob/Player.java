@@ -43,10 +43,6 @@ public class Player extends Fighter implements WorldObject{
 		for(Move m: Move.database)
 			techniques.add(m);
 	}
-	public Player(int x, int y, String savefile){
-		super(x,y);
-		//TODO need to make a savefile so i can parse it first.
-	}
 	
 	public void worldRender(Graphics g) {
 		g.drawImage(animation.getFrame(),x,y,null);
