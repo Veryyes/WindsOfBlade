@@ -21,7 +21,7 @@ public class BattleButton extends Button {
 			}
 			try{
 				@SuppressWarnings("unused")
-				Fighter f = BattleManager.targets.get(this.index+BattleManager.buttonShift*3);
+				Fighter f = BattleManager.targets.get(this.index+UI.buttonShift*3);
 				super.highlight(g);
 			}catch(java.lang.IndexOutOfBoundsException e){//So we don't highlight boxes w/o text
 				//Do Nothing

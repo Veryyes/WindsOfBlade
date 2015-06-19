@@ -15,6 +15,7 @@ import java.io.IOException;
 	 * Container for buttons and ui stuff...
 	 */
 public class UI implements MouseListener, MouseWheelListener{
+	public static byte buttonShift = 0;
 	public static Button quitBtn;
 	public static Button startBtn;
 	public static Button loadBtn;
@@ -28,6 +29,7 @@ public class UI implements MouseListener, MouseWheelListener{
 	public static Button techListBtn;
 	public static Button itemListBtn;
 	public static Button saveBtn;
+	public static boolean itemWindow;
 	/*
 	 * Defining what each button should do
 	 */
@@ -37,14 +39,14 @@ public class UI implements MouseListener, MouseWheelListener{
 				Game.gameStates&=~16;
 				Game.gameStates|=4;
 				this.enabled=false;
-				UI.techListBtn.enabled=false;
+				//UI.techListBtn.enabled=false;
 				UI.itemListBtn.enabled=false;
 				UI.saveBtn.enabled=false;
 				Game.menuOn=false;
 			}
 		};
 		statBtn.enabled=false;
-		techListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+48,28*10,40){
+	/*	techListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+48,28*10,40){
 			public void run(){
 				this.enabled=false;
 				UI.statBtn.enabled=false;
@@ -53,8 +55,8 @@ public class UI implements MouseListener, MouseWheelListener{
 				Game.menuOn=false;
 				//TODO open window with stats
 			}
-		};
-		techListBtn.enabled=false;
+		};*/
+		//techListBtn.enabled=false;
 		itemListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+96,28*5,40){
 			public void run(){
 				this.enabled=false;
@@ -62,6 +64,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				UI.statBtn.enabled=false;
 				UI.saveBtn.enabled=false;
 				Game.menuOn=false;
+				itemWindow=true;
 				//TODO open window with items
 			}
 		};
@@ -83,6 +86,7 @@ public class UI implements MouseListener, MouseWheelListener{
 					fw.write(Game.player.hp+"\n"+Game.player.maxHp+"\n"+Game.player.mp+"\n"+Game.player.maxMp+"\n"+Game.player.sp+"\n"+Game.player.maxSp);
 					//Add items, tech, equipment, and party members & their stats
 					fw.close();
+					System.out.println("[INFO] Saving Complete: \"data/save.dat\" written to disk");
 				} catch (IOException e) {
 					System.out.println("[ERROR] Problem Writing save file to disk");
 					e.printStackTrace();
@@ -204,7 +208,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			public void run(){
 				BattleManager.battleState|=8;
 				BattleManager.battleState&=~1;
-				BattleManager.buttonShift=0;
+				buttonShift=0;
 				disableSelectionBtns();
 				enableBattleBtns();
 				backBtn.enabled=true;
@@ -215,7 +219,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			public void run(){
 				BattleManager.battleState|=16;
 				BattleManager.battleState&=~1;
-				BattleManager.buttonShift=0;
+				buttonShift=0;
 				disableSelectionBtns();
 				enableBattleBtns();
 				backBtn.enabled=true;
@@ -238,17 +242,17 @@ public class UI implements MouseListener, MouseWheelListener{
 						try{
 							this.selected=true;
 							if((BattleManager.battleState&8)>0){
-								BattleManager.selectedTechnique=Game.player.techniques.get(this.index+BattleManager.buttonShift*3);
+								BattleManager.selectedTechnique=Game.player.techniques.get(this.index+buttonShift*3);
 								BattleManager.battleState&=~8;
 								BattleManager.battleState|=4;
 								//System.out.println(BattleManager.selectedTechnique.name);
 							}else if((BattleManager.battleState&16)>0){
-								BattleManager.selectedItem=Game.player.inventory.get(this.index+BattleManager.buttonShift*3);
+								BattleManager.selectedItem=Game.player.inventory.get(this.index+buttonShift*3);
 								BattleManager.battleState&=~16;
 								BattleManager.battleState|=4;
 								//System.out.println(BattleManager.selectedItem.name);
 							}else if((BattleManager.battleState&4)>0){
-								BattleManager.selectedTarget=BattleManager.targets.get(this.index+BattleManager.buttonShift*3);
+								BattleManager.selectedTarget=BattleManager.targets.get(this.index+buttonShift*3);
 								BattleManager.battleState&=~4;
 								BattleManager.battleState|=64;
 								//System.out.println(BattleManager.selectedTarget.name);
@@ -342,7 +346,7 @@ public class UI implements MouseListener, MouseWheelListener{
 		runBtn.render(g);
 		backBtn.render(g);
 		statBtn.render(g);
-		techListBtn.render(g);
+		//techListBtn.render(g);
 		itemListBtn.render(g);
 		saveBtn.render(g);
 		loadBtn.render(g);
@@ -361,15 +365,15 @@ public class UI implements MouseListener, MouseWheelListener{
 		runBtn.update();
 		backBtn.update();
 		statBtn.update();
-		techListBtn.update();
+		//techListBtn.update();
 		itemListBtn.update();
 		saveBtn.update();
 		loadBtn.update();
 	}
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		BattleManager.buttonShift+=e.getWheelRotation();
-		if(BattleManager.buttonShift<0)
-			BattleManager.buttonShift=0;
+		buttonShift+=e.getWheelRotation();
+		if(buttonShift<0)
+			buttonShift=0;
 	}
 	private static void drawPlayerMenuStats(Graphics g){
 		g.drawImage(Game.player.animation.getFrame(0),(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2),16,(int)((Game.frameWidth-6)*.1875),(int)((Game.frameWidth-6)*.1875),Color.white,null);
@@ -383,6 +387,47 @@ public class UI implements MouseListener, MouseWheelListener{
 		TypeWriter.drawString("int "+Game.player.intel,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+232, g);
 		TypeWriter.drawString("dex "+Game.player.dex,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+268, g);
 		TypeWriter.drawString("agil "+Game.player.agil,(int)((Game.frameWidth-6)*(1f/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+304, g);
+	}
+	public static void drawMenu(Graphics g){
+		drawRectUI((int)((2f/3f)*Game.frameWidth-8),8,(int)((1f/3f)*Game.frameWidth),(int)(.75*Game.frameHeight),true,g);
+		TypeWriter.drawString("Stats", (int)((2f/3f)*Game.frameWidth-8)+16,16, g);
+		TypeWriter.drawString("techniques",(int)((2f/3f)*Game.frameWidth-8)+16,16+48,g);
+		TypeWriter.drawString("Items",(int)((2f/3f)*Game.frameWidth-8)+16,16+96, g);
+		TypeWriter.drawString("save",(int)((2f/3f)*Game.frameWidth-8)+16,16+144,g);
+		TypeWriter.drawString("Money "+Game.player.money,(int)((2f/3f)*Game.frameWidth-8)+16, 16+192, g);
+	
+	}
+	public static void drawTechList(Graphics g){
+		drawRectUI((int)((1f/3f)*Game.frameWidth-8),32,(int)((1f/3f)*Game.frameWidth-8),(int)(.5f*Game.frameWidth-8),true,g);
+		int i=48;
+		for(int index=0;index<Game.player.techniques.size();index++){
+			if(i>32+(int)(.5f*Game.frameWidth-8))
+				break;
+			try{
+			TypeWriter.drawString(Game.player.techniques.get(index+buttonShift).toString(), (int)((1f/3f)*Game.frameWidth-8)+16, i, g);
+			}catch(java.lang.IndexOutOfBoundsException e){}
+			i+=48;
+		}
+	}
+	public static void drawItemList(Graphics g){
+		drawRectUI((int)((1f/3f)*Game.frameWidth-8),32,(int)((1f/3f)*Game.frameWidth-8),(int)(.5f*Game.frameWidth-8),true,g);
+		int i=48;
+		for(int index=0;index<Game.player.inventory.size();index++){
+			if(i>32+(int)(.5f*Game.frameWidth-8))
+				break;
+			try{
+			TypeWriter.drawString(Game.player.inventory.get(index+buttonShift).toString(), (int)((1f/3f)*Game.frameWidth-8)+16, i, g);
+			}catch(java.lang.IndexOutOfBoundsException e){}
+			i+=48;
+		}
+	}
+	public static void toggleMenuButtons(){
+		statBtn.enabled=!UI.statBtn.enabled;
+		//techListBtn.enabled=!UI.techListBtn.enabled;
+		itemListBtn.enabled=!UI.itemListBtn.enabled;
+		saveBtn.enabled=!UI.saveBtn.enabled;
+	//	techWindow=false;
+		itemWindow=false;
 	}
 	public void mouseClicked(MouseEvent arg0) {}
 	public void mouseEntered(MouseEvent arg0) {}

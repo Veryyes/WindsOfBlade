@@ -16,6 +16,7 @@ public class EncounterSpot extends Entity implements WorldObject{
 		if(Camera.isMoving()&&Math.random()<encounterRate&&Game.player.hitBox.intersects(hitBox)){
 			Game.gameStates&=~16;
 			Game.gameStates|=32;
+			UI.buttonShift=0;
 			UI.enableSelectionBtns();
 			BattleManager.battleState|=1;
 			UI.backBtn.enabled=false;

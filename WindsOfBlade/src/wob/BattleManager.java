@@ -14,7 +14,6 @@ public class BattleManager {
 	//mm->run screen->back to mm is fail else to field
 	//64 - Damage Calc & Animation;
 	public static byte battleState = 0;
-	public static byte buttonShift = 0;
 	public static LinkedList<Fighter> targets = new LinkedList<Fighter>();
 	public static Move selectedTechnique;
 	public static Item selectedItem;
