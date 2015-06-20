@@ -62,7 +62,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				super.render(g);
 				if(this.enabled){
 					if(techBtnTextOn[0]){
-						UI.drawTechList(g);
+						UI.drawTechList(g,-1);
 						TypeWriter.drawString("Stats", ((int)((Game.frameWidth-6 )*1/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
 					}else
 						TypeWriter.drawString("Skills", ((int)((Game.frameWidth-6 )*1/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
@@ -83,7 +83,7 @@ public class UI implements MouseListener, MouseWheelListener{
 					super.render(g);
 					if(this.enabled){
 						if(techBtnTextOn[1]){
-							UI.drawTechList(g);
+							UI.drawTechList(g,0);
 							TypeWriter.drawString("Stats", ((int)((Game.frameWidth-6 )*3/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
 						}else
 							TypeWriter.drawString("Skills", ((int)((Game.frameWidth-6 )*3/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
@@ -107,7 +107,7 @@ public class UI implements MouseListener, MouseWheelListener{
 					super.render(g);
 					if(this.enabled){
 						if(techBtnTextOn[2]){
-							UI.drawTechList(g);
+							UI.drawTechList(g,1);
 							TypeWriter.drawString("Stats", ((int)((Game.frameWidth-6 )*(5)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
 						}else
 							TypeWriter.drawString("Skills", ((int)((Game.frameWidth-6 )*(5)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
@@ -131,7 +131,7 @@ public class UI implements MouseListener, MouseWheelListener{
 					super.render(g);
 					if(this.enabled){
 						if(techBtnTextOn[3]){
-							UI.drawTechList(g);
+							UI.drawTechList(g,2);
 							TypeWriter.drawString("Stats", ((int)((Game.frameWidth-6 )*7/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
 						}else
 							TypeWriter.drawString("Skills", ((int)((Game.frameWidth-6 )*7/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
@@ -142,7 +142,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		};
 		techListBtn[3].enabled=false;
-		itemListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+96,28*5,40){
+		itemListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+48,28*5,40){
 			public void run(){
 				this.enabled=false;
 				UI.statBtn.enabled=false;
@@ -152,7 +152,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		};
 		itemListBtn.enabled=false;
-		saveBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+144,28*4,40){
+		saveBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+96,28*4,40){
 			public void run(){
 				this.enabled=false;
 				UI.itemListBtn.enabled=false;
@@ -495,16 +495,27 @@ public class UI implements MouseListener, MouseWheelListener{
 		TypeWriter.drawString("Money "+Game.player.money,(int)((2f/3f)*Game.frameWidth-8)+16, 16+144, g);
 	
 	}
-	public static void drawTechList(Graphics g){
+	public static void drawTechList(Graphics g, int partyIndex){
 		drawRectUI((int)((1f/3f)*Game.frameWidth-8),32,(int)((1f/3f)*Game.frameWidth-8),(int)(.5f*Game.frameWidth-8),true,g);
 		int i=48;
-		for(int index=0;index<Game.player.techniques.size();index++){
-			if(i>32+(int)(.5f*Game.frameWidth-8))
-				break;
-			try{
-			TypeWriter.drawString(Game.player.techniques.get(index+buttonShift).toString(), (int)((1f/3f)*Game.frameWidth-8)+16, i, g);
-			}catch(java.lang.IndexOutOfBoundsException e){}
-			i+=48;
+		if(partyIndex==-1){
+			for(int index=0;index<Game.player.techniques.size();index++){
+				if(i>32+(int)(.5f*Game.frameWidth-8))
+					break;
+				try{
+				TypeWriter.drawString(Game.player.techniques.get(index+buttonShift).toString(), (int)((1f/3f)*Game.frameWidth-8)+16, i, g);
+				}catch(java.lang.IndexOutOfBoundsException e){}
+				i+=48;
+			}
+		}else{
+			for(int index=0;index<Game.player.party.get(partyIndex).techniques.size();index++){
+				if(i>32+(int)(.5f*Game.frameWidth-8))
+					break;
+				try{
+				TypeWriter.drawString(Game.player.party.get(partyIndex).techniques.get(index+buttonShift).toString(), (int)((1f/3f)*Game.frameWidth-8)+16, i, g);
+				}catch(java.lang.IndexOutOfBoundsException e){}
+				i+=48;
+			}
 		}
 	}
 	public static void drawItemList(Graphics g){
