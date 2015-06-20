@@ -33,7 +33,7 @@ public class BattleManager {
 		}
 		if((battleState&1)>0){								//Menu
 			TypeWriter.drawString("attack", 32, 448, g);
-			TypeWriter.drawString("technique", 32, 496, g);
+			TypeWriter.drawString("Skills", 32, 496, g);
 			TypeWriter.drawString("item", 32, 542, g);
 			TypeWriter.drawString("run", 176, 542, g);
 		}else if((battleState&8)>0){						//Technique List

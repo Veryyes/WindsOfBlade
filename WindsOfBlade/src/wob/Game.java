@@ -92,6 +92,10 @@ public class Game extends JPanel{
 			UI.drawMenuUI(g);
 			if(KeyManager.isPressed(KeyManager.ESC)&&menuTimer>30){
 				menuTimer=0;
+				for(int i=0;i<UI.techListBtn.length;i++){
+					UI.techListBtn[i].enabled=false;
+					UI.techBtnTextOn[i]=false;
+				}
 				gameStates&=~4;
 				gameStates|=16;
 			}else
