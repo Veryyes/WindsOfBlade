@@ -15,10 +15,11 @@ public class Partner extends Fighter{
 	public static void loadPartners(){
 		mage = new Partner(0,0);
 		mage.name="Mage";
+		mage.animation = new Animation(ImageManager.getImage("res/sprites/mcircle.png"));
 		mage.level=6;
 		mage.experience = 0;
 		mage.str=10;
-		mage.intel=10;
+		mage.intel=15;
 		mage.dex=10;
 		mage.will=10;
 		mage.agil=10;

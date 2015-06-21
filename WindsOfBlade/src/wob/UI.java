@@ -266,6 +266,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				Game.map.shiftObjects(Camera.xShift, Camera.yShift);
 				Game.gameStates&=~2;
 				Game.player=new Player();
+				Game.player.party.add(Partner.mage);//TODO debug purposes, remove b4 shipping
 				this.enabled=false;
 				quitBtn.enabled=false;
 				loadBtn.enabled=false;
@@ -391,10 +392,10 @@ public class UI implements MouseListener, MouseWheelListener{
 			TypeWriter.drawString("HP "+Game.player.party.get(i).hp+"/"+Game.player.party.get(i).maxHp,((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+88, g);
 			TypeWriter.drawString("SP "+Game.player.party.get(i).sp+"/"+Game.player.party.get(i).maxSp,((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+124, g);		
 			TypeWriter.drawString("MP "+Game.player.party.get(i).mp+"/"+Game.player.party.get(i).maxMp,((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+160, g);
-			TypeWriter.drawString("str "+Game.player.party.get(i).str,(int)((Game.frameWidth-6)*(1f/8f))-((int)((Game.frameWidth-6 )*(2*i+3)/8f)), (int)((Game.frameWidth-6)*.1875)+196, g);
-			TypeWriter.drawString("int "+Game.player.party.get(i).intel,(int)((Game.frameWidth-6)*(1f/8f))-((int)((Game.frameWidth-6 )*(2*i+3)/8f)), (int)((Game.frameWidth-6)*.1875)+232, g);
-			TypeWriter.drawString("dex "+Game.player.party.get(i).dex,(int)((Game.frameWidth-6)*(1f/8f))-((int)((Game.frameWidth-6 )*(2*i+3)/8f)), (int)((Game.frameWidth-6)*.1875)+268, g);
-			TypeWriter.drawString("agil "+Game.player.party.get(i).agil,(int)((Game.frameWidth-6)*(1f/8f))-((int)((Game.frameWidth-6 )*(2*i+3)/8f)), (int)((Game.frameWidth-6)*.1875)+304, g);
+			TypeWriter.drawString("str "+Game.player.party.get(i).str,((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+196, g);
+			TypeWriter.drawString("int "+Game.player.party.get(i).intel,((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+232, g);
+			TypeWriter.drawString("dex "+Game.player.party.get(i).dex,((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+268, g);
+			TypeWriter.drawString("agil "+Game.player.party.get(i).agil,((int)((Game.frameWidth-6 )*(2*i+3)/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+304, g);
 		}
 		TypeWriter.setSize(TypeWriter.MEDIUM);
 	}

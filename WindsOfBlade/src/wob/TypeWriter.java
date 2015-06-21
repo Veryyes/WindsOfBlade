@@ -119,7 +119,7 @@ public class TypeWriter {
 		try{
 			return fonts[Arrays.binarySearch(chars,c)];
 		}catch(Exception e){
-			System.out.println("[WARNING] Character "+c+" does not exist in this font set; skiping character!");//TODO error with '\n'
+			System.out.println("[WARNING] Character \""+c+"\" does not exist in this font set; skiping character!");//TODO error with '\n'
 			return fonts[Arrays.binarySearch(chars,'_')];
 		}
 	}

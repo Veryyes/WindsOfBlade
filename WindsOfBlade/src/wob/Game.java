@@ -133,7 +133,7 @@ public class Game extends JPanel{
 		frame.setVisible(true);
 		player = new Player();
 		Partner.loadPartners();
-		player.party.add(Partner.mage);
+		System.out.println("[INFO] Characters Initialized");
 	}
 	/*
 	 * 	Reading config files

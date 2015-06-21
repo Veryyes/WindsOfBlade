@@ -36,6 +36,15 @@ public class BattleManager {
 			TypeWriter.drawString("Skills", 32, 496, g);
 			TypeWriter.drawString("item", 32, 542, g);
 			TypeWriter.drawString("run", 176, 542, g);
+			TypeWriter.setSize(.7f);
+			TypeWriter.drawString(Game.player.name+" HP"+Game.player.hp+"/"+Game.player.maxHp+" MP"+Game.player.mp+"/"+Game.player.maxMp+" SP"+Game.player.sp+"/"+Game.player.maxSp,
+					298,448,g);
+			//y+30
+			for(int i=0;i<Game.player.party.size();i++){
+				TypeWriter.drawString(Game.player.party.get(i).name+" HP"+Game.player.party.get(i).hp+"/"+Game.player.party.get(i).maxHp+" MP"+Game.player.party.get(i).mp+"/"+Game.player.party.get(i).maxMp+" SP"+Game.player.party.get(i).sp+"/"+Game.player.party.get(i).maxSp,
+						298,448+(30*i+30),g);
+			}
+			TypeWriter.setSize(TypeWriter.MEDIUM);
 		}else if((battleState&8)>0){						//Technique List
 			UI.drawRectUI(15,372,64,64,true,g);
 			g.drawImage(backArrow.getFrame(0),33,384,null);
