@@ -1,5 +1,7 @@
 package wob;
 
+import java.util.LinkedList;
+
 public abstract class Fighter extends Actor {
 	int level;
 	int experience;
@@ -8,6 +10,8 @@ public abstract class Fighter extends Actor {
 	int mp, maxMp;	//Mana
 	int sp, maxSp;	//Stamina
 	int type;
+	LinkedList<Item> inventory;
+	LinkedList<Move> techniques;
 	public Fighter(int x, int y) {
 		super(x, y);
 	}

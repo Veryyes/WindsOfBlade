@@ -79,6 +79,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 			public void render(Graphics g){
 				try{
+					@SuppressWarnings("unused")
 					boolean b = Game.player.party.get(0)!=null;
 					super.render(g);
 					if(this.enabled){
@@ -103,6 +104,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 			public void render(Graphics g){
 				try{
+					@SuppressWarnings("unused")
 					boolean b = Game.player.party.get(1)!=null;
 					super.render(g);
 					if(this.enabled){
@@ -127,6 +129,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 			public void render(Graphics g){
 				try{
+					@SuppressWarnings("unused")
 					boolean b = Game.player.party.get(2)!=null;
 					super.render(g);
 					if(this.enabled){
@@ -142,7 +145,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		};
 		techListBtn[3].enabled=false;
-		itemListBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+48,28*5,40){
+		itemListBtn = new Button("items",(int)((2f/3f)*Game.frameWidth-8)+16,64){//,28*5,40){
 			public void run(){
 				this.enabled=false;
 				UI.statBtn.enabled=false;
@@ -152,7 +155,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		};
 		itemListBtn.enabled=false;
-		saveBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16+96,28*4,40){
+		saveBtn = new Button("save",(int)((2f/3f)*Game.frameWidth-8)+16,112){//,28*4,40){
 			public void run(){
 				this.enabled=false;
 				UI.itemListBtn.enabled=false;
@@ -175,7 +178,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				}
 			}
 		};
-		loadBtn=new Button(460,500,4*28,40){
+		loadBtn=new Button("load",460,500){//,4*28,40){
 			public void run(){
 				this.enabled=false;
 				startBtn.enabled=false;
@@ -227,15 +230,15 @@ public class UI implements MouseListener, MouseWheelListener{
 					BattleManager.battleState&=~4;
 					enableSelectionBtns();
 					this.enabled=false;
-				}else if(BattleManager.selectedTechnique!=null&&(BattleManager.battleState&4)>0){
+				}else if(BattleManager.selectedTechnique.get(BattleManager.currentTurn)!=null&&(BattleManager.battleState&4)>0){
 					BattleManager.battleState|=8;
 					BattleManager.battleState&=~4;
-					BattleManager.selectedTechnique=null;
+					BattleManager.selectedTechnique.set(BattleManager.currentTurn,null);
 					enableBattleBtns();
-				}else if(BattleManager.selectedItem!=null&&(BattleManager.battleState&4)>0){
+				}else if(BattleManager.selectedItem.get(BattleManager.currentTurn)!=null&&(BattleManager.battleState&4)>0){
 					BattleManager.battleState|=16;
 					BattleManager.battleState&=~4;
-					BattleManager.selectedItem=null;
+					BattleManager.selectedItem.set(BattleManager.currentTurn,null);
 					enableBattleBtns();
 				}else{
 					BattleManager.battleState|=1;
@@ -246,13 +249,13 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		};
 		backBtn.enabled=false;
-		quitBtn = new Button(750,500,112,40){
+		quitBtn = new Button("quit",750,500){//,112,40){
 			public void run(){
 				Game.gameStates&=~1;
 				System.exit(0);
 			}
 		};
-		startBtn=new Button(200,500,140,40){
+		startBtn=new Button("start",200,500){//,140,40){
 			public void run(){
 				Game.gameStates&=~8;
 				Game.gameStates|=18;
@@ -266,28 +269,28 @@ public class UI implements MouseListener, MouseWheelListener{
 				Game.map.shiftObjects(Camera.xShift, Camera.yShift);
 				Game.gameStates&=~2;
 				Game.player=new Player();
-				Game.player.party.add(Partner.mage);//TODO debug purposes, remove b4 shipping
+				Game.player.addPartner(Partner.mage);//TODO debug purposes, remove b4 shipping
 				this.enabled=false;
 				quitBtn.enabled=false;
 				loadBtn.enabled=false;
 			}
 		};
-		attackBtn=new Button(32,448,168,40){
+		attackBtn=new Button("attack",32,448){//,168,40){
 			public void run(){
 				BattleManager.battleState|=2;
 				BattleManager.battleState|=4;
 				BattleManager.battleState&=~1;
 				BattleManager.attack=true;
-				BattleManager.selectedItem=null;
-				BattleManager.selectedTarget=null;
-				BattleManager.selectedTechnique=null;
+				BattleManager.selectedItem.set(BattleManager.currentTurn,null);
+				BattleManager.selectedTarget.set(BattleManager.currentTurn,null);
+				BattleManager.selectedTechnique.set(BattleManager.currentTurn,null);
 				disableSelectionBtns();
 				enableBattleBtns();
 				backBtn.enabled=true;
 			}
 		};
 		attackBtn.enabled=false;
-		techniqueBtn=new Button(32,496,252,40){
+		techniqueBtn=new Button("skill",32,496){//,252,40){
 			public void run(){
 				BattleManager.battleState|=8;
 				BattleManager.battleState&=~1;
@@ -298,7 +301,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		};
 		techniqueBtn.enabled=false;
-		itemBtn=new Button(32,542,112,40){
+		itemBtn=new Button("item",32,542){//,112,40){
 			public void run(){
 				BattleManager.battleState|=16;
 				BattleManager.battleState&=~1;
@@ -309,7 +312,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			}
 		};
 		itemBtn.enabled=false;
-		runBtn=new Button(176,542,84,40){
+		runBtn=new Button("run",176,542){//,84,40){
 			public void run(){
 				BattleManager.battleState|=32;
 				BattleManager.battleState&=~1;
@@ -323,21 +326,30 @@ public class UI implements MouseListener, MouseWheelListener{
 				battleButtons[i][j]=new BattleButton(32+330*j,448+50*i,300,50,j+i*battleButtons.length){
 					public void run(){
 						try{
-							this.selected=true;
 							if((BattleManager.battleState&8)>0){
-								BattleManager.selectedTechnique=Game.player.techniques.get(this.index+buttonShift*3);
+								BattleManager.selectedTechnique.set(BattleManager.currentTurn,Game.player.techniques.get(this.index+buttonShift*3));
 								BattleManager.battleState&=~8;
 								BattleManager.battleState|=4;
 								//System.out.println(BattleManager.selectedTechnique.name);
 							}else if((BattleManager.battleState&16)>0){
-								BattleManager.selectedItem=Game.player.inventory.get(this.index+buttonShift*3);
+								BattleManager.selectedItem.set(BattleManager.currentTurn,Game.player.inventory.get(this.index+buttonShift*3));
 								BattleManager.battleState&=~16;
 								BattleManager.battleState|=4;
 								//System.out.println(BattleManager.selectedItem.name);
 							}else if((BattleManager.battleState&4)>0){
-								BattleManager.selectedTarget=BattleManager.targets.get(this.index+buttonShift*3);
+								BattleManager.selectedTarget.set(BattleManager.currentTurn,BattleManager.targets.get(this.index+buttonShift*3));
+								BattleManager.currentTurn++;
 								BattleManager.battleState&=~4;
-								BattleManager.battleState|=64;
+								if(BattleManager.currentTurn==Game.player.party.size()+1)
+									BattleManager.battleState|=64;
+								else{
+									//TODO reenabled all dat stuff
+									BattleManager.battleState|=1;
+									UI.enableSelectionBtns();
+									UI.backBtn.enabled=false;
+								}
+									
+								
 								//System.out.println(BattleManager.selectedTarget.name);
 								UI.disableBattleBtns();
 								backBtn.enabled=false;

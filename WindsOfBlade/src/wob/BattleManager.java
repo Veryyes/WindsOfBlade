@@ -13,24 +13,96 @@ public class BattleManager {
 	//   	32
 	//mm->run screen->back to mm is fail else to field
 	//64 - Damage Calc & Animation;
-	public static byte battleState = 0;
-	public static LinkedList<Fighter> targets = new LinkedList<Fighter>();
-	public static Move selectedTechnique;
-	public static Item selectedItem;
-	public static Fighter selectedTarget;
+	public static byte battleState;
+	public static LinkedList<Fighter> targets;
+	public static byte currentTurn;
+	public static LinkedList<Move> selectedTechnique;
+	public static LinkedList<Item> selectedItem;
+	public static LinkedList<Fighter> selectedTarget;
 	public static int money;
 	public static int exp;
 	public static boolean attack = false;
-	private static int damageDelt=0;
-	private static int endTimer = 0;
-	private static int messageTimer = 0;
+//	private static int damageDelt=0;
+//	private static int endTimer = 0;
+//	private static int messageTimer = 0;
 	@SuppressWarnings("unused")
 	private static int animationTimer = 0;
 	private static Animation backArrow = new Animation(ImageManager.getImage("res/ui/backArrow.png"));
+	public static void initialize(){
+		targets = new LinkedList<Fighter>();
+		selectedTechnique = new LinkedList<Move>();   
+		selectedItem = new LinkedList<Item>();        
+		selectedTarget = new LinkedList<Fighter>();
+		selectedTechnique.add(null);
+		selectedItem.add(null);
+		selectedTarget.add(null);
+		System.out.println(selectedTarget.size());
+	}
 	public static void render(Graphics g){
-		for(int i=1+Game.player.party.size();i<targets.size();i++){
+		for(int i=1+Game.player.party.size();i<targets.size();i++)
 				g.drawImage(ImageManager.getImage("res/enemy/"+targets.get(i).name+".png"),256*(i-Game.player.party.size())-128,128,null);
+		if((battleState&1)>0){
+			TypeWriter.setSize(.7f);//TODO add padding between name & stats so that they are all flush with each other
+			TypeWriter.drawString(Game.player.name+" HP"+Game.player.hp+"/"+Game.player.maxHp+" MP"+Game.player.mp+"/"+Game.player.maxMp+" SP"+Game.player.sp+"/"+Game.player.maxSp,
+					298,448,g);
+			for(int i=0;i<Game.player.party.size();i++){
+				TypeWriter.drawString(Game.player.party.get(i).name+" HP"+Game.player.party.get(i).hp+"/"+Game.player.party.get(i).maxHp+" MP"+Game.player.party.get(i).mp+"/"+Game.player.party.get(i).maxMp+" SP"+Game.player.party.get(i).sp+"/"+Game.player.party.get(i).maxSp,
+						298,448+(30*i+30),g);
+			}
+			TypeWriter.setSize(TypeWriter.MEDIUM);
+		}else if((battleState&8)>0){						//Technique List
+			UI.drawRectUI(15,372,64,64,true,g);
+			g.drawImage(backArrow.getFrame(0),33,384,null);
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 0, 32, 448, g);
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 1, 362, 448, g);
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 2, 692, 448, g);
+			                        
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 3, 32, 498, g);
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 4, 362, 498, g);
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 5, 692, 498, g);
+			                        
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 6, 32, 548, g);
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 7, 362, 548, g);
+			TypeWriter.drawMoveName(targets.get(currentTurn).techniques, 8, 692, 548, g);
+		}else if((battleState&16)>0){						//Item List
+			UI.drawRectUI(15,372,64,64,true,g);
+			g.drawImage(backArrow.getFrame(0),33,384,null);
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 0, 32, 448, g);
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 1, 362, 448, g);
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 2, 692, 448, g);
+			                       
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 3, 32, 498, g);
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 4, 362, 498, g);
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 5, 692, 498, g);
+			                        
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 6, 32, 548, g);
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 7, 362, 548, g);
+			TypeWriter.drawItemName(targets.get(currentTurn).inventory, 8, 692, 548, g);
+		}else if((battleState&32)>0){						//Run
+			battleState=0;
+			Game.gameStates|=16;
+			Game.gameStates&=~32;
+		}else if((battleState&4)>0){						//Target Selection
+			UI.drawRectUI(15,372,64,64,true,g);
+			g.drawImage(backArrow.getFrame(0),33,384,null);
+			TypeWriter.drawTargetName(targets, 0, 32, 448, g);
+			TypeWriter.drawTargetName(targets, 1, 362, 448, g);
+			TypeWriter.drawTargetName(targets, 2, 692, 448, g);
+			                       
+			TypeWriter.drawTargetName(targets, 3, 32, 498, g);
+			TypeWriter.drawTargetName(targets, 4, 362, 498, g);
+			TypeWriter.drawTargetName(targets, 5, 692, 498, g);
+			                         
+			TypeWriter.drawTargetName(targets, 6, 32, 548, g);
+			TypeWriter.drawTargetName(targets, 7, 362, 548, g);
+			TypeWriter.drawTargetName(targets, 8, 692, 548, g);
+		}else if((battleState&64)>0){	
+			//queue up fighters by agil
+			//do each of their actions
+			//end battle Condition check
 		}
+	}
+		/*
 		if((battleState&1)>0){								//Menu
 			TypeWriter.drawString("attack", 32, 448, g);
 			TypeWriter.drawString("Skills", 32, 496, g);
@@ -94,7 +166,7 @@ public class BattleManager {
 		}else if((battleState&64)>0){						//Damage Calc & Animation;
 			/*
 			 * TODO make this queue up for party member attacks
-			 */
+			 *//*
 			if(attack==true){
 				attack=false;
 				if(Move.attackHit((Fighter)Game.player, selectedTarget)){
@@ -155,8 +227,8 @@ public class BattleManager {
 				}
 			}
 		}
-	}
+	}*/
 	public static boolean isAttackPhase(){
-		return(selectedTechnique==null&&selectedItem==null&&(battleState&4)>0);
+		return(selectedTechnique.get(currentTurn)==null&&selectedItem.get(currentTurn)==null&&(battleState&4)>0);
 	}
 }

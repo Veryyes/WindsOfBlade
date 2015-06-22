@@ -21,9 +21,11 @@ public class EncounterSpot extends Entity implements WorldObject{
 			BattleManager.battleState|=1;
 			UI.backBtn.enabled=false;
 			BattleManager.targets.clear();
-			BattleManager.selectedItem=null;
-			BattleManager.selectedTarget=null;
-			BattleManager.selectedTechnique=null;
+			for(int i=0;i<BattleManager.selectedItem.size();i++){
+				BattleManager.selectedItem.set(i,null);
+				BattleManager.selectedTarget.set(i,null);
+				BattleManager.selectedTechnique.set(i,null);
+			}
 			BattleManager.targets.add(Game.player);
 			for(byte i = 0;i<Game.player.party.size();i++)
 				BattleManager.targets.add(Game.player.party.get(i));

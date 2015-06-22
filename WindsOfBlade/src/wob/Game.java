@@ -127,6 +127,8 @@ public class Game extends JPanel{
 		frame.addMouseListener(mouselistener);
 		frame.addMouseWheelListener(mouselistener);
 		mousePos=frame.getMousePosition();	
+		System.out.println("[INFO] Input Controls Loaded");
+		BattleManager.initialize(); 
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
 		AudioManager.playBgm("sound/bgm/ItsAnAdventure.mid");

@@ -3,7 +3,6 @@ package wob;
 import java.util.LinkedList;
 
 public class Partner extends Fighter{
-	LinkedList<Move> techniques;
 	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	public static Partner mage;
 	public static Partner apollo;
@@ -24,12 +23,15 @@ public class Partner extends Fighter{
 		mage.will=10;
 		mage.agil=10;
 		mage.hp=20;
-		mage.maxHp=20;
+		mage.maxHp=20;	
 		mage.mp=10;
 		mage.maxMp=10;
 		mage.sp=10;
 		mage.maxSp=10;
 		mage.type=Type.NORMAL;
+		for(int i=Move.database.size()/2;i<Move.database.size();i++){
+			mage.techniques.add(Move.database.get(i));
+		}
 
 		apollo = new Partner(0,0);
 		apollo.name="Bow";

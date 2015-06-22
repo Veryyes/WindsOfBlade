@@ -7,8 +7,6 @@ import java.util.LinkedList;
 
 public class Player extends Fighter implements WorldObject{
 	int money;
-	LinkedList<Item> inventory;
-	LinkedList<Move> techniques;
 	LinkedList<Partner> party;
 	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	static Line2D.Double topLine,botLine,leftLine,rightLine;
@@ -39,8 +37,10 @@ public class Player extends Fighter implements WorldObject{
 		sp=10;
 		maxSp=10;
 		type=Type.NORMAL;
-		for(Move m: Move.database)
-			techniques.add(m);
+		for(int i=0;i<Move.database.size()/2;i++){
+			techniques.add(Move.database.get(i));
+		}
+		
 	}
 	
 	public void worldRender(Graphics g) {
@@ -48,6 +48,12 @@ public class Player extends Fighter implements WorldObject{
 	}
 	public void update() {
 		animation.update();
+	}
+	public void addPartner(Partner p){
+		Game.player.party.add(p);
+		BattleManager.selectedTechnique.add(null);
+		BattleManager.selectedItem.add(null);
+		BattleManager.selectedTarget.add(null);
 	}
 	
 }

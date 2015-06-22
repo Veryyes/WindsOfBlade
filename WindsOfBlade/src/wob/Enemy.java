@@ -4,13 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
 
 public class Enemy extends Fighter{
 	int damage;
 	int money;
-	LinkedList<Item> inventory;
-	LinkedList<Move> techniques;
 	public Enemy(String name) {
 		super(0,0);
 		this.name=name;
