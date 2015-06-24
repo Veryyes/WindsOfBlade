@@ -1,6 +1,8 @@
-hp=25
-damage=2
 level=1
-money=5
 exp=20
+money=5
+damage=5
 type=earth
+hp=25
+dmgType=1
+speed=8

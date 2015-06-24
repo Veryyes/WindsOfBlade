@@ -32,7 +32,25 @@ public class EncounterSpot extends Entity implements WorldObject{
 			byte enemyNum = (byte) (Math.random()*3 +1);
 			for(byte i = 0;i<enemyNum;i++)
 				BattleManager.targets.add(Game.map.enemies.get((int)(Math.random()*Game.map.enemies.size())).clone());
-			//Load other battle stuff
+			//queue up fighters by agil
+			BattleManager.queue = new Fighter[BattleManager.targets.size()];
+			for(int i=0;i<BattleManager.queue.length;i++)
+				BattleManager.queue[i]=BattleManager.targets.get(i);
+			for(int i=0;i<BattleManager.queue.length;i++){
+				Fighter max = BattleManager.queue[i];
+				int maxIndex=0;
+				for(int j=i;j<BattleManager.queue.length;j++)
+					if(max.agil<BattleManager.queue[j].agil){
+						max=BattleManager.queue[j];
+						maxIndex=j;
+					}
+				if(max!=BattleManager.queue[i]){
+					Fighter temp = BattleManager.queue[i];
+					BattleManager.queue[i]=max;
+					BattleManager.queue[maxIndex]=temp;
+				}
+				System.out.println(BattleManager.queue[i].name+":"+BattleManager.queue[i].agil);
+			}
 		}
 	}
 	public void worldRender(Graphics g) {

@@ -8,6 +8,7 @@ import java.io.IOException;
 public class Enemy extends Fighter{
 	int damage;
 	int money;
+	byte damageType; //1=physical, 2=special 3=mix;
 	public Enemy(String name) {
 		super(0,0);
 		this.name=name;
@@ -20,15 +21,16 @@ public class Enemy extends Fighter{
 				rawData+=(char)item;
 			br.close();
 			String[] lines = rawData.split("\n");
-			hp = Integer.parseInt(lines[0].split("=")[1].trim());
-			damage = Integer.parseInt(lines[1].split("=")[1].trim());
-			level = Integer.parseInt(lines[2].split("=")[1].trim());
-			money = Integer.parseInt(lines[3].split("=")[1].trim());
-			experience = Integer.parseInt(lines[4].split("=")[1].trim());
-			type = Type.parseType(lines[5].split("=")[1].trim());
+			level = Integer.parseInt(lines[0].split("=")[1].trim());
+			experience = Integer.parseInt(lines[1].split("=")[1].trim());
+			money = Integer.parseInt(lines[2].split("=")[1].trim());
+			damage = Integer.parseInt(lines[3].split("=")[1].trim());
+			type = Type.parseType(lines[4].split("=")[1].trim());
+			hp = Integer.parseInt(lines[5].split("=")[1].trim());
+			damageType = Byte.parseByte(lines[6].split("=")[1].trim());
+			agil = Integer.parseInt(lines[7].split("=")[1].trim());
 		} catch (IOException e) {
 			System.out.println("[WARNING] Missing Enemy Data - \"data/enemy/"+name+".txt\"");
-			//TODO Initiate default Enemy
 		}
 	}
 	public Enemy(){

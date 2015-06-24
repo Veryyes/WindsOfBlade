@@ -22,6 +22,7 @@ public class BattleManager {
 	public static int money;
 	public static int exp;
 	public static boolean attack = false;
+	public static Fighter[] queue;
 //	private static int damageDelt=0;
 //	private static int endTimer = 0;
 //	private static int messageTimer = 0;
@@ -36,7 +37,6 @@ public class BattleManager {
 		selectedTechnique.add(null);
 		selectedItem.add(null);
 		selectedTarget.add(null);
-		System.out.println(selectedTarget.size());
 	}
 	public static void render(Graphics g){
 		for(int i=1+Game.player.party.size();i<targets.size();i++)
@@ -97,7 +97,7 @@ public class BattleManager {
 			TypeWriter.drawTargetName(targets, 7, 362, 548, g);
 			TypeWriter.drawTargetName(targets, 8, 692, 548, g);
 		}else if((battleState&64)>0){	
-			//queue up fighters by agil
+			
 			//do each of their actions
 			//end battle Condition check
 		}
