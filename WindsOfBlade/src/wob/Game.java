@@ -85,7 +85,11 @@ public class Game extends JPanel{
 		}else if((gameStates&32)>0){								//Battle
 			g.drawImage(ImageManager.getImage("res/backdrop/backdrop.png"),0,0,null);
 			UI.drawRectUI(g);
-			BattleManager.render(g);
+			try {
+				BattleManager.render(g);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}else if((gameStates&4)>0){									//Menu/Paused/Inventory
 			g.setColor(Color.black);
 			g.fillRect(0,0,frameWidth,frameHeight);

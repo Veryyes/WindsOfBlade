@@ -6,9 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Enemy extends Fighter{
-	int damage;
 	int money;
 	byte damageType; //1=physical, 2=special 3=mix;
+	byte aiType; //1=random //2=lowest hp //3=lowest hp% //4=highest hp //5=highest hp%
 	public Enemy(String name) {
 		super(0,0);
 		this.name=name;
@@ -24,14 +24,24 @@ public class Enemy extends Fighter{
 			level = Integer.parseInt(lines[0].split("=")[1].trim());
 			experience = Integer.parseInt(lines[1].split("=")[1].trim());
 			money = Integer.parseInt(lines[2].split("=")[1].trim());
-			damage = Integer.parseInt(lines[3].split("=")[1].trim());
-			type = Type.parseType(lines[4].split("=")[1].trim());
-			hp = Integer.parseInt(lines[5].split("=")[1].trim());
-			damageType = Byte.parseByte(lines[6].split("=")[1].trim());
-			agil = Integer.parseInt(lines[7].split("=")[1].trim());
+			type = Type.parseType(lines[3].split("=")[1].trim());
+			damageType = Byte.parseByte(lines[4].split("=")[1].trim());
+			aiType = Byte.parseByte(lines[5].split("=")[1].trim());
+			hp = Integer.parseInt(lines[6].split("=")[1].trim());
+			str = Integer.parseInt(lines[7].split("=")[1].trim());
+			intel = Integer.parseInt(lines[8].split("=")[1].trim());
+			dex = Integer.parseInt(lines[9].split("=")[1].trim());
+			will = Integer.parseInt(lines[10].split("=")[1].trim());
+			agil = Integer.parseInt(lines[11].split("=")[1].trim());
 		} catch (IOException e) {
 			System.out.println("[WARNING] Missing Enemy Data - \"data/enemy/"+name+".txt\"");
 		}
+	}
+	public int physicalDamage(){
+		return (int)(str*.5);
+	}
+	public int magicDamage(){
+		return (int) (intel*.5);
 	}
 	public Enemy(){
 		super(0,0);
@@ -56,6 +66,8 @@ public class Enemy extends Fighter{
 		e.maxSp=maxSp;
 		e.mp=mp;
 		e.maxMp=maxMp;
+		e.damageType=damageType;
+		e.aiType=aiType;
 		return e;
 	}
 	public void update() {

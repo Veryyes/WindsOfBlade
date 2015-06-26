@@ -1,8 +1,12 @@
 level=1
 exp=20
 money=5
-damage=5
 type=earth
-hp=25
 dmgType=1
-speed=8
+ai=1
+hp=25
+str=5
+int=2
+dex=0
+will=8
+agil=50

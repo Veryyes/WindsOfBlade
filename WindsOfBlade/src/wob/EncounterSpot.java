@@ -32,6 +32,8 @@ public class EncounterSpot extends Entity implements WorldObject{
 			byte enemyNum = (byte) (Math.random()*3 +1);
 			for(byte i = 0;i<enemyNum;i++)
 				BattleManager.targets.add(Game.map.enemies.get((int)(Math.random()*Game.map.enemies.size())).clone());
+		//	for(int i=0;i<BattleManager.enemies.size();i++)
+			//	BattleManager.targets.add(BattleManager.enemies.get(i));
 			//queue up fighters by agil
 			BattleManager.queue = new Fighter[BattleManager.targets.size()];
 			for(int i=0;i<BattleManager.queue.length;i++)
@@ -39,7 +41,7 @@ public class EncounterSpot extends Entity implements WorldObject{
 			for(int i=0;i<BattleManager.queue.length;i++){
 				Fighter max = BattleManager.queue[i];
 				int maxIndex=0;
-				for(int j=i;j<BattleManager.queue.length;j++)
+				for(int j=i;j<BattleManager.queue.length;j++)//Selection Sort by Agility Stat
 					if(max.agil<BattleManager.queue[j].agil){
 						max=BattleManager.queue[j];
 						maxIndex=j;
@@ -49,7 +51,7 @@ public class EncounterSpot extends Entity implements WorldObject{
 					BattleManager.queue[i]=max;
 					BattleManager.queue[maxIndex]=temp;
 				}
-				System.out.println(BattleManager.queue[i].name+":"+BattleManager.queue[i].agil);
+				//System.out.println(BattleManager.queue[i].name+":"+BattleManager.queue[i].agil);
 			}
 		}
 	}

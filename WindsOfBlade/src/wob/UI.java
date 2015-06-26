@@ -280,7 +280,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.battleState|=2;
 				BattleManager.battleState|=4;
 				BattleManager.battleState&=~1;
-				BattleManager.attack=true;
+//				BattleManager.attack=true;
 				BattleManager.selectedItem.set(BattleManager.currentTurn,null);
 				BattleManager.selectedTarget.set(BattleManager.currentTurn,null);
 				BattleManager.selectedTechnique.set(BattleManager.currentTurn,null);
