@@ -47,6 +47,8 @@ public class BattleManager {
 		selectedTarget.add(null);
 	}
 	public static void render(Graphics g) throws InterruptedException{
+		//System.out.println("messageTimer "+messageTimer);
+		//System.out.println("textTimer "+textTimer);
 		for(int i=1+Game.player.party.size();i<targets.size();i++)
 				g.drawImage(ImageManager.getImage("res/enemy/"+targets.get(i).name+".png"),256*(i-Game.player.party.size())-128,128,null);
 		if((battleState&1)>0){
@@ -107,28 +109,29 @@ public class BattleManager {
 		}else if((battleState&64)>0){	
 			
 			if(dmgCalc){
-				System.out.println("Doing Dmg Calc");
 				dmgCalc=false;
 				for(int i=0;i<queue.length;i++){
 					if(queue[i] instanceof Enemy){
-						System.out.println(queue[i].name);
+						System.out.print(queue[i].name);
 						Fighter currentTarget = null;
 						Enemy attacker = (Enemy)queue[i];
 						switch (attacker.aiType){
 						case 1://Random Target
 							currentTarget=targets.get((int)(Math.random()*(1+Game.player.party.size())));
+							while(currentTarget.hp<0)
+								currentTarget=targets.get((int)(Math.random()*(1+Game.player.party.size())));
 							break;
 						case 2://Lowest HP(by value) Target
 							currentTarget=targets.get(0);
 							for(int j=0;j<1+Game.player.party.size();j++){
-								if(currentTarget.hp>targets.get(i).hp)
+								if(currentTarget.hp>targets.get(i).hp&&currentTarget.hp>0)
 									currentTarget=targets.get(i);
 							}
 							break;
 						case 3://Lowest HP(by %) Target
 							currentTarget=targets.get(0);
 							for(int j=0;j<1+Game.player.party.size();j++){
-								if((float)currentTarget.hp/(float)currentTarget.maxHp>(float)(targets.get(i).hp)/(float)(targets.get(i).maxHp))
+								if((float)currentTarget.hp/(float)currentTarget.maxHp>(float)(targets.get(i).hp)/(float)(targets.get(i).maxHp)&&currentTarget.hp>0)
 									currentTarget=targets.get(i);
 							}
 							break;
@@ -162,48 +165,53 @@ public class BattleManager {
 						currentTarget.lastDamageTaken=(int) (damage*Type.effectiveness(attacker.type, currentTarget.type));
 						if(currentTarget.lastDamageTaken>0){
 							currentTarget.hp-=currentTarget.lastDamageTaken;
-							System.out.println(currentTarget.name+" took "+currentTarget.lastDamageTaken+" damage!");
+							System.out.println(" "+currentTarget.name+" took "+currentTarget.lastDamageTaken+" damage!");
 						}else{
-							System.out.println("no damage");
+							System.out.println(" no damage "+currentTarget.lastDamageTaken);
 						}
 						//attackDamageOrder.add(attacker);
 						attackDamageOrder.add(currentTarget);
 					}else{
-						System.out.println(queue[i].name);
-						int turn = getTargetIndex(queue[i]);
-						System.out.println(selectedTarget.get(turn));
-						if(selectedTechnique.get(turn)!=null){
-							if(selectedTechnique.get(turn).hit(targets.get(turn), selectedTarget.get(turn))){
-								if(selectedTechnique.get(turn).physicalDamage(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getDefence()>=0)
-									selectedTarget.get(turn).lastDamageTaken=selectedTechnique.get(turn).physicalDamage(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getDefence();
-								if(selectedTechnique.get(turn).magicDamage(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getMagicDefence()>=0)
-									selectedTarget.get(turn).lastDamageTaken+=selectedTechnique.get(turn).magicDamage(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getMagicDefence();
-								if(selectedTarget.get(turn).lastDamageTaken>0){
-									selectedTarget.get(turn).hp-=selectedTarget.get(turn).lastDamageTaken;
-									System.out.println(targets.get(turn).name+" did "+selectedTarget.get(turn).lastDamageTaken+" damage to "+selectedTarget.get(turn).name);
-								}else
-									System.out.println(targets.get(turn).name+" did no damage to "+selectedTarget.get(turn).name);
-							}else{
-								System.out.println(targets.get(turn).name+" missed!");
+						if(queue[i].hp>0){
+							int turn = getTargetIndex(queue[i]);
+							System.out.println(queue[i].name+" attacked "+selectedTarget.get(turn));
+							if(selectedTechnique.get(turn)!=null){
+								selectedTechnique.get(turn).consume(queue[i]);
+								if(selectedTechnique.get(turn).hit(targets.get(turn), selectedTarget.get(turn))){
+									if(selectedTechnique.get(turn).physicalDamage(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getDefence()>=0)
+										selectedTarget.get(turn).lastDamageTaken=selectedTechnique.get(turn).physicalDamage(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getDefence();
+									if(selectedTechnique.get(turn).magicDamage(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getMagicDefence()>=0)
+										selectedTarget.get(turn).lastDamageTaken+=selectedTechnique.get(turn).magicDamage(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getMagicDefence();
+									if(selectedTarget.get(turn).lastDamageTaken>0){
+										selectedTarget.get(turn).hp-=selectedTarget.get(turn).lastDamageTaken;
+										//System.out.println(targets.get(turn).name+" did "+selectedTarget.get(turn).lastDamageTaken+" damage to "+selectedTarget.get(turn).name);
+									}else{
+										//System.out.println(targets.get(turn).name+" did no damage to "+selectedTarget.get(turn).name);
+									}
+								}else{
+									//System.out.println(targets.get(turn).name+" missed!");
+								}
+								selectedTechnique.set(turn,null);
+							}else if(selectedItem.get(turn)!=null){
+								//TODO item stuff
+								selectedItem.set(turn,null);
+							}else{//Attack
+								if(Move.attackHit(targets.get(turn), selectedTarget.get(turn))){
+									selectedTarget.get(turn).lastDamageTaken=(Move.attackDamageDelt(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getDefence());
+									if(selectedTarget.get(turn).lastDamageTaken>0){
+										selectedTarget.get(turn).hp-=selectedTarget.get(turn).lastDamageTaken;
+										//System.out.println(targets.get(turn).name+" did "+selectedTarget.get(turn).lastDamageTaken+" damage to "+selectedTarget.get(turn).name);
+									}else{
+										//System.out.println(targets.get(turn).name+" did no damage to "+selectedTarget.get(turn).name);
+									}
+								}else{
+									//System.out.println(targets.get(turn).name+" missed!");
+								}
 							}
-							selectedTechnique.set(turn,null);
-						}else if(selectedItem.get(turn)!=null){
-							//TODO item stuff
-							selectedItem.set(turn,null);
-						}else{//Attack
-							if(Move.attackHit(targets.get(turn), selectedTarget.get(turn))){
-								selectedTarget.get(turn).lastDamageTaken=(Move.attackDamageDelt(targets.get(turn), selectedTarget.get(turn))-selectedTarget.get(turn).getDefence());
-								if(selectedTarget.get(turn).lastDamageTaken>0){
-									selectedTarget.get(turn).hp-=selectedTarget.get(turn).lastDamageTaken;
-									System.out.println(targets.get(turn).name+" did "+selectedTarget.get(turn).lastDamageTaken+" damage to "+selectedTarget.get(turn).name);
-								}else
-									System.out.println(targets.get(turn).name+" did no damage to "+selectedTarget.get(turn).name);
-							}else{
-								System.out.println(targets.get(turn).name+" missed!");
-							}
-						}
-						//attackDamageOrder.add(targets.get(turn));
-						attackDamageOrder.add(selectedTarget.get(turn));
+							//attackDamageOrder.add(targets.get(turn));
+							attackDamageOrder.add(selectedTarget.get(turn));
+						}else
+							attackDamageOrder.add(null);
 					}
 				}
 			}
@@ -232,7 +240,6 @@ public class BattleManager {
 								BattleManager.queue[maxIndex]=temp;
 							}
 						}
-						
 					}
 				}
 				//Battle End Cond check
@@ -251,6 +258,10 @@ public class BattleManager {
 						Game.player.experience+=exp;
 						for(Partner p:Game.player.party)
 							p.experience+=exp;
+						messageTimer=0;
+						textTimer=1;
+						currentTurn=0;
+						attackDamageOrder.clear();
 					}else 
 						endTimer++;
 				}else{
@@ -259,7 +270,9 @@ public class BattleManager {
 					UI.enableSelectionBtns();
 					UI.backBtn.enabled=true;
 					messageTimer=0;
+					textTimer=1;
 					currentTurn=0;
+					attackDamageOrder.clear();
 					for(int i=0;i<selectedItem.size();i++){
 						selectedItem.set(i,null);
 						selectedTarget.set(i,null);
@@ -269,17 +282,19 @@ public class BattleManager {
 				}
 			}else{
 				messageTimer++;
-				if(textTimer<150*targets.size()){
+				if(textTimer<150*targets.size()){//TODO i think textTimer is redundant.... //Can just use messageTimer for same functionality?
 					textTimer++;
 					if(textTimer%150==0)
 						textCounter++;
 					if(textCounter<attackDamageOrder.size()){
-						if(attackDamageOrder.get(textCounter).lastDamageTaken>0)
-							TypeWriter.drawMessage(queue[textCounter].name+" dealt "+attackDamageOrder.get(textCounter).lastDamageTaken+" damage to "+attackDamageOrder.get(textCounter).name+"!",g);
-						else
-							TypeWriter.drawMessage(queue[textCounter].name+"s attack had no effect on "+attackDamageOrder.get(textCounter).name+"!",g);
+						if(queue[textCounter].hp>0){
+							if(attackDamageOrder.get(textCounter).lastDamageTaken>0)
+								TypeWriter.drawMessage(queue[textCounter].name+" dealt "+attackDamageOrder.get(textCounter).lastDamageTaken+" damage to "+attackDamageOrder.get(textCounter).name+"!",g);
+							else
+								TypeWriter.drawMessage(queue[textCounter].name+"s attack had no effect on "+attackDamageOrder.get(textCounter).name+"!",g);
+						}
 					}else{
-						textCounter=0;//Break out of this
+						textCounter=0;
 						messageTimer=150*targets.size()+20;
 					}
 				}else{
@@ -291,6 +306,7 @@ public class BattleManager {
 			
 		}
 	}
+
 	private static int getTargetIndex(Fighter f){
 		int index=-1;
 		for(int i=0;i<targets.size();i++){
@@ -300,24 +316,7 @@ public class BattleManager {
 		}
 		return index;
 	}
-	private static Fighter[] removeQueueElement(Fighter f){
-		for(int i=0;i<queue.length;i++){
-			if(f==queue[i]){
-				Fighter[] list = new Fighter[queue.length-1];
-				int j=0;
-				int k=j;
-				while(j<queue.length){
-					if(j==i)
-						k++;
-					list[j]=queue[k];
-					j++;
-					k++;
-				}
-				return list;
-			}
-		}
-		return queue;
-	}
+	
 	public static boolean isAttackPhase(){
 		return(selectedTechnique.get(currentTurn)==null&&selectedItem.get(currentTurn)==null&&(battleState&4)>0);
 	}
