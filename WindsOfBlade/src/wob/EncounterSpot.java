@@ -21,11 +21,11 @@ public class EncounterSpot extends Entity implements WorldObject{
 			BattleManager.battleState|=1;
 			UI.backBtn.enabled=false;
 			BattleManager.targets.clear();
-			for(int i=0;i<BattleManager.selectedItem.size();i++){
-				BattleManager.selectedItem.set(i,null);
-				BattleManager.selectedTarget.set(i,null);
-				BattleManager.selectedTechnique.set(i,null);
-			}
+		//	for(int i=0;i<BattleManager.selectedItem.size();i++){
+		//		BattleManager.selectedItem.set(i,null);
+		//		BattleManager.selectedTarget.set(i,null);
+		//		BattleManager.selectedTechnique.set(i,null);
+		//	}
 			BattleManager.targets.add(Game.player);
 			for(byte i = 0;i<Game.player.party.size();i++)
 				BattleManager.targets.add(Game.player.party.get(i));
@@ -36,8 +36,10 @@ public class EncounterSpot extends Entity implements WorldObject{
 			//	BattleManager.targets.add(BattleManager.enemies.get(i));
 			//queue up fighters by agil
 			BattleManager.queue = new Fighter[BattleManager.targets.size()];
-			for(int i=0;i<BattleManager.queue.length;i++)
+			for(int i=0;i<BattleManager.queue.length;i++){
 				BattleManager.queue[i]=BattleManager.targets.get(i);
+				BattleManager.targets.get(i).resetTurn();
+			}
 			for(int i=0;i<BattleManager.queue.length;i++){
 				Fighter max = BattleManager.queue[i];
 				int maxIndex=0;

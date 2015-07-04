@@ -225,7 +225,35 @@ public class UI implements MouseListener, MouseWheelListener{
 		saveBtn.enabled=false;
 		backBtn = new Button(15,372,64,64){
 			public void run(){
-				if(BattleManager.isAttackPhase()){
+				if((BattleManager.battleState&1)>0){
+					if(BattleManager.currentTurn>0){
+						BattleManager.currentTurn--;
+						BattleManager.targets.get(BattleManager.currentTurn).resetTurn();
+					}
+				}else if((BattleManager.battleState&4)>0){
+					if(BattleManager.targets.get(BattleManager.currentTurn).selectedTechnique!=null){
+						BattleManager.targets.get(BattleManager.currentTurn).selectedTechnique=null;
+						BattleManager.battleState|=8;
+						BattleManager.battleState&=~4;
+						enableBattleBtns();
+					}else if(BattleManager.targets.get(BattleManager.currentTurn).selectedItem!=null){
+						BattleManager.targets.get(BattleManager.currentTurn).selectedItem=null;
+						BattleManager.battleState|=16;
+						BattleManager.battleState&=~4;
+						enableBattleBtns();
+					}else{//Choosing Target to use a normal attack against;
+						BattleManager.battleState|=1;
+						BattleManager.battleState&=~4;
+						enableSelectionBtns();
+						this.enabled=false;
+					}
+				}else{
+					BattleManager.battleState|=1;
+					BattleManager.battleState&=~24;
+					enableSelectionBtns();
+					this.enabled=false;
+				}
+			/*	if(BattleManager.isAttackPhase()){
 					BattleManager.battleState|=1;
 					BattleManager.battleState&=~4;
 					enableSelectionBtns();
@@ -245,7 +273,7 @@ public class UI implements MouseListener, MouseWheelListener{
 					BattleManager.battleState&=~24;
 					enableSelectionBtns();
 					this.enabled=false;
-				}
+				}*/
 			}
 		};
 		backBtn.enabled=false;
@@ -269,7 +297,7 @@ public class UI implements MouseListener, MouseWheelListener{
 				Game.map.shiftObjects(Camera.xShift, Camera.yShift);
 				Game.gameStates&=~2;
 				Game.player=new Player();
-				Game.player.addPartner(Partner.mage);//TODO debug purposes, remove b4 shipping
+				Game.player.party.add(Partner.mage);//TODO debug purposes, remove b4 shipping
 				this.enabled=false;
 				quitBtn.enabled=false;
 				loadBtn.enabled=false;
@@ -281,9 +309,9 @@ public class UI implements MouseListener, MouseWheelListener{
 				BattleManager.battleState|=4;
 				BattleManager.battleState&=~1;
 //				BattleManager.attack=true;
-				BattleManager.selectedItem.set(BattleManager.currentTurn,null);
-				BattleManager.selectedTarget.set(BattleManager.currentTurn,null);
-				BattleManager.selectedTechnique.set(BattleManager.currentTurn,null);
+			//	BattleManager.selectedItem.set(BattleManager.currentTurn,null);
+				//BattleManager.selectedTarget.set(BattleManager.currentTurn,null);
+				//BattleManager.selectedTechnique.set(BattleManager.currentTurn,null);
 				disableSelectionBtns();
 				enableBattleBtns();
 				backBtn.enabled=true;
@@ -327,20 +355,25 @@ public class UI implements MouseListener, MouseWheelListener{
 					public void run(){
 						try{
 							if((BattleManager.battleState&8)>0){
-								BattleManager.selectedTechnique.set(BattleManager.currentTurn,Game.player.techniques.get(this.index+buttonShift*3));
+								BattleManager.targets.get(BattleManager.currentTurn).selectedTechnique=BattleManager.targets.get(BattleManager.currentTurn).techniques.get(this.index+buttonShift*3);
+								//BattleManager.selectedTechnique.set(BattleManager.currentTurn,Game.player.techniques.get(this.index+buttonShift*3));
 								BattleManager.battleState&=~8;
 								BattleManager.battleState|=4;
 								//System.out.println(BattleManager.selectedTechnique.name);
 							}else if((BattleManager.battleState&16)>0){
-								BattleManager.selectedItem.set(BattleManager.currentTurn,Game.player.inventory.get(this.index+buttonShift*3));
+								BattleManager.targets.get(BattleManager.currentTurn).selectedItem=BattleManager.targets.get(BattleManager.currentTurn).inventory.get(this.index+buttonShift*3);
+								//BattleManager.selectedItem.set(BattleManager.currentTurn,Game.player.inventory.get(this.index+buttonShift*3));
 								BattleManager.battleState&=~16;
 								BattleManager.battleState|=4;
 								//System.out.println(BattleManager.selectedItem.name);
 							}else if((BattleManager.battleState&4)>0){
-								BattleManager.selectedTarget.set(BattleManager.currentTurn,BattleManager.targets.get(this.index+buttonShift*3));
+								BattleManager.targets.get(BattleManager.currentTurn).target = BattleManager.targets.get(this.index+buttonShift*3);
+								//BattleManager.selectedTarget.set(BattleManager.currentTurn,BattleManager.targets.get(this.index+buttonShift*3));
 								BattleManager.currentTurn++;
+								if(BattleManager.targets.get(BattleManager.currentTurn).hp<=0)
+									BattleManager.currentTurn++;
 								BattleManager.battleState&=~4;
-								if(BattleManager.currentTurn==Game.player.party.size()+1)
+								if(BattleManager.currentTurn>=Game.player.party.size()+1)
 									BattleManager.battleState|=64;
 								else{
 									//TODO reenabled all dat stuff

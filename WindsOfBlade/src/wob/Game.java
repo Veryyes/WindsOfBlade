@@ -57,15 +57,15 @@ public class Game extends JPanel{
 		repaint();
 		mousePos=frame.getMousePosition();
 		//List of Rendering & Update Methods Here:
-		if((gameStates&2)>0)										//Loading Screen;
+		if((gameStates&2)>0)//Loading Screen;
 			g.drawImage(ImageManager.getImage("res/menu/Loading.png"),0,0,null);
-		else if((gameStates&8)>0){									//Main Menu;
+		else if((gameStates&8)>0){//Main Menu;
 			g.drawImage(ImageManager.getImage("res/menu/Winged Blade Sepia.png"),0,0,null);
 			TypeWriter.drawString("Start",200,500,g);
 			TypeWriter.drawString("load",460,500,g);
 			TypeWriter.drawString("quit",750,500,g);
 			TypeWriter.drawString("Winds Of Blade", 100, 50, g);
-		}else if((gameStates&16)>0){								//Field
+		}else if((gameStates&16)>0){//Field
 			Camera.update();
 			player.update();
 			map.update();
@@ -82,7 +82,7 @@ public class Game extends JPanel{
 				UI.drawMenu(g);
 			else if(UI.itemWindow)
 				UI.drawItemList(g);
-		}else if((gameStates&32)>0){								//Battle
+		}else if((gameStates&32)>0){//Battle
 			g.drawImage(ImageManager.getImage("res/backdrop/backdrop.png"),0,0,null);
 			UI.drawRectUI(g);
 			try {
@@ -90,7 +90,7 @@ public class Game extends JPanel{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}else if((gameStates&4)>0){									//Menu/Paused/Inventory
+		}else if((gameStates&4)>0){//Menu/Paused/Inventory
 			g.setColor(Color.black);
 			g.fillRect(0,0,frameWidth,frameHeight);
 			UI.drawMenuUI(g);
@@ -104,6 +104,8 @@ public class Game extends JPanel{
 				gameStates|=16;
 			}else
 				menuTimer++;
+		}else if((gameStates&128)>0){//GAME OVER
+			
 		}
 		UI.buttonRender(g);
 	}
@@ -132,7 +134,6 @@ public class Game extends JPanel{
 		frame.addMouseWheelListener(mouselistener);
 		mousePos=frame.getMousePosition();	
 		System.out.println("[INFO] Input Controls Loaded");
-		BattleManager.initialize(); 
 		gameStates|=8;											//Game is on Main Menu
 		gameTime=System.currentTimeMillis();
 		AudioManager.playBgm("sound/bgm/ItsAnAdventure.mid");

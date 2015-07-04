@@ -49,11 +49,6 @@ public class Player extends Fighter implements WorldObject{
 	public void update() {
 		animation.update();
 	}
-	public void addPartner(Partner p){
-		Game.player.party.add(p);
-		BattleManager.selectedTechnique.add(null);
-		BattleManager.selectedItem.add(null);
-		BattleManager.selectedTarget.add(null);
-	}
+
 	
 }

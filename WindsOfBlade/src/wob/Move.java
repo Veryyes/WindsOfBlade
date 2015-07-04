@@ -40,22 +40,35 @@ public class Move {
 		fw.close();
 		database.add(m);
 	}
-	public int physicalDamage(Fighter user, Fighter target){
-		return (int)((sp/(mp+sp))*user.str*.5*Math.log(base)*Type.effectiveness(this,target));
-	}
-	public int magicDamage(Fighter user, Fighter target){
-		return (int)((mp/(mp+sp))*user.intel*.5*Math.log(base)*Type.effectiveness(this,target));
-	}
-	public boolean hit(Fighter user, Fighter target){
+	//Techniques
+	public boolean hit(Fighter user, Fighter target){//Accuracy Check
 		return Math.random() < accuracy+(.0005*user.dex)-(.001*target.agil);
 	}
+	private int physicalDamage(Fighter user, Fighter target){//Physical Portion of Technique
+		return (int)((sp/(mp+sp))*user.str*.5*Math.log(base)*Type.effectiveness(this,target));
+	}
+	private int magicDamage(Fighter user, Fighter target){//Magical Portion of Technique
+		return (int)((mp/(mp+sp))*user.intel*.5*Math.log(base)*Type.effectiveness(this,target));
+	}
+	public int getDamageDone(Fighter user, Fighter target){//Damage Calcuations 
+		int netPhysicalDamage = physicalDamage(user,target)-target.getDefence();
+		int netMagicDamage = magicDamage(user,target)-target.getMagicDefence();
+		int netDamage = 0;
+		if(netPhysicalDamage>0)
+			netDamage = netPhysicalDamage;
+		if(netMagicDamage>0)
+			netDamage += netMagicDamage;
+		return (int) (netDamage*Type.effectiveness(this, target));
+	}
+	//Normal Attack
 	public static boolean attackHit(Fighter user, Fighter target){
 		return Math.random() < 90+(.0005*user.dex)-(.001*target.agil);
 	}
 	public static int attackDamageDelt(Fighter user, Fighter target){
-		return (int) (user.str*.5);
+		if(user.str*.5-target.getDefence()>0)
+			return (int)(user.str*.5-target.getDefence());
+		return 0;
 	}
-	
 	public void consume(Fighter user){
 		user.hp-=hp;
 		user.mp-=mp;
