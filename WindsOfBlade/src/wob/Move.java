@@ -6,20 +6,21 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
+
 /*
  *  Store information on different attacks, their effects, and elemental type
  */
 public class Move {
 	public static LinkedList<Move> database;
 	String name;
-	int base;
-	int accuracy;
+	byte base;
+	byte accuracy;
 	String description;
 	String type;
 	boolean physical;
 	String effect;
 	int hp, mp, sp;
-	public Move(String name, int base, int accuracy, String descrip, String type,boolean physical, String effect, int hp, int mp, int sp ) {
+	public Move(String name, byte base, byte accuracy, String descrip, String type,boolean physical, String effect, int hp, int mp, int sp ) {
 		this.name=name;
 		this.base=base;
 		this.accuracy=accuracy;
@@ -36,7 +37,7 @@ public class Move {
 	 */
 	public static void saveMove(Move m) throws IOException{
 		FileWriter fw = new FileWriter(new File("data/moves.txt"),true);
-		fw.write("\nname="+m.name+"\nbase="+m.base+"\naccuracy="+m.accuracy+"\ndescription="+m.description+"\ntype="+m.type+"\nphysical="+m.physical+"\neffect="+m.effect+";");
+		fw.write("\nname="+m.name+"\nbase="+m.base+"\naccuracy="+m.accuracy+"\ndescription="+m.description+"\ntype="+m.type+"\nphysical="+m.physical+"\neffect="+m.effect+"\nhp="+m.hp+"\nmp="+m.mp+"\nsp="+m.sp+"\n");
 		fw.close();
 		database.add(m);
 	}
@@ -96,8 +97,8 @@ public class Move {
 	}
 	private static Move parseMove(String[] lines){
 		return (new Move(lines[0].split("=")[1].trim(),
-						Integer.parseInt(lines[1].split("=")[1].trim()),
-						Integer.parseInt(lines[2].split("=")[1].trim()),
+						Byte.parseByte(lines[1].split("=")[1].trim()),
+						Byte.parseByte(lines[2].split("=")[1].trim()),
 						lines[3].split("=")[1].trim(),
 						lines[4].split("=")[1].trim(),
 						Boolean.parseBoolean(lines[5].split("=")[1].trim()),
@@ -109,4 +110,5 @@ public class Move {
 	public String toString(){
 		return(name);
 	}
+	
 }

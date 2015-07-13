@@ -63,7 +63,7 @@ public class Type {
 		case WOOD:
 			return "Wood";
 		default:
-			return null;
+			throw new NumberFormatException();
 		}
 	}
 	public static byte parseType(String str){
@@ -94,7 +94,7 @@ public class Type {
 		case "wood":
 			return WOOD;
 		default:
-			return -1;
+			throw new NumberFormatException();
 		}
 	}
 }

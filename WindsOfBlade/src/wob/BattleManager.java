@@ -23,7 +23,7 @@ public class BattleManager {
 	private static int textTimer= 1;
 	private static int endTimer = 0;
 	private static int messageTimer = 0;
-	@SuppressWarnings("unused")
+	public static Animation actionAnimation;
 	private static int animationTimer = 0;
 	private static Animation backArrow = new Animation(ImageManager.getImage("res/ui/backArrow.png"));
 	public static void render(Graphics g) throws InterruptedException{
