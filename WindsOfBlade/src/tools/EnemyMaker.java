@@ -173,10 +173,12 @@ public class EnemyMaker extends JFrame implements ActionListener {
 		gridBag.setConstraints(agil, gbc);
 		add(agil);
 		
+		gbc.gridwidth = GridBagConstraints.RELATIVE;
 		JButton enter = new JButton("Create Enemy!");
 		enter.addActionListener(this);
 		add(enter);
 		
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		JButton clear = new JButton("Clear");
 		clear.addActionListener(this);
 		add(clear);

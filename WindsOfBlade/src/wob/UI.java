@@ -91,6 +91,9 @@ public class UI implements MouseListener, MouseWheelListener{
 					}
 				}catch(java.lang.IndexOutOfBoundsException e){
 					this.enabled=false;
+				}catch(java.lang.NullPointerException e){
+					this.enabled=false;
+					e.printStackTrace();
 				}
 			}
 		};
@@ -116,6 +119,9 @@ public class UI implements MouseListener, MouseWheelListener{
 					}
 				}catch(java.lang.IndexOutOfBoundsException e){
 					this.enabled=false;
+				}catch(java.lang.NullPointerException e){
+					this.enabled=false;
+					e.printStackTrace();
 				}
 			}
 		};
@@ -141,6 +147,9 @@ public class UI implements MouseListener, MouseWheelListener{
 					}
 				}catch(java.lang.IndexOutOfBoundsException e){
 					this.enabled=false;
+				}catch(java.lang.NullPointerException e){
+					this.enabled=false;
+					e.printStackTrace();
 				}
 			}
 		};

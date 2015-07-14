@@ -34,11 +34,12 @@ public class Game extends JPanel{
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
 	public static void main(String[] args) throws InterruptedException, IOException {
-		if(args[1].equals("-mm"))
-			tools.MoveMaker.main(null);
-		else if(args[1].equals("em"))
-			tools.EnemyMaker.main(null);
-		else{
+		if(args.length>0){
+			if(args[0].equals("-mm"))
+				tools.MoveMaker.main(null);
+			else if(args[0].equals("-	em"))
+				tools.EnemyMaker.main(null);
+		}else{
 			System.out.println("[INFO] Winds of Blade v"+version+" is Launching!");
 			gameStates|=1;	//Game is now On
 			gameStates|=2;	//Game is Loading;
