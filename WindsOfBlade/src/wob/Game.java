@@ -34,13 +34,19 @@ public class Game extends JPanel{
 	 *  Loads up all my stuff, this thread finishes while the JPanel paintComponent is still going;
 	 */
 	public static void main(String[] args) throws InterruptedException, IOException {
-		System.out.println("[INFO] Winds of Blade v"+version+" is Launching!");
-		gameStates|=1;	//Game is now On
-		gameStates|=2;	//Game is Loading;
-		loadConfigs();
-		init();
-		System.out.println("[INFO] Winds of Blade v"+version+" Finished Loading!");
-		gameStates&=~2; //Game done loading;
+		if(args[1].equals("-mm"))
+			tools.MoveMaker.main(null);
+		else if(args[1].equals("em"))
+			tools.EnemyMaker.main(null);
+		else{
+			System.out.println("[INFO] Winds of Blade v"+version+" is Launching!");
+			gameStates|=1;	//Game is now On
+			gameStates|=2;	//Game is Loading;
+			loadConfigs();
+			init();
+			System.out.println("[INFO] Winds of Blade v"+version+" Finished Loading!");
+			gameStates&=~2; //Game done loading;
+		}
 	}
 	/*
 	 *  Draw all mah stuff dawg
