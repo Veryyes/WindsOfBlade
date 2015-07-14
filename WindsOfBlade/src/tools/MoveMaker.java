@@ -1,5 +1,6 @@
 package tools;
 
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,12 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 
 public class MoveMaker extends JFrame implements ActionListener{
 		private static final long serialVersionUID = -4534343322441442772L;
-		public static JTextField nameInput,baseInput,accuracyInput,descriptionInput,typeInput,contactInput,effectInput,hpInput,mpInput,spInput;
+		public static JTextField nameInput,baseInput,accuracyInput,descriptionInput,typeInput,effectInput,hpInput,mpInput,spInput;
+		public static JRadioButton contactInput1, contactInput2;
 		public static void main(String[] args) {
 			new MoveMaker().setVisible(true);
 		}
@@ -25,7 +29,7 @@ public class MoveMaker extends JFrame implements ActionListener{
 			setSize(400,300);
 			setResizable(false);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setLayout(new GridLayout(0,2,8,8));
+			setLayout(new GridLayout(0,2,4,4));
 			
 			JLabel namelbl = new JLabel("Move name:");
 			add(namelbl);
@@ -52,10 +56,17 @@ public class MoveMaker extends JFrame implements ActionListener{
 			typeInput = new JTextField();
 			add(typeInput);
 			
-			JLabel contactlbl = new JLabel("Physical?:");
+			JLabel contactlbl = new JLabel("Contact Type:");
 			add(contactlbl);
-			contactInput = new JTextField();
-			add(contactInput);
+			JPanel contactPanel = new JPanel();
+			contactPanel.setLayout(new FlowLayout());
+			contactInput1 = new JRadioButton("Physical",true);
+			contactInput1.addActionListener(this);
+			contactPanel.add(contactInput1);
+			contactInput2 = new JRadioButton("Magical",false);
+			contactInput2.addActionListener(this);
+			contactPanel.add(contactInput2);
+			add(contactPanel);
 			
 			JLabel effectlbl = new JLabel("Effect:");
 			add(effectlbl);
@@ -84,6 +95,8 @@ public class MoveMaker extends JFrame implements ActionListener{
 			JButton clear = new JButton("Clear");
 			clear.addActionListener(this);
 			add(clear);
+			
+			pack();
 		}
 		
 		public void actionPerformed(ActionEvent e) {
@@ -94,11 +107,10 @@ public class MoveMaker extends JFrame implements ActionListener{
 				if(checks.equals("good")){
 					try {
 						FileWriter fw = new FileWriter(new File("data/moves.txt"), true);
-						fw.write("\nname="+nameInput.getText()+"\nbase="+baseInput.getText()+"\naccuracy="+accuracyInput.getText()+"\ndescription="+descriptionInput.getText()+"\ntype="+typeInput.getText()+"\nphysical="+contactInput.getText()+"\neffect="+effectInput.getText()+"\nhp="+hpInput.getText()+"\nmp="+mpInput.getText()+"\nsp="+spInput.getText()+"\n");
+						fw.write("\nname="+nameInput.getText()+"\nbase="+baseInput.getText()+"\naccuracy="+accuracyInput.getText()+"\ndescription="+descriptionInput.getText()+"\ntype="+typeInput.getText()+"\nphysical="+contactInput1.isSelected()+"\neffect="+effectInput.getText()+"\nhp="+hpInput.getText()+"\nmp="+mpInput.getText()+"\nsp="+spInput.getText()+"\n");
 						fw.close();
 						JOptionPane.showMessageDialog(null, "Move: "+nameInput.getText()+" Created!");
-					} catch (IOException error) {
-						System.out.println("Error writing to file moves.txt");
+					} catch (IOException error){
 						error.printStackTrace();
 					}
 				}else{
@@ -111,7 +123,8 @@ public class MoveMaker extends JFrame implements ActionListener{
 				accuracyInput.setText("");
 				descriptionInput.setText("");
 				typeInput.setText("");
-				contactInput.setText("");
+				contactInput1.setSelected(true);
+				contactInput2.setSelected(false);
 				effectInput.setText("");
 				hpInput.setText("");
 				mpInput.setText("");
@@ -149,28 +162,6 @@ public class MoveMaker extends JFrame implements ActionListener{
 				wob.Type.parseType(typeInput.getText());
 			}catch(NumberFormatException e){
 				return "Please input a valid type\nValid types are:\ndark\ndivine\nearth\nelectric\nfire\nice\nmetal\nnormal\nvoid\nwater\nwind\nwood";
-			}
-			if(contactInput.getText().length()==0)
-				return "Move must make physical contact or not!";
-			switch(contactInput.getText().toLowerCase()){
-			case "y":
-				break;
-			case "n":
-				break;
-			case "yes":
-				break;
-			case "no":
-				break;
-			case "t":
-				break;
-			case "f":
-				break;
-			case "true":
-				break;
-			case "false":
-				break;
-			default:
-				return "\"Physical?\" must be a boolean!";
 			}
 			try{
 				Integer.parseInt(hpInput.getText());
