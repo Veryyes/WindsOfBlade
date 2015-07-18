@@ -107,7 +107,7 @@ public class MoveMaker extends JFrame implements ActionListener{
 				if(checks.equals("good")){
 					try {
 						FileWriter fw = new FileWriter(new File("data/moves.txt"), true);
-						fw.write("\nname="+nameInput.getText()+"\nbase="+baseInput.getText()+"\naccuracy="+accuracyInput.getText()+"\ndescription="+descriptionInput.getText()+"\ntype="+typeInput.getText()+"\nphysical="+contactInput1.isSelected()+"\neffect="+effectInput.getText()+"\nhp="+hpInput.getText()+"\nmp="+mpInput.getText()+"\nsp="+spInput.getText()+"\n");
+						fw.write("\nname="+nameInput.getText()+"\nbase="+baseInput.getText()+"\naccuracy="+accuracyInput.getText()+"\ndescription="+descriptionInput.getText()+"\ntype="+typeInput.getText()+"\nphysical="+contactInput1.isSelected()+"\neffect="+effectInput.getText()+"\nhp="+hpInput.getText()+"\nmp="+mpInput.getText()+"\nsp="+spInput.getText()+";\n");
 						fw.close();
 						JOptionPane.showMessageDialog(null, "Move: "+nameInput.getText()+" Created!");
 					} catch (IOException error){

@@ -29,8 +29,8 @@ public class Partner extends Fighter{
 		mage.sp=10;
 		mage.maxSp=10;
 		mage.type=Type.NORMAL;
-		for(int i=Move.database.size()/2;i<Move.database.size();i++){
-			mage.techniques.add(Move.database.get(i));
+		for(int i=Move.database.length/2;i<Move.database.length;i++){
+			mage.techniques.add(Move.database[i]);
 		}
 
 		apollo = new Partner(0,0);

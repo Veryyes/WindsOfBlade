@@ -30,12 +30,41 @@ public class UI implements MouseListener, MouseWheelListener{
 	public static Button[] techListBtn;
 	public static Button itemListBtn;
 	public static Button saveBtn;
+	public static Button yesBtn, noBtn;
 	public static boolean itemWindow;
 	public static boolean[] techBtnTextOn;
 	/*
 	 * Defining what each button should do
 	 */
 	public static void LoadUI(){
+		yesBtn = new Button("yes",421,528){
+			public void run(){
+				this.enabled=false;
+				Game.player.fullRestore();
+				for(Partner p: Game.player.party)
+					p.fullRestore();
+				for(Npc n:Game.map.npcs){
+					if(n instanceof InnKeeper && n.isTalking){
+						n.isTalking=false;
+						Game.player.money-=((InnKeeper)n).price;
+					}
+					break;
+				}
+				
+			}
+		};
+		yesBtn.enabled=false;
+		noBtn = new Button("no",505,528){
+			public void run(){
+				this.enabled=false;
+				for(Npc n:Game.map.npcs){
+					if(n instanceof InnKeeper && n.isTalking)
+						n.isTalking=false;
+					break;
+				}
+			}
+		};
+		noBtn.enabled=false;
 		statBtn = new Button((int)((2f/3f)*Game.frameWidth-8)+16,16,28*5,40){
 			public void run(){
 				Game.gameStates&=~16;
@@ -68,7 +97,7 @@ public class UI implements MouseListener, MouseWheelListener{
 						TypeWriter.drawString("Skills", ((int)((Game.frameWidth-6 )*1/8f))-(int)((Game.frameWidth-6)*.1875/2), (int)((Game.frameWidth-6)*.1875)+340, g);
 				}
 			}
-		};
+		};	
 		techListBtn[0].enabled=false;
 		techListBtn[1]=new Button(((int)((Game.frameWidth-6 )*3/8f))-(int)((Game.frameWidth-6)*.1875/2),(int)((Game.frameWidth-6)*.1875)+340,28*6,40){
 			public void run(){

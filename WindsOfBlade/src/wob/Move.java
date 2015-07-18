@@ -5,13 +5,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /*
  *  Store information on different attacks, their effects, and elemental type
  */
-public class Move {
-	public static LinkedList<Move> database;
+public class Move implements Comparable<Move>{
+	//public static LinkedList<Move> database;
+	public static Move[] database;
 	String name;
 	byte base;
 	byte accuracy;
@@ -37,9 +39,19 @@ public class Move {
 	 */
 	public static void saveMove(Move m) throws IOException{
 		FileWriter fw = new FileWriter(new File("data/moves.txt"),true);
-		fw.write("\nname="+m.name+"\nbase="+m.base+"\naccuracy="+m.accuracy+"\ndescription="+m.description+"\ntype="+m.type+"\nphysical="+m.physical+"\neffect="+m.effect+"\nhp="+m.hp+"\nmp="+m.mp+"\nsp="+m.sp+"\n");
+		fw.write("\nname="+m.name+"\nbase="+m.base+"\naccuracy="+m.accuracy+"\ndescription="+m.description+"\ntype="+m.type+"\nphysical="+m.physical+"\neffect="+m.effect+"\nhp="+m.hp+"\nmp="+m.mp+"\nsp="+m.sp+";\n");
 		fw.close();
-		database.add(m);
+		//database.add(m);
+		Move[] temp = new Move[database.length+1];
+		byte shift = 0;
+		for(int i=0;i<database.length;i++){
+			if(m.compareTo(database[i])>=0){
+				temp[i]=m;
+				shift=1;
+			}else
+				temp[i+shift]=database[i];
+		}
+		database = temp;
 	}
 	//Techniques
 	public boolean hit(Fighter user, Fighter target){//Accuracy Check
@@ -79,7 +91,7 @@ public class Move {
 	 * Reads from file all the moves & adds them to database
 	 */
 	public static void loadMoves() throws IOException{
-		database = new LinkedList<Move>();
+		//database = new LinkedList<Move>();
 		BufferedReader bf = new BufferedReader(new FileReader(new File("data/moves.txt")));
 		int item = 0;
 		String rawdata="";
@@ -88,11 +100,12 @@ public class Move {
 		bf.close();
 		rawdata=rawdata.trim();
 		String[] moves = rawdata.split(";");
-		for(String str:moves){
-			str=str.trim();
-			String[] properties = str.split("\n");
-			database.add(parseMove(properties));
+		database = new Move[moves.length];
+		for(int i=0;i<database.length;i++){
+			String[] properties = moves[i].trim().split("\n");
+			database[i] = parseMove(properties);
 		}
+		Arrays.sort(database);
 		System.out.println("[INFO] Moves Loaded");
 	}
 	private static Move parseMove(String[] lines){
@@ -109,6 +122,9 @@ public class Move {
 	}
 	public String toString(){
 		return(name);
+	}
+	public int compareTo(Move m) {
+		return this.name.compareTo(m.name);
 	}
 	
 }

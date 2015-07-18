@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -92,14 +93,15 @@ public class Map {
 				npcs.add(parseNPC(property));
 			else if(property[1].contains("type=battle"))
 				encounterSpots.add(parseEncounterSpot(property));
-			else if(property[1].contains("type=enemy")){
-				for(int j=3;j<property.length;j++){
+			else if(property[1].contains("type=enemy"))
+				for(int j=3;j<property.length;j++)
 					enemies.add(new Enemy(property[j].substring(0,property[j].length()-1)));
-				}
-
-			}
 			else if(property[1].contains("type=portal"))
 				portals.add(parsePortal(property));
+			else if(property[i].contains("inn"))
+				npcs.add(parseInnKeeper(property));
+			else if(property[i].contains("shop"))
+				npcs.add(parseShopKeeper(property));
 		}
 		//Parsing Through Map Data
 		//Removing ',' and '\n'
@@ -145,8 +147,30 @@ public class Map {
 		walls = optimizeWalls(wally);
 		return map;
 	}
+	private ShopKeeper parseShopKeeper(String[] line) {
+		Item[] items;
+		int[] prices;
+		String[] itemStr = line[4].split("=")[1].split(",");
+		String[]pricesStr = line[5].split("=")[1].split(",");
+		items = new Item[itemStr.length];
+		prices = new int[itemStr.length];
+		for(int i=0;i<itemStr.length;i++){
+			items[i]=Item.database[Arrays.binarySearch(Item.database, new Item(itemStr[i],null,0,0,0,false))];
+			prices[i] = Integer.parseInt(pricesStr[i]);
+		}
+		return new ShopKeeper(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),
+				64*Integer.parseInt(line[2].split(",")[1]),	
+				line[3].split("=")[1], 
+				items, prices);
+	}
+	private InnKeeper parseInnKeeper(String[] line) {
+		return (new InnKeeper(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]), //X
+				64*Integer.parseInt(line[2].split(",")[1]),								//Y
+				line[3].split("=")[1],													//Name
+				Integer.parseInt(line[4].split("=")[1])));								//Inn price
+	}
 	/*
-	 * Removes Wall objects that have walls touching all their adjecent sides
+	 * Removes Wall objects that have walls touching all their adjacent sides
 	 */
 	private LinkedList<Wall> optimizeWalls(SparseMatrix<Wall> parentList){//TODO optimize walls more
 		LinkedList<Point> flagsForRemoval = new LinkedList<Point>();
@@ -166,8 +190,9 @@ public class Map {
 		return list;
 	}
 	private Npc parseNPC(String[] line){
-		return (new Npc(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),
-				64*Integer.parseInt(line[2].split(",")[1]),line[3].split("=")[1].trim()));
+		return (new Npc(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),   //X
+				64*Integer.parseInt(line[2].split(",")[1]),							//Y
+				line[3].split("=")[1].trim()));										//Name
 	}
 	private EncounterSpot parseEncounterSpot(String[] line){
 		String[] components = line[2].split(",");

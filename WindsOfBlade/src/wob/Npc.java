@@ -39,7 +39,6 @@ public class Npc extends Actor implements WorldObject{
 	}
 	public void update() {
 		updateLocation();
-		//hitBox=new Rectangle2D.Double(this.x,this.y,hitBox.getWidth(),hitBox.getHeight());
 		conversationBox = new Rectangle2D.Double(x-8,y-8,80,80);
 		if(conversationBox.intersects(Game.player.hitBox)){
 			waitTime--;

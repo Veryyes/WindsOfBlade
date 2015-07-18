@@ -36,4 +36,10 @@ public abstract class Fighter extends Actor {
 		dmgCalc=false;
 		missed=false;
 	}
+	public void fullRestore(){
+		hp=maxHp;
+		mp=maxMp;
+		sp=maxSp;
+		isDead=false;
+	}
 }

@@ -13,9 +13,12 @@ public class Equipment extends Item {
 	 * p endant
 	 */
 	int str, intel, dex, will, agil;
-	int hp, mp, sp;
-	public Equipment() {
-		
+	int defence, magicDefence;
+	public Equipment(String name, String description, char slot, int hp, int mp, int sp, int def, int mdef) {
+		super(name, description, hp, mp, sp, true);
+		this.slot=slot;
+		defence=def;
+		magicDefence=mdef;
 	}
 
 }
