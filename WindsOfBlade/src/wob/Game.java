@@ -134,6 +134,7 @@ public class Game extends JPanel{
 		TypeWriter.LoadFont();
 		System.out.println("[INFO] Images Loaded");
 		Move.loadMoves();
+		Item.loadItems();
 		km = new KeyManager();		
 		frame.addKeyListener(km);	
 		UI mouselistener = new UI();

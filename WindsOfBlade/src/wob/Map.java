@@ -155,7 +155,7 @@ public class Map {
 		items = new Item[itemStr.length];
 		prices = new int[itemStr.length];
 		for(int i=0;i<itemStr.length;i++){
-			items[i]=Item.database[Arrays.binarySearch(Item.database, new Item(itemStr[i],null,0,0,0,false))];
+			items[i]=Item.database[Arrays.binarySearch(Item.database, new Item(itemStr[i],null))];
 			prices[i] = Integer.parseInt(pricesStr[i]);
 		}
 		return new ShopKeeper(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),

@@ -42,4 +42,18 @@ public abstract class Fighter extends Actor {
 		sp=maxSp;
 		isDead=false;
 	}
+	public void clampPoints(){
+		if(hp>maxHp)
+			hp=maxHp;
+		else if(hp<0)
+			hp=0;
+		if(mp>maxMp)
+			mp=maxMp;
+		else if(mp<0)
+			mp=0;
+		if(sp>maxSp)
+			sp=maxSp;
+		else if(sp<0)
+			sp=0;
+	}
 }
