@@ -24,6 +24,9 @@ public class Item implements Comparable<Item>{
 		if(i instanceof Consumable){
 			Consumable c = (Consumable)i;
 			fw.write("\nname="+i.name+"\ndescription="+i.description+"\nhp="+c.hp+"\nmp="+c.mp+"\nsp="+c.sp+"\nteamOnly="+c.teamOnly+";\n");
+		}else if(i instanceof Equipment){
+			Equipment e = (Equipment)i;
+			fw.write("\nname="+i.name+"\ndescription="+i.description+"\nslot="+e.slot+"\nstr="+e.str+"\nint="+e.intel+"\ndex="+e.dex+"\nwill="+e.will+"\nagil="+e.agil+"\ndef="+e.defense+"\nmagicdef="+e.magicDefense);
 		}else
 			fw.write("\nname="+i.name+"\ndescription="+i.description+";\n");
 		fw.close();

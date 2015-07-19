@@ -39,6 +39,8 @@ public class Game extends JPanel{
 				tools.MoveMaker.main(null);
 			else if(args[0].equals("-em"))
 				tools.EnemyMaker.main(null);
+			else if(args[0].equals("-im"))
+				tools.ItemMaker.main(null);
 		}else{
 			System.out.println("[INFO] Winds of Blade v"+version+" is Launching!");
 			gameStates|=1;	//Game is now On

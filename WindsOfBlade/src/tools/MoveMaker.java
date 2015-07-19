@@ -19,8 +19,8 @@ import javax.swing.JTextField;
 
 public class MoveMaker extends JFrame implements ActionListener{
 		private static final long serialVersionUID = -4534343322441442772L;
-		public static JTextField nameInput,baseInput,accuracyInput,descriptionInput,typeInput,effectInput,hpInput,mpInput,spInput;
-		public static JRadioButton contactInput1, contactInput2;
+		private static JTextField nameInput,baseInput,accuracyInput,descriptionInput,typeInput,effectInput,hpInput,mpInput,spInput;
+		private static JRadioButton contactInput1, contactInput2;
 		public static void main(String[] args) {
 			new MoveMaker().setVisible(true);
 		}

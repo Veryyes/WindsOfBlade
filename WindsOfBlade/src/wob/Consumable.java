@@ -11,12 +11,12 @@ public class Consumable extends Item {
 		this.teamOnly = teamOnly;
 	}
 	public static Consumable parseConsumable(String[] lines){
-		return new Consumable(lines[0].split("=")[1],						//name
-				lines[1].split("=")[1],							//description
-				Integer.parseInt(lines[2].split("=")[1]),		//hp
-				Integer.parseInt(lines[3].split("=")[1]),		//mp
-				Integer.parseInt(lines[4].split("=")[1]),		//sp
-				Boolean.parseBoolean(lines[5].split("=")[1])); //teamOnly
+		return new Consumable(lines[0].split("=")[1],					//name
+				lines[1].split("=")[1],									//description
+				Integer.parseInt(lines[2].split("=")[1].trim()),		//hp
+				Integer.parseInt(lines[3].split("=")[1].trim()),		//mp
+				Integer.parseInt(lines[4].split("=")[1].trim()),		//sp
+				Boolean.parseBoolean(lines[5].split("=")[1])); 			//teamOnly
 	}
 	public void use(Fighter user){
 		if(teamOnly == (user instanceof Player || user instanceof Partner)){

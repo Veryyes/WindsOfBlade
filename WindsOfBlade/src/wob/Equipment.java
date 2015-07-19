@@ -10,7 +10,6 @@ public class Equipment extends Item {
 	 * g loves
 	 * r ight hand
 	 * l eft hand
-	 * p endant
 	 */
 	int str, intel, dex, will, agil;
 	int defense, magicDefense;
@@ -27,16 +26,16 @@ public class Equipment extends Item {
 	}
 	public static Equipment parseEquipment(String[] lines){
 		return new Equipment(
-				lines[0].split("=")[1],						//Name
-				lines[1].split("=")[1],						//Description
-				lines[2].split("=")[1].toCharArray()[0],	//Slot
-				Integer.parseInt(lines[3].split("=")[1]),   //Str
-				Integer.parseInt(lines[4].split("=")[1]),   //Int
-				Integer.parseInt(lines[5].split("=")[1]),   //Dex
-				Integer.parseInt(lines[6].split("=")[1]),   //Will
-				Integer.parseInt(lines[7].split("=")[1]),   //Agil
-				Integer.parseInt(lines[8].split("=")[1]),   //Defense
-				Integer.parseInt(lines[9].split("=")[1])    //Magic Defense
+				lines[0].split("=")[1],								//Name
+				lines[1].split("=")[1],								//Description
+				lines[2].split("=")[1].toCharArray()[0],			//Slot
+				Integer.parseInt(lines[3].split("=")[1].trim()),    //Str
+				Integer.parseInt(lines[4].split("=")[1].trim()),    //Int
+				Integer.parseInt(lines[5].split("=")[1].trim()),    //Dex
+				Integer.parseInt(lines[6].split("=")[1].trim()),    //Will
+				Integer.parseInt(lines[7].split("=")[1].trim()),    //Agil
+				Integer.parseInt(lines[8].split("=")[1].trim()),    //Defense
+				Integer.parseInt(lines[9].split("=")[1].trim())     //Magic Defense
 				);
 	}
 

@@ -6,7 +6,10 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -21,10 +24,10 @@ import javax.swing.JTextField;
 
 public class EnemyMaker extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 2834580233388067077L;
-	public static JTextField name, exp, money, type, hp, str, intel, dex, will, agil;
-	public static JRadioButton dmgType1, dmgType2, dmgType3, ai1, ai2, ai3, ai4, ai5;
+	private static JTextField name, exp, money, type, hp, str, intel, dex, will, agil;
+	private static JRadioButton dmgType1, dmgType2, dmgType3, ai1, ai2, ai3, ai4, ai5;
 	private static int dmgType, ai;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		new EnemyMaker().setVisible(true);
 	}
 	public EnemyMaker(){
