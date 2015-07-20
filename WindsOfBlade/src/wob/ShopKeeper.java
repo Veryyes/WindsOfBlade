@@ -9,7 +9,7 @@ public class ShopKeeper extends Npc{
 		int price;
 		Item item;
 		public PurchaseButton(Item i, int price, int x, int y){
-			super(i.name,x,y);
+			super(i.getName(),x,y);
 			this.price = price;
 			this.item=i;
 		}

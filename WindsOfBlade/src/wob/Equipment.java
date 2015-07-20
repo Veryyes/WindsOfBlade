@@ -38,5 +38,10 @@ public class Equipment extends Item {
 				Integer.parseInt(lines[9].split("=")[1].trim())     //Magic Defense
 				);
 	}
+	public Equipment clone(){
+		Equipment e = new Equipment(this.name, this.description, this.slot, this.str, this.intel, this.dex, this.will, this.agil, this.defense, this.magicDefense);
+		e.amount=this.amount;
+		return e;
+	}
 
 }

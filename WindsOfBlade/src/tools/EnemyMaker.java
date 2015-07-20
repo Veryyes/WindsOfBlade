@@ -23,7 +23,7 @@ public class EnemyMaker extends JFrame implements ActionListener {
 	private static JTextField name, exp, money, type, hp, str, intel, dex, will, agil;
 	private static JRadioButton dmgType1, dmgType2, dmgType3, ai1, ai2, ai3, ai4, ai5;
 	private static int dmgType, ai;
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args){
 		new EnemyMaker().setVisible(true);
 	}
 	public EnemyMaker(){

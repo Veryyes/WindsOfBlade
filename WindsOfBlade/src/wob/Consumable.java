@@ -26,4 +26,9 @@ public class Consumable extends Item {
 			user.clampPoints();
 		}
 	}
+	public Consumable clone(){
+		Consumable c = new Consumable(this.name, this.description, this.hp, this.mp, this.sp, this.teamOnly);
+		c.amount=this.amount;
+		return c;
+	}
 }

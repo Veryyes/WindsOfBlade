@@ -100,7 +100,7 @@ public class TypeWriter {
 	 */
 	public static void drawItemName(LinkedList<Item> m, int index,int x, int y, Graphics g){
 		try{
-			drawString(m.get(index+UI.buttonShift*3).name,x,y,g);
+			drawString(m.get(index+UI.buttonShift*3).getName(),x,y,g);
 		}catch(java.lang.IndexOutOfBoundsException e){
 			drawString("",x,y,g);
 		}
@@ -119,7 +119,7 @@ public class TypeWriter {
 		try{
 			return fonts[Arrays.binarySearch(chars,c)];
 		}catch(Exception e){
-			System.out.println("[WARNING] Character \""+c+"\" does not exist in this font set; skiping character!");//TODO error with '\n'
+			System.out.println("[WARNING] Character \'"+c+"\' does not exist in this font set; skiping character!");//TODO error with '\n'
 			return fonts[Arrays.binarySearch(chars,'_')];
 		}
 	}

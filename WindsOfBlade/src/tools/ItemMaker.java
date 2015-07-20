@@ -25,12 +25,11 @@ public class ItemMaker extends JFrame implements ActionListener {
 	private static JCheckBox teamOnly;
 	private static GridBagConstraints gbc = new GridBagConstraints();
 	private static GridBagLayout gridBag = new GridBagLayout();
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args){
 		new ItemMaker().setVisible(true);
 	}
 	public ItemMaker(){
 		super("Winds of Blade - Item Maker Tool");
-		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(gridBag);
 		gbc.fill = GridBagConstraints.BOTH;
@@ -83,7 +82,7 @@ public class ItemMaker extends JFrame implements ActionListener {
 		gridBag.setConstraints(sp, gbc);
 		add(sp);
 		
-		addLabel("Friendly Unit use only?");
+		addLabel("Friendly Unit target only?");
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		teamOnly = new JCheckBox("Yes",false);
 		gridBag.setConstraints(teamOnly,gbc);
@@ -146,6 +145,15 @@ public class ItemMaker extends JFrame implements ActionListener {
 		JButton clear = new JButton("Clear");
 		clear.addActionListener(this);
 		add(clear);
+		
+		slot.setEnabled(false);
+		str.setEnabled(false);
+		intel.setEnabled(false);
+		dex.setEnabled(false);
+		will.setEnabled(false);
+		agil.setEnabled(false);
+		def.setEnabled(false);
+		mdef.setEnabled(false);
 		
 		pack();
 	}
@@ -217,6 +225,7 @@ public class ItemMaker extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(null, name.getText()+" has been created!");
 				}catch(IOException error){
 					error.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Cannot find file data/items.txt");
 				}
 			}else{
 				JOptionPane.showMessageDialog(null, checks);

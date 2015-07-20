@@ -8,15 +8,35 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Item implements Comparable<Item>{
-	//public static LinkedList<Item> database;
 	public static Item[] database;
-	String name;
-	String description;
+	protected String name;
+	protected String description;
 	int amount;
 	public Item(String name, String descript) {
 		this.name=name;
 		description = descript;
 		amount=1;
+	}
+	public String getName(){
+		return name;
+	}
+	public String getDescript(){
+		return description;
+	}
+	public static Item createItem(String name, int amount){
+		return createItem(new Item(name,null),amount);
+	}
+	public static Item createItem(String name){
+		return createItem(new Item(name,null),1);
+	}
+	private static Item createItem(Item i, int amount){
+		Item item = database[Arrays.binarySearch(database, i)];
+		item.amount=amount;
+		if(item instanceof Equipment)
+			return ((Equipment)item).clone();
+		else if(item instanceof Consumable)
+			return ((Consumable)item).clone();
+		return item.clone();
 	}
 	public static void saveItem(Item i) throws IOException{
 		FileWriter fw = new FileWriter(new File("data/items.txt"),true);
@@ -47,7 +67,7 @@ public class Item implements Comparable<Item>{
 		while((item=br.read())!=-1)
 			rawData+=(char)item;
 		br.close();
-		String items[] = rawData.split(";");
+		String items[] = rawData.trim().split(";");
 		database = new Item[items.length];
 		for(int i=0;i<database.length;i++){
 			String[] properties = items[i].trim().split("\n");
@@ -55,17 +75,25 @@ public class Item implements Comparable<Item>{
 				database[i] = Consumable.parseConsumable(properties);
 			else if(properties.length==10)
 				database[i] = Equipment.parseEquipment(properties);
-			else
+			else{
 				database[i] = parseItem(properties);
+			}
 		}
 		Arrays.sort(database);
 		System.out.println("[INFO] Items Loaded");
 	}
 	public static Item parseItem(String[] lines){
-		return (new Item(lines[0].split("=")[1],	//name
-						lines[1].split("=")[1]));	//description
+		if(lines.length==1)
+			lines = new String[]{lines[0]," "};	
+		return (new Item(lines[0].split("=")[1].trim(),	    //name
+						lines[1].split("=")[1].trim()));	//description
 	}
 	public int compareTo(Item o) {
 		return this.name.compareTo(o.name);
+	}
+	public Item clone(){
+		Item i = new Item(this.name,this.description);
+		i.amount=this.amount;
+		return i;
 	}
 }

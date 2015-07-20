@@ -40,7 +40,7 @@ public class Player extends Fighter implements WorldObject{
 		for(int i=0;i<Move.database.length/2;i++){
 			techniques.add(Move.database[i]);
 		}
-		
+		addItem(Item.createItem("Iron Ingot",5));
 	}
 	
 	public void worldRender(Graphics g) {
@@ -49,6 +49,29 @@ public class Player extends Fighter implements WorldObject{
 	public void update() {
 		animation.update();
 	}
-
-	
+	public void addItem(Item item){
+		for(int i=0;i<inventory.size();i++){
+			if(inventory.get(i).getName().equals(item.getName())){
+				inventory.get(i).amount+=item.amount;
+				return;
+			}
+		}
+		inventory.add(item);
+	}
+	public boolean removeItem(Item item){
+		return removeItem(item,1);
+	}
+	public boolean removeItem(Item item, int amount){
+		for(int i=0;i<inventory.size();i++){
+			if(inventory.get(i).getName().equals(item.getName())){
+				inventory.get(i).amount-=amount;
+				if(inventory.get(i).amount<0){
+					inventory.get(i).amount+=amount;
+					return false;
+				}else if(inventory.get(i).amount==0)
+					inventory.remove(i);
+			}
+		}
+		return true;
+	}
 }

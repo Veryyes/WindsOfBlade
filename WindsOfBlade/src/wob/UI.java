@@ -122,7 +122,6 @@ public class UI implements MouseListener, MouseWheelListener{
 					this.enabled=false;
 				}catch(java.lang.NullPointerException e){
 					this.enabled=false;
-					e.printStackTrace();
 				}
 			}
 		};
@@ -150,7 +149,6 @@ public class UI implements MouseListener, MouseWheelListener{
 					this.enabled=false;
 				}catch(java.lang.NullPointerException e){
 					this.enabled=false;
-					e.printStackTrace();
 				}
 			}
 		};
@@ -178,7 +176,6 @@ public class UI implements MouseListener, MouseWheelListener{
 					this.enabled=false;
 				}catch(java.lang.NullPointerException e){
 					this.enabled=false;
-					e.printStackTrace();
 				}
 			}
 		};
@@ -609,7 +606,7 @@ public class UI implements MouseListener, MouseWheelListener{
 			if(i>32+(int)(.5f*Game.frameWidth-8))
 				break;
 			try{
-			TypeWriter.drawString(Game.player.inventory.get(index+buttonShift).toString(), (int)((1f/3f)*Game.frameWidth-8)+16, i, g);
+			TypeWriter.drawString(Game.player.inventory.get(index+buttonShift).getName()+" x"+Game.player.inventory.get(index+buttonShift).amount, (int)((1f/3f)*Game.frameWidth-8)+16, i, g);
 			}catch(java.lang.IndexOutOfBoundsException e){}
 			i+=48;
 		}

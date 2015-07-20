@@ -1,11 +1,11 @@
 name=Titanium Ingot
-description=Ti;
+description=Resistance to corrosion;
 
 name=Iron Ingot
-description=Fe;
+description=Basic Crafting Materials;
 
 name=Cobalt Ingot
-description=Co;
+description=Wear resistant and high strength;
 
 name=Nickel Ingot
 description=Ni;
@@ -36,3 +36,91 @@ will=0
 agil=0
 defense=7
 mdefense=3;
+
+name=Gold
+description=Au;
+
+name=Mercury
+description=Hg;
+
+name=Mithril
+description=Soul Silver;
+
+name=Orichalcum
+description=Ancient Gold;
+
+name=Zinc
+description=Zn;
+
+name=Brass
+description=Copper and Zinc Alloy;
+
+name=Bronze
+description=Copper and Tin Alloy;
+
+name=Electrum
+description=Gold and Silver Alloy;
+
+name=Steel
+description=Iron and Carbon Alloy;
+
+name=Invar
+description=Iron and Nickel Alloy;
+
+name=Pearl
+description=A shiny round object, you might be able to craft this into something else, or just sell it for a high price;
+
+name=Dirt
+description=A pile of brown soil with a few pebbles riddled in it;
+
+name=Rock
+description=Try throwing it
+hp=-5
+mp=0
+sp=0
+teamOnly=false;
+
+name=Balsa Wood
+description=Soft and light tan;
+
+name=Wood Plank
+description=A solid wood board;
+
+name=Nail
+description=A metal nail used to hold things together;
+
+name=Titanium Ore
+description=Ti;
+
+name=Iron Ore
+description=Fe;
+
+name=Cobalt Ore
+description=Co;
+
+name=Nickel Ore
+description=Ni;
+
+name=Copper Ore
+description=Cu;
+
+name=Tin Ore
+description=Sn;
+
+name=Silver Ore
+description=Ag;
+
+name=Wood Stick
+description=brown and long;
+
+name=Orichalcum
+description=Ancient Gold;
+
+name=Gold Ore
+description=Au;
+
+name=Cinnabar
+description=Hg;
+
+name=Zinc Ore
+description=Zn;
