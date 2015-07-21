@@ -3,7 +3,6 @@ package wob;
 import java.util.LinkedList;
 
 public class Partner extends Fighter{
-	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	public static Partner mage;
 	public static Partner apollo;
 	public static Partner artemis;

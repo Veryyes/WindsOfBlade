@@ -19,14 +19,24 @@ public abstract class Fighter extends Actor {
 	boolean isDead;
 	boolean dmgCalc;
 	boolean missed;
+	Equipment[] equipment;
+	public static final byte HELMET=0;
+	public static final byte CHEST=1;
+	public static final byte PANTS=2;
+	public static final byte SHOES=3;
+	public static final byte GLOVES=4;
+	public static final byte RIGHT=5;	
+	public static final byte LEFT=6;	
 	public Fighter(int x, int y) {
 		super(x, y);
+		equipment = new Equipment[7];
+		techniques = new LinkedList<Move>();
 	}
 	public int getDefence(){
-		return (int) (20*Math.log10((str/10f)+level+10)-20);
+		return (int)(20*Math.log10(((str+getBonusStat("STR"))/10f)+level+10)-20)+getBonusStat("DEF");
 	}
 	public int getMagicDefence(){
-		return (int) (20*Math.log10((intel/10f)+level+10)-20);
+		return (int)(20*Math.log10(((intel+getBonusStat("INT"))/10f)+level+10)-20)+getBonusStat("MDEF");
 	}
 	public void resetTurn(){
 		selectedTechnique=null;
@@ -55,5 +65,48 @@ public abstract class Fighter extends Actor {
 			sp=maxSp;
 		else if(sp<0)
 			sp=0;
+	}
+	public int getBonusStat(String stat){
+		int value=0;
+		switch(stat){
+		case "STR":
+			for(int i=0;i<equipment.length;i++)
+				if(equipment[i]!=null)
+					value+=equipment[i].str;
+			return value;
+		case "INTEL":
+		case "INT":
+			for(int i=0;i<equipment.length;i++)
+				if(equipment[i]!=null)
+					value+=equipment[i].intel;
+			return value;
+		case "DEX":
+			for(int i=0;i<equipment.length;i++)
+				if(equipment[i]!=null)
+					value+=equipment[i].dex;
+			return value;
+		case "WILL":
+			for(int i=0;i<equipment.length;i++)
+				if(equipment[i]!=null)
+					value+=equipment[i].will;
+			return value;
+		case "AGIL":
+			for(int i=0;i<equipment.length;i++)
+				if(equipment[i]!=null)
+					value+=equipment[i].agil;
+			return value;
+		case "DEF":
+			for(int i=0;i<equipment.length;i++)
+				if(equipment[i]!=null)
+					value+=equipment[i].defense;
+			return value;
+		case "MDEF":
+			for(int i=0;i<equipment.length;i++)
+				if(equipment[i]!=null)
+					value+=equipment[i].magicDefense;
+			return value;
+		default:
+			return 0;
+		}
 	}
 }

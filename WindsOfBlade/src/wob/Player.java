@@ -8,7 +8,6 @@ import java.util.LinkedList;
 public class Player extends Fighter implements WorldObject{
 	int money;
 	LinkedList<Partner> party;
-	Equipment helmate, chest, pants, shoes, gloves, rightHand, leftHand, pendant;
 	static Line2D.Double topLine,botLine,leftLine,rightLine;
 	public Player() {
 		super(Game.frameWidth/2-32,Game.frameHeight/2-32);
@@ -20,7 +19,6 @@ public class Player extends Fighter implements WorldObject{
 		leftLine = new Line2D.Double(x+8,y+16,x+8,y+16+48);
 		rightLine = new Line2D.Double(x+8+48,y+16,x+8+48,y+16+48);
 		inventory = new LinkedList<Item>();
-		techniques = new LinkedList<Move>();
 		party = new LinkedList<Partner>();
 		level=1;
 		experience=0;
@@ -42,7 +40,6 @@ public class Player extends Fighter implements WorldObject{
 		}
 		addItem(Item.createItem("Iron Ingot",5));
 	}
-	
 	public void worldRender(Graphics g) {
 		g.drawImage(animation.getFrame(),x,y,null);
 	}
