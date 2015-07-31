@@ -15,7 +15,7 @@ public class Npc extends Actor implements WorldObject{
 	int waitTime;
 	public Npc(int x, int y, String name) {
 		super(x,y);
-		this.name = name;
+		this.name = name.trim();
 		animation=new Animation(ImageManager.getImage("res/npc/npc.png"));
 		hitBox=new Rectangle2D.Double(x,y,64,64);
 		isTalking=false;

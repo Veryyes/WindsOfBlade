@@ -37,34 +37,34 @@ agil=0
 defense=7
 mdefense=3;
 
-name=Gold
+name=Gold Ingot
 description=Au;
 
 name=Mercury
 description=Hg;
 
-name=Mithril
+name=Mithril Ingot
 description=Soul Silver;
 
-name=Orichalcum
+name=Orichalcum Ingot
 description=Ancient Gold;
 
-name=Zinc
+name=Zinc Ingot
 description=Zn;
 
-name=Brass
+name=Brass Ingot
 description=Copper and Zinc Alloy;
 
-name=Bronze
+name=Bronze Ingot
 description=Copper and Tin Alloy;
 
-name=Electrum
+name=Electrum Ingot
 description=Gold and Silver Alloy;
 
-name=Steel
+name=Steel Ingot
 description=Iron and Carbon Alloy;
 
-name=Invar
+name=Invar Ingot
 description=Iron and Nickel Alloy;
 
 name=Pearl

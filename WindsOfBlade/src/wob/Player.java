@@ -22,7 +22,7 @@ public class Player extends Fighter implements WorldObject{
 		party = new LinkedList<Partner>();
 		level=1;
 		experience=0;
-		money=0;
+		money=50;
 		str=10;
 		intel=10;
 		dex=10;

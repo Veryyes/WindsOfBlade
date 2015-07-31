@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedList;
 	/*
 	 * Container for buttons and ui stuff...
 	 */
@@ -33,6 +34,7 @@ public class UI implements MouseListener, MouseWheelListener{
 	public static Button yesBtn, noBtn;
 	public static boolean itemWindow;
 	public static boolean[] techBtnTextOn;
+	public static LinkedList<ShopKeeper.PurchaseButton> shopBtn = new LinkedList<ShopKeeper.PurchaseButton>();
 	/*
 	 * Defining what each button should do
 	 */
@@ -45,10 +47,11 @@ public class UI implements MouseListener, MouseWheelListener{
 					p.fullRestore();
 				for(Npc n:Game.map.npcs){
 					if(n instanceof InnKeeper && n.isTalking){
+						System.out.println("Found target");
 						n.isTalking=false;
 						Game.player.money-=((InnKeeper)n).price;
+						break;
 					}
-					break;
 				}
 				
 			}
@@ -524,10 +527,11 @@ public class UI implements MouseListener, MouseWheelListener{
 		runBtn.render(g);
 		backBtn.render(g);
 		statBtn.render(g);
-		//techListBtn.render(g);
 		itemListBtn.render(g);
 		saveBtn.render(g);
 		loadBtn.render(g);
+		yesBtn.render(g);
+		noBtn.render(g);
 	}
 	public void mousePressed(MouseEvent arg0) {
 		for(int i=0;i<battleButtons[0].length;i++){
@@ -545,10 +549,13 @@ public class UI implements MouseListener, MouseWheelListener{
 		runBtn.update();
 		backBtn.update();
 		statBtn.update();
-		//techListBtn.update();
 		itemListBtn.update();
 		saveBtn.update();
 		loadBtn.update();
+		yesBtn.update();
+		noBtn.update();
+		for(ShopKeeper.PurchaseButton pb:shopBtn)
+			pb.update();
 	}
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		buttonShift+=e.getWheelRotation();

@@ -127,7 +127,10 @@ public class Enemy extends Fighter{
 			damage = (int)(.5f*(physicalDamage()-target.getDefence()+magicDamage()-target.getMagicDefence()));
 			break;
 		}
-		return (int)(damage*Type.effectiveness(this.type,target.type));
+		damage = (int)(damage*Type.effectiveness(this.type,target.type));
+		if(damage<0)
+			return 0;
+		return damage;
 	}
 	public void update() {
 

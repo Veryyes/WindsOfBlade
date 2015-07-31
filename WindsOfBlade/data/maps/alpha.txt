@@ -54,7 +54,19 @@ exit=10,8
 nextMap=beta
 
 [Object Layer 1]
+type=inn
+location=24,5,1,1
+name=guy
+price=5
+
+[Object Layer 1]
+type=shop
+location=21,10,1,1
+items=Gold Ingot,Rock,Balsa Wood
+name=jack
+prices=50,1,5
+
+[Object Layer 1]
 type=enemy
 location=0,0,1,1
 slime=
-

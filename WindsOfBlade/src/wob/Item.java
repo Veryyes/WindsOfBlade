@@ -29,7 +29,7 @@ public class Item implements Comparable<Item>{
 	public static Item createItem(String name){
 		return createItem(new Item(name,null),1);
 	}
-	private static Item createItem(Item i, int amount){
+	public static Item createItem(Item i, int amount){
 		Item item = database[Arrays.binarySearch(database, i)];
 		item.amount=amount;
 		if(item instanceof Equipment)

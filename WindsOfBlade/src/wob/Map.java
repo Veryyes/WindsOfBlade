@@ -2,6 +2,7 @@ package wob;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -22,7 +23,8 @@ public class Map {
 	String filename;
 	
 	public Map(String filename){//Obj Shift
-		try {
+		try{
+			UI.shopBtn.clear();
 			walls = new LinkedList<Wall>();
 			npcs = new LinkedList<Npc>();
 			encounterSpots = new LinkedList<EncounterSpot>();
@@ -98,9 +100,9 @@ public class Map {
 					enemies.add(new Enemy(property[j].substring(0,property[j].length()-1)));
 			else if(property[1].contains("type=portal"))
 				portals.add(parsePortal(property));
-			else if(property[i].contains("inn"))
+			else if(property[1].contains("inn"))
 				npcs.add(parseInnKeeper(property));
-			else if(property[i].contains("shop"))
+			else if(property[1].contains("shop"))
 				npcs.add(parseShopKeeper(property));
 		}
 		//Parsing Through Map Data
@@ -124,22 +126,38 @@ public class Map {
 		SparseMatrix<Wall> wally = new SparseMatrix<Wall>(map[0].length,map.length);
 		for(int i = 0;i<map.length;i++){
 			for(int j=0;j<map[0].length;j++){
-				switch(mapData.charAt(j+i*(numRows+1))){
-				case '1':
+				switch(Integer.parseInt(""+mapData.charAt(j+i*(numRows+1)))){
+				case 1:
 					map[i][j]= new Tile(ImageManager.getImageList("res/tiles/water/water.png",10));
 					wally.add(i, j, new Wall(j*64,i*64,64,64));
 					break;
-				case '2':
+				case 2:
 					map[i][j]=new Tile(ImageManager.getImage("res/tiles/stone.png"));
 					break;
-				case '3':
+				case 3:
 					map[i][j]=new Tile(ImageManager.getImage("res/tiles/grass.png"));
 					break;
-				case '4':
+				case 4:
 					map[i][j]=new Tile(ImageManager.getImage("res/tiles/bricks.png"));
 					break;
-				case '5':
+				case 5:
 					map[i][j]=new Tile(ImageManager.getImage("res/tiles/wood.png"));
+					break;
+				case 9:
+					break;
+				case 10:
+					break;
+				case 11:
+					break;
+				case 17:
+					break;
+				case 19:
+					break;
+				case 25:
+					break;
+				case 26:
+					break;
+				case 27:
 					break;
 				}
 			}
@@ -150,24 +168,24 @@ public class Map {
 	private ShopKeeper parseShopKeeper(String[] line) {
 		Item[] items;
 		int[] prices;
-		String[] itemStr = line[4].split("=")[1].split(",");
+		String[] itemStr = line[3].split("=")[1].split(",");
 		String[]pricesStr = line[5].split("=")[1].split(",");
 		items = new Item[itemStr.length];
 		prices = new int[itemStr.length];
 		for(int i=0;i<itemStr.length;i++){
-			items[i]=Item.database[Arrays.binarySearch(Item.database, new Item(itemStr[i],null))];
-			prices[i] = Integer.parseInt(pricesStr[i]);
+			items[i]=Item.database[Arrays.binarySearch(Item.database, new Item(itemStr[i].trim(),null))];
+			prices[i] = Integer.parseInt(pricesStr[i].trim());
 		}
-		return new ShopKeeper(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),
-				64*Integer.parseInt(line[2].split(",")[1]),	
-				line[3].split("=")[1], 
+		return new ShopKeeper(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]),	//X
+				64*Integer.parseInt(line[2].split(",")[1]),								//Y
+				line[4].split("=")[1], 													//Name
 				items, prices);
 	}
 	private InnKeeper parseInnKeeper(String[] line) {
 		return (new InnKeeper(64*Integer.parseInt(line[2].split(",")[0].split("=")[1]), //X
 				64*Integer.parseInt(line[2].split(",")[1]),								//Y
 				line[3].split("=")[1],													//Name
-				Integer.parseInt(line[4].split("=")[1])));								//Inn price
+				Integer.parseInt(line[4].split("=")[1].trim())));								//Inn price
 	}
 	/*
 	 * Removes Wall objects that have walls touching all their adjacent sides

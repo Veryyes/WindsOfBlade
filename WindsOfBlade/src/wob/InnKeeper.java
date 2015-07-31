@@ -19,7 +19,7 @@ public class InnKeeper extends Npc {
 			if(Game.player.money<price){
 				g.drawImage(animation.getFrame(0),23,315,113,113,Color.black,null);
 				UI.drawRectUI(15,308,128,128,false,g);
-				TypeWriter.drawMessage("Welcome!, One night here costs "+price+". Wait, you dont have enought money!!",g);
+				TypeWriter.drawMessage("Welcome!, One night here costs $"+price+". Wait, you dont have enought money!!",g);
 			}else{
 				if(conversation[conversationIndex].split(":")[0].equals("player"))
 					g.drawImage(Game.player.animation.getFrame(0),23,315,113,113,Color.black,null);
@@ -30,6 +30,9 @@ public class InnKeeper extends Npc {
 				UI.yesBtn.enabled=true;
 				UI.noBtn.enabled=true;
 			}
+		}else{
+			UI.yesBtn.enabled=false;
+			UI.noBtn.enabled=false;
 		}
 		
 	}
