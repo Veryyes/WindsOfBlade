@@ -38,6 +38,27 @@ public class TypeWriter {
 				case ';':
 					fonts[i]=ImageIO.read(new File("font/semicolon.png"));
 					break;
+				case '<':
+					fonts[i]=ImageIO.read(new File("font/greaterthan.png"));
+					break;
+				case '>':
+					fonts[i]=ImageIO.read(new File("font/lessthan.png"));
+					break;
+				case '\\':
+					fonts[i]=ImageIO.read(new File("font/backslash.png"));
+					break;
+				case ':':
+					fonts[i]=ImageIO.read(new File("font/colon.png"));
+					break;
+				case '*':
+					fonts[i]=ImageIO.read(new File("font/star.png"));
+					break;
+				case '|':
+					fonts[i]=ImageIO.read(new File("font/or.png"));
+					break;
+				case '\"':
+					fonts[i]=ImageIO.read(new File("font/quote.png"));
+					break;
 				default:
 					fonts[i]=ImageIO.read(new File("font/"+chars[i]+".png"));
 					break;
