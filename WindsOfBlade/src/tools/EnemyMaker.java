@@ -308,7 +308,7 @@ public class EnemyMaker extends JFrame implements ActionListener {
 			return "Money Dropped must be a number!";
 		}
 		try{
-			wob.Type.parseType(type.getText());
+			blade.Type.parseType(type.getText());
 		}catch(NumberFormatException e){
 			return "Please input a valid type\nValid types are:\ndark\ndivine\nearth\nelectric\nfire\nice\nmetal\nnormal\nvoid\nwater\nwind\nwood";
 		}

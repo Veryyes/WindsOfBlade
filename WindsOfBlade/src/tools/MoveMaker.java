@@ -159,7 +159,7 @@ public class MoveMaker extends JFrame implements ActionListener{
 			if(typeInput.getText().length()==0)
 				return "Move must have a type!";
 			try{
-				wob.Type.parseType(typeInput.getText());
+				blade.Type.parseType(typeInput.getText());
 			}catch(NumberFormatException e){
 				return "Please input a valid type\nValid types are:\ndark\ndivine\nearth\nelectric\nfire\nice\nmetal\nnormal\nvoid\nwater\nwind\nwood";
 			}
