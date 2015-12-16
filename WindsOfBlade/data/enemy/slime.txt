@@ -1,0 +1,12 @@
+level=1
+exp=20
+money=5
+type=earth
+dmgType=1
+ai=1
+hp=25
+str=5
+int=2
+dex=0
+will=8
+agil=50

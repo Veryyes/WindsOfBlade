@@ -1,0 +1,6 @@
+5xETC_Cobalt Ingot=3
+1xEQUIP_Broken Helmet=5
+3xUSE_Weak Potion=2
+<SHOP>
+jack:wanna buy something?
+<END>

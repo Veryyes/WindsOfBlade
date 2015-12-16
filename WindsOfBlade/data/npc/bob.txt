@@ -1,0 +1,6 @@
+player:hey what exactly is going on I need to find so and so because they are in big trouble
+bob:do you know where we are? im kinda lost.
+player:wait why are you asking me?
+<END>
+player:What happend?
+bob:dunno...
