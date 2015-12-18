@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package tools.mapping;
 
 import javax.imageio.ImageIO;
@@ -143,6 +149,7 @@ public class NewForm extends javax.swing.JDialog {
             MapMaker.file = new java.io.File(mapNameTxtField.getText()+".map");
             MapMaker.map = new Map(row, col);
             MapMaker.spritesheet = ImageIO.read(new File(spriteTxtField.getText()));
+            MapMaker.spriteScrollPane.setViewportView(new javax.swing.JLabel(new javax.swing.ImageIcon(spriteTxtField.getText())));
             this.dispose();
         }catch (NumberFormatException e){
             javax.swing.JOptionPane.showMessageDialog(null, "Insert numeric values for dimensions!");

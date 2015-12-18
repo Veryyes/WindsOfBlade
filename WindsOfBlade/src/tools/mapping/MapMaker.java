@@ -1,10 +1,17 @@
 //Thank god for Netbean's gui builder
-package tools.mapping;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
+package tools.mapping;
 import java.io.File;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Point;
+import javax.swing.ImageIcon;
 /**
  *
  * @author Brandon
@@ -12,10 +19,13 @@ import java.awt.Color;
 public class MapMaker extends javax.swing.JFrame {
     static File file;
     static BufferedImage spritesheet;
+    static BufferedImage selectedTile;
+    static int selectedTileX;
+    static int selectedTileY;
     static Map map;
     private static int scalex=1;
     private static int scaley=1;
-    private static int gridScale=64;
+    private static int gridSize=64;
     /**
      * Creates new form MapMaker
      */
@@ -36,8 +46,7 @@ public class MapMaker extends javax.swing.JFrame {
         newBtn = new javax.swing.JButton();
         loadBtn = new javax.swing.JButton();
         saveBtn = new javax.swing.JButton();
-        spriteScrollPane = new javax.swing.JScrollPane();
-        layersScrollPane = new javax.swing.JScrollPane();
+        jSplitPane1 = new javax.swing.JSplitPane();
         mapPanel = new javax.swing.JPanel(){
             public void paintComponent(Graphics g){
                 super.paintComponent(g);
@@ -45,21 +54,41 @@ public class MapMaker extends javax.swing.JFrame {
                 if(file!=null||spritesheet!=null||map!=null){
                     g.setColor(Color.BLACK);
                     for(int r=0;r<map.rowSize+1;r++)
-                    g.drawLine(0,r*gridScale,map.colSize*gridScale,r*gridScale);
+                    g.drawLine(0,r*gridSize,map.colSize*gridSize,r*gridSize);
                     for(int c=0;c<map.colSize+1;c++)
-                    g.drawLine(c*gridScale,0,c*gridScale,map.colSize*gridScale);
+                    g.drawLine(c*gridSize,0,c*gridSize,map.rowSize*gridSize);
+                    Point pos = this.getMousePosition();
+                    if(pos!=null&&insideGrid(pos)){
+                        int r = (pos.y/gridSize)*gridSize;
+                        int c = (pos.x/gridSize)*gridSize;
+                        g.setColor(new Color(0,0,0,32));
+                        g.fillRect(c, r, gridSize, gridSize);
+                    }
                 }
             }
         };
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        spriteScrollPane = new javax.swing.JScrollPane(){
+            public void paintComponent(Graphics g){
+                super.paintComponent(g);
+                repaint();
+                g.setColor(Color.BLACK);
+                ((java.awt.Graphics2D)g).setStroke(new java.awt.BasicStroke(3));
+                if(selectedTile!=null)
+                g.drawRect(selectedTileX,selectedTileY,gridSize,gridSize);
+            }
+        };
+        jLabel1 = new javax.swing.JLabel();
         addLayerBtn = new javax.swing.JButton();
         delBtn = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        layersScrollPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Winds Of Blade - Map Editor");
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
+        toolbar.setBorder(null);
         toolbar.setFloatable(false);
         toolbar.setRollover(true);
 
@@ -96,10 +125,6 @@ public class MapMaker extends javax.swing.JFrame {
         });
         toolbar.add(saveBtn);
 
-        spriteScrollPane.setName("spritePane"); // NOI18N
-
-        layersScrollPane.setName("layerPane"); // NOI18N
-
         mapPanel.setFocusable(false);
         mapPanel.setName("mapPane"); // NOI18N
 
@@ -107,12 +132,27 @@ public class MapMaker extends javax.swing.JFrame {
         mapPanel.setLayout(mapPanelLayout);
         mapPanelLayout.setHorizontalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1339, Short.MAX_VALUE)
         );
         mapPanelLayout.setVerticalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 687, Short.MAX_VALUE)
         );
+
+        jSplitPane1.setRightComponent(mapPanel);
+
+        jLabel2.setText("Sprite Sheet");
+
+        spriteScrollPane.setToolTipText("");
+        spriteScrollPane.setAutoscrolls(true);
+        spriteScrollPane.setName("spritePane"); // NOI18N
+        spriteScrollPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                spriteScrollPaneMousePressed(evt);
+            }
+        });
+
+        jLabel1.setText("Layers");
 
         addLayerBtn.setText("Add");
         addLayerBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -128,47 +168,64 @@ public class MapMaker extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Layers");
+        layersScrollPane.setName("layerPane"); // NOI18N
 
-        jLabel2.setText("Sprite Sheet");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(spriteScrollPane)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(addLayerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(delBtn)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(layersScrollPane))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spriteScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addLayerBtn)
+                    .addComponent(delBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(layersScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jSplitPane1.setLeftComponent(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(spriteScrollPane)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(addLayerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(delBtn))
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(layersScrollPane))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(toolbar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1495, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(toolbar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(3, 3, 3)
-                        .addComponent(spriteScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addLayerBtn)
-                            .addComponent(delBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(layersScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE))
-                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 689, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -195,6 +252,14 @@ public class MapMaker extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                       
 
+    private void spriteScrollPaneMousePressed(java.awt.event.MouseEvent evt) {                                              
+        selectedTileX = (evt.getX()/gridSize)*gridSize;
+        selectedTileY = (evt.getY()/gridSize)*gridSize;
+        selectedTile = spritesheet.getSubimage( selectedTileX, selectedTileY, gridSize, gridSize);
+    }                                             
+    private static boolean insideGrid(Point pos){
+        return (pos.x>-1&&pos.x<map.colSize*gridSize&&pos.y>-1&&pos.y<map.rowSize*gridSize);
+    }
     /**
      * @param args the command line arguments
      */
@@ -235,12 +300,14 @@ public class MapMaker extends javax.swing.JFrame {
     private javax.swing.JButton delBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JScrollPane layersScrollPane;
     private javax.swing.JButton loadBtn;
     private javax.swing.JPanel mapPanel;
     private javax.swing.JButton newBtn;
     private javax.swing.JButton saveBtn;
-    private javax.swing.JScrollPane spriteScrollPane;
+    static javax.swing.JScrollPane spriteScrollPane;
     private javax.swing.JToolBar toolbar;
     // End of variables declaration                   
 }
