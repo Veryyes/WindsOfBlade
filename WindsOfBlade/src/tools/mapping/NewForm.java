@@ -153,7 +153,8 @@ public class NewForm extends javax.swing.JDialog {
             MapMaker.listModel.addElement(new Map(row,col,MapMaker.maxLayer));
             MapMaker.layerList.setSelectedIndex(0);
             MapMaker.spritesheet = ImageIO.read(new File(spriteTxtField.getText()));
-            MapMaker.spriteSheetPanel.setSize(MapMaker.spritesheet.getWidth(), MapMaker.spritesheet.getHeight());
+            MapMaker.spritesheetFileLocation = spriteTxtField.getText();
+           // MapMaker.spriteSheetPanel.setSize(MapMaker.spritesheet.getWidth(), MapMaker.spritesheet.getHeight());
             MapMaker.spriteSheetPanel.setPreferredSize(new java.awt.Dimension(MapMaker.spritesheet.getWidth(), MapMaker.spritesheet.getHeight()));
             this.dispose();
         }catch (NumberFormatException e){

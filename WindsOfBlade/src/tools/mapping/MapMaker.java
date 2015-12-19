@@ -12,6 +12,13 @@ import java.awt.Color;
 import java.awt.Point;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import javax.imageio.ImageIO;
 /**
  *
  * @author Brandon
@@ -19,6 +26,7 @@ import javax.swing.JList;
 public class MapMaker extends javax.swing.JFrame {
     static File file;
     static BufferedImage spritesheet;
+    static String spritesheetFileLocation;
     static BufferedImage selectedTile;
     static int selectedTileX;
     static int selectedTileY;
@@ -58,18 +66,17 @@ public class MapMaker extends javax.swing.JFrame {
                 if(file!=null||spritesheet!=null||layerList.getSelectedValue()!=null){
                     g.setColor(new Color(64,64,64));
                     g.fillRect(0,0,mapCol*gridSize,mapRow*gridSize);
-
                     for(int i=0;i<=maxLayer;i++)
-                    for(int r=0;r<layerList.getSelectedValue().rowSize;r++)
-                    for(int c=0;c<layerList.getSelectedValue().colSize;c++)
+                    for(int r=0;r<mapRow;r++)
+                    for(int c=0;c<mapCol;c++)
                     if(listModel.elementAt(i).get(r, c)!=0)
                     g.drawImage(spritesheet.getSubimage(gridSize*((listModel.elementAt(i).get(r,c)-1)%(spritesheet.getWidth()/gridSize)), gridSize*((listModel.elementAt(i).get(r,c)-1)/(spritesheet.getWidth()/gridSize)), gridSize,gridSize),c*gridSize,r*gridSize,null); 
 
                     g.setColor(Color.BLACK);
                     for(int r=0;r<layerList.getSelectedValue().rowSize+1;r++)
-                    g.drawLine(0,r*gridSize,layerList.getSelectedValue().colSize*gridSize,r*gridSize);
+                    g.drawLine(0,r*gridSize,mapCol*gridSize,r*gridSize);
                     for(int c=0;c<layerList.getSelectedValue().colSize+1;c++)
-                    g.drawLine(c*gridSize,0,c*gridSize,layerList.getSelectedValue().rowSize*gridSize);
+                    g.drawLine(c*gridSize,0,c*gridSize,mapRow*gridSize);
                     Point pos = this.getMousePosition();
                     if(pos!=null&&insideGrid(pos)){
                         int r = (pos.y/gridSize)*gridSize;
@@ -274,7 +281,31 @@ public class MapMaker extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void loadBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Map File","map");
+        chooser.setFileFilter(filter);
+        int value = chooser.showOpenDialog(this);
+        if(value==JFileChooser.APPROVE_OPTION){
+            file = chooser.getSelectedFile();
+            try(BufferedReader br = new BufferedReader(new FileReader(file))){
+                
+                gridSize = br.read();
+                mapRow=br.read();
+                mapCol=br.read();
+                maxLayer=br.read();
+                spritesheetFileLocation=br.readLine();
+                spritesheet = ImageIO.read(new File(spritesheetFileLocation));
+                for(int i=0;i<=maxLayer;i++){
+                    listModel.addElement(new Map(mapRow,mapCol,i));
+                    for(int r=0;r<mapRow;r++)
+                        for(int c=0;c<mapCol;c++)
+                            listModel.elementAt(i).set(r,c,br.read());
+                }
+                layerList.setSelectedIndex(0);
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
     }                                       
 
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {                                       
@@ -292,17 +323,26 @@ public class MapMaker extends javax.swing.JFrame {
     }                                      
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
+        //gridSize, R, C, maxLayer, data:
+        try(FileWriter fw = new FileWriter(file)){
+            fw.write((char)gridSize);
+            fw.write((char)mapRow);
+            fw.write((char)mapCol);
+            fw.write((char)maxLayer);
+            fw.write(spritesheetFileLocation);
+            fw.write('\n');
+            for(int i=0;i<=maxLayer;i++)
+                for(int r=0;r<mapRow;r++)
+                    for(int c=0;c<mapCol;c++)
+                        fw.write((char)listModel.elementAt(i).get(r, c));
+            System.out.println("File Saved");
+        }catch(IOException e){
+            System.out.println("IO Error cannot find file "+file);
+        }
     }                                       
 
     private void spriteScrollPaneMousePressed(java.awt.event.MouseEvent evt) {                                              
 
-    }                                             
-
-    private void spriteSheetPanelMousePressed(java.awt.event.MouseEvent evt) {                                              
-        selectedTileX = (evt.getX()/gridSize)*gridSize;
-        selectedTileY = (evt.getY()/gridSize)*gridSize;
-        selectedTile = spritesheet.getSubimage( selectedTileX, selectedTileY, gridSize, gridSize);
     }                                             
 
     private void mapPanelMousePressed(java.awt.event.MouseEvent evt) {                                      
@@ -320,6 +360,15 @@ public class MapMaker extends javax.swing.JFrame {
             }
         }*/
     }                                     
+
+    private void spriteSheetPanelMousePressed(java.awt.event.MouseEvent evt) {                                              
+        if(spritesheet!=null){
+            selectedTileX = (evt.getX()/gridSize)*gridSize;
+            selectedTileY = (evt.getY()/gridSize)*gridSize;
+            selectedTile = spritesheet.getSubimage( selectedTileX, selectedTileY, gridSize, gridSize);
+        }
+    
+    }                                             
     private static boolean insideGrid(Point pos){
         return (pos.x>-1&&pos.x<layerList.getSelectedValue().colSize*gridSize&&pos.y>-1&&pos.y<layerList.getSelectedValue().rowSize*gridSize);
     }
