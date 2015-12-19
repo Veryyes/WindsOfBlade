@@ -4,11 +4,12 @@ public class Map {
 	private int[][] data;
 	public int rowSize;
 	public int colSize;
-	String name;
-	public Map(int row, int col) {
+	private int layer;
+	public Map(int row, int col, int layer) {
 		data= new int[row][col];
 		rowSize=row;
 		colSize=col;
+                this.layer=layer;
 	}
 	public int get(int r, int c){
 		return data[r][c];
@@ -19,4 +20,7 @@ public class Map {
 	public void clear(){
 		data=new int[rowSize][colSize];
 	}
+        public String toString(){
+            return "Layer "+layer;
+        }
 }
