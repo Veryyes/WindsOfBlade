@@ -38,7 +38,13 @@ public class Field extends Entity {
 	}
 	public void update(Graphics g){
 		super.update(g);
-		if(Camera.isMoving()&&Game.player.box.intersects(box)&&Math.random()<encounterRate){
+		if(Camera.isMoving()&&Game.player.box.intersects(box)&&Math.random()<encounterRate){ 
+			/*
+			 * Calculate Chance of a battle = binomcdf(60*secondsWalking, encounterRate, 1);
+			 *  k  (n)
+			 *  ‡”  (i) p^(i) * (1-p)^(n-i) = P(X>=1)
+			 * i=0
+			 */
 			Game.gameState = Game.BATTLE;
 			Battle.reset();
 			//Generates Enemies

@@ -241,22 +241,22 @@ public class EnemyMaker extends JFrame implements ActionListener {
 			String checks = checkInputs();
 			if(checks.equals("good")){
 				try{
-					FileWriter fw = new FileWriter(new File("data/enemy/"+name.getText()+".txt"));
-					int level = 1;
+					FileWriter fw = new FileWriter(new File("data/enemy/"+name.getText()+".dat"));
+					int level = (Integer.parseInt(str.getText())+Integer.parseInt(intel.getText())+Integer.parseInt(dex.getText())+Integer.parseInt(will.getText())+Integer.parseInt(agil.getText()))/5;
 					//TODO calculate level based on stats;
-					fw.write("level="+level);
-					fw.write("\nexp="+exp.getText());
-					fw.write("\nmoney="+money.getText());
-					fw.write("\ntype="+type.getText());
+					fw.write((char)level);
+					fw.write((char)Integer.parseInt(exp.getText()));
+					fw.write((char)Integer.parseInt(money.getText()));
+					fw.write((char)blade.Type.parseType(type.getText()));
 					updateRadioButtons();
-					fw.write("\ndmgType="+dmgType);
-					fw.write("\nai="+ai);
-					fw.write("\nhp="+hp.getText());
-					fw.write("\nstr="+str.getText());
-					fw.write("\nint="+intel.getText());
-					fw.write("\ndex="+dex.getText());
-					fw.write("\nwill="+will.getText());
-					fw.write("\nagil="+agil.getText());
+					fw.write((char)dmgType);
+					fw.write((char)ai);
+					fw.write((char)Integer.parseInt(hp.getText()));
+					fw.write((char)Integer.parseInt(str.getText()));
+					fw.write((char)Integer.parseInt(intel.getText()));
+					fw.write((char)Integer.parseInt(dex.getText()));
+					fw.write((char)Integer.parseInt(will.getText()));
+					fw.write((char)Integer.parseInt(agil.getText()));
 					fw.close();
 					JOptionPane.showMessageDialog(null, name.getText()+" has been created!");
 				}catch(IOException error){
@@ -321,35 +321,35 @@ public class EnemyMaker extends JFrame implements ActionListener {
 		}
 		try{
 			int value = Integer.parseInt(str.getText());
-			if(value<=0)
+			if(value<0)
 				return "Strength must be positive!";
 		}catch(NumberFormatException e){
 			return "Strength must be a number!";
 		}
 		try{
 			int value = Integer.parseInt(intel.getText());
-			if(value<=0)
+			if(value<0)
 				return "Intelligence must be positive!";
 		}catch(NumberFormatException e){
 			return "Intelligence must be a number!";
 		}
 		try{
 			int value = Integer.parseInt(dex.getText());
-			if(value<=0)
+			if(value<0)
 				return "Dexterity must be positive!";
 		}catch(NumberFormatException e){
 			return "Dexterity must be a number!";
 		}
 		try{
 			int value = Integer.parseInt(will.getText());
-			if(value<=0)
+			if(value<0)
 				return "Will must be positive!";
 		}catch(NumberFormatException e){
 			return "Will must be a number!";
 		}
 		try{
 			int value = Integer.parseInt(agil.getText());
-			if(value<=0)
+			if(value<0)
 				return "Agility must be positive!";
 		}catch(NumberFormatException e){
 			return "Agility must be a number!";
