@@ -30,14 +30,14 @@ public class MapMaker extends javax.swing.JFrame {
     static BufferedImage selectedTile;
     static int selectedTileX;
     static int selectedTileY;
-   // static LinkedList<Map> layers;
     static int maxLayer;
     static int mapRow;
     static int mapCol;
-    //static Map map;
     private static int scalex=1;
     private static int scaley=1;
     private static int gridSize=64;
+    private static boolean tileErase=false;
+    private static boolean entErase=false;
     /**
      * Creates new form MapMaker
      */
@@ -87,6 +87,7 @@ public class MapMaker extends javax.swing.JFrame {
                 }
             }
         };
+        tabbedPane = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         spriteScrollPane = new javax.swing.JScrollPane();
@@ -108,6 +109,22 @@ public class MapMaker extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listModel = new DefaultListModel();
         layerList = new JList<Map>(listModel);
+        tileEraseBtn = new javax.swing.JToggleButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        objModel = new DefaultListModel();
+        objectList =  new JList<String>(objModel);
+        objModel.addElement("Field");
+        objModel.addElement("Inn");
+        objModel.addElement("Npc");
+        objModel.addElement("Portal");
+        objModel.addElement("Shop");
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        entModel = new DefaultListModel<blade.Entity>();
+        entitiyList = new JList<blade.Entity>(entModel);
+        entEraseBtn = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Winds Of Blade - Map Editor");
@@ -162,7 +179,7 @@ public class MapMaker extends javax.swing.JFrame {
         mapPanel.setLayout(mapPanelLayout);
         mapPanelLayout.setHorizontalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1339, Short.MAX_VALUE)
+            .addGap(0, 1334, Short.MAX_VALUE)
         );
         mapPanelLayout.setVerticalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,6 +187,12 @@ public class MapMaker extends javax.swing.JFrame {
         );
 
         jSplitPane1.setRightComponent(mapPanel);
+
+        tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabbedPaneStateChanged(evt);
+            }
+        });
 
         jLabel2.setText("Sprite Sheet");
 
@@ -192,7 +215,7 @@ public class MapMaker extends javax.swing.JFrame {
         spriteSheetPanel.setLayout(spriteSheetPanelLayout);
         spriteSheetPanelLayout.setHorizontalGroup(
             spriteSheetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 127, Short.MAX_VALUE)
+            .addGap(0, 261, Short.MAX_VALUE)
         );
         spriteSheetPanelLayout.setVerticalGroup(
             spriteSheetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +240,15 @@ public class MapMaker extends javax.swing.JFrame {
             }
         });
 
+        layerList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(layerList);
+
+        tileEraseBtn.setText("Eraser");
+        tileEraseBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tileEraseBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -226,24 +257,29 @@ public class MapMaker extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spriteScrollPane)
+                    .addComponent(spriteScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(addLayerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(delBtn))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tileEraseBtn))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(addLayerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(delBtn)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jLabel2)
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(tileEraseBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spriteScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -252,12 +288,66 @@ public class MapMaker extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addLayerBtn)
                     .addComponent(delBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jSplitPane1.setLeftComponent(jPanel1);
+        tabbedPane.addTab("Tiles", jPanel1);
+
+        jLabel4.setText("Object List");
+
+        objectList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(objectList);
+
+        jLabel3.setText("Entities");
+
+        entitiyList.setToolTipText("");
+        jScrollPane2.setViewportView(entitiyList);
+
+        entEraseBtn.setText("Eraser");
+        entEraseBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entEraseBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(entEraseBtn))
+                        .addGap(0, 66, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(entEraseBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabbedPane.addTab("Entities", jPanel2);
+
+        jSplitPane1.setLeftComponent(tabbedPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -288,13 +378,18 @@ public class MapMaker extends javax.swing.JFrame {
         if(value==JFileChooser.APPROVE_OPTION){
             file = chooser.getSelectedFile();
             try(BufferedReader br = new BufferedReader(new FileReader(file))){
-                
+                listModel.clear();
                 gridSize = br.read();
                 mapRow=br.read();
                 mapCol=br.read();
                 maxLayer=br.read();
                 spritesheetFileLocation=br.readLine();
-                spritesheet = ImageIO.read(new File(spritesheetFileLocation));
+                try{
+                    spritesheet = ImageIO.read(new File(spritesheetFileLocation));
+                }catch(javax.imageio.IIOException e){
+                    System.out.println("Cannot find SpriteSheet!");
+                    //TODO Would you like relocate?
+                }
                 for(int i=0;i<=maxLayer;i++){
                     listModel.addElement(new Map(mapRow,mapCol,i));
                     for(int r=0;r<mapRow;r++)
@@ -346,11 +441,31 @@ public class MapMaker extends javax.swing.JFrame {
     }                                             
 
     private void mapPanelMousePressed(java.awt.event.MouseEvent evt) {                                      
-        if(selectedTile!=null){
-            layerList.getSelectedValue().set((evt.getY()/gridSize),(evt.getX()/gridSize),(selectedTileY/gridSize)*(spritesheet.getWidth()/gridSize)+(selectedTileX/gridSize)+1); 
+        if(tabbedPane.getSelectedIndex()==0){
+            if(tileErase)
+                layerList.getSelectedValue().set((evt.getY()/gridSize),(evt.getX()/gridSize),0);
+            else if(selectedTile!=null)
+                layerList.getSelectedValue().set((evt.getY()/gridSize),(evt.getX()/gridSize),(selectedTileY/gridSize)*(spritesheet.getWidth()/gridSize)+(selectedTileX/gridSize)+1);
+        }else if(tabbedPane.getSelectedIndex()==1){
+            switch((String)objectList.getSelectedValue()){
+                case "Field":
+                        FieldForm f = new FieldForm(this,true,evt.getX()/gridSize,evt.getY()/gridSize);
+                        f.setVisible(true);
+                    break;
+                case "Inn":
+                    break;
+                case "Npc":
+                    break;
+                case "Portal":
+                    break;
+                case "Shop":
+                    break;
+            }
+        }
+        
            // System.out.println(selectedTileY+","+selectedTileX+" "+((selectedTileY/gridSize)*(spritesheet.getWidth()/gridSize)+(selectedTileX/gridSize)));
            // System.out.println((selectedTileY/gridSize)+"*"+(spritesheet.getWidth()/gridSize)+"+"+(selectedTileX/gridSize));
-        }
+        
        /* if(map!=null){
             for(int r=0;r<map.rowSize;r++){
                 for(int c=0;c<map.colSize;c++){
@@ -369,6 +484,25 @@ public class MapMaker extends javax.swing.JFrame {
         }
     
     }                                             
+
+    private void tileEraseBtnActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        tileErase=!tileErase;
+    }                                            
+
+    private void tabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {                                        
+        switch(tabbedPane.getSelectedIndex()){
+            case 0:
+                tileErase=false;
+                tileEraseBtn.setSelected(false);
+                break;
+            case 1:
+                break;
+        }
+    }                                       
+
+    private void entEraseBtnActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+    }                                           
     private static boolean insideGrid(Point pos){
         return (pos.x>-1&&pos.x<layerList.getSelectedValue().colSize*gridSize&&pos.y>-1&&pos.y<layerList.getSelectedValue().rowSize*gridSize);
     }
@@ -407,21 +541,33 @@ public class MapMaker extends javax.swing.JFrame {
         });
     }
     static DefaultListModel<Map> listModel;
+    static DefaultListModel<String> objModel;
+    static DefaultListModel<blade.Entity> entModel;
     // Variables declaration - do not modify                     
     private javax.swing.JButton addLayerBtn;
     private javax.swing.JButton delBtn;
+    private javax.swing.JToggleButton entEraseBtn;
+    private javax.swing.JList<blade.Entity> entitiyList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSplitPane jSplitPane1;
     static javax.swing.JList<Map> layerList;
     private javax.swing.JButton loadBtn;
     private javax.swing.JPanel mapPanel;
     private javax.swing.JButton newBtn;
+    private javax.swing.JList objectList;
     private javax.swing.JButton saveBtn;
     private javax.swing.JScrollPane spriteScrollPane;
     static javax.swing.JPanel spriteSheetPanel;
+    private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JToggleButton tileEraseBtn;
     private javax.swing.JToolBar toolbar;
     // End of variables declaration                   
 }

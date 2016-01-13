@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public abstract class Entity {
-	String name;
+	public String name;
 	Rectangle box;
 	Animation animation;
 	public Entity(){
@@ -21,7 +21,7 @@ public abstract class Entity {
 		box.height=h;
 	}
 	public Entity(int x, int y, Animation animation){
-		this(x,y,animation.getWidth(), animation.getHeight());
+		this(x,y,animation==null?0:animation.getWidth(),animation==null?0:animation.getHeight());
 		this.animation=animation;
 	}
 	public Entity(int x, int y, Image image){
