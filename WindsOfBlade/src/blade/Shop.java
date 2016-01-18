@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Shop extends Npc implements Talkable{
+public class Shop extends Entity implements Talkable{
 	class PurchaseButton extends Button{
 		int price;
 		Item item;

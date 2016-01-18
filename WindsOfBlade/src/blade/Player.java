@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.geom.Line2D;
 import java.util.LinkedList;
 
-public class Player extends Fighter{
+public class Player extends Fighter implements Talkable{
 	int money;
 	public LinkedList<Item> inventory;
 	public Fighter[] party;
@@ -93,6 +93,31 @@ public class Player extends Fighter{
 			j++;
 		}
 		party=newParty;
+		
+	}
+	@Override
+	public Animation getNeutralFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getHappyFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getSadFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getAngryFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void talk() {
+		// TODO Auto-generated method stub
 		
 	}
 }

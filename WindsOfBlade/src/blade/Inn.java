@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Inn extends Npc implements Talkable{
+public class Inn extends Entity implements Talkable{
 	int price;
 	static Window yesNoWindow;
 	static byte answer = 0;

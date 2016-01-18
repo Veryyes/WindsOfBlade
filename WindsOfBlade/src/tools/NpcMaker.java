@@ -15,11 +15,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author Brandon
  */
 public class NpcMaker extends javax.swing.JFrame {
-    static java.awt.image.BufferedImage currImage;
+    static java.awt.image.BufferedImage[] currImage;
+    static int fps=60;
+    static double spf = 1000d/fps;
+    static long currTime;
+    static int frame=0;
     /**
      * Creates new form NpcMaker
      */
     public NpcMaker() {
+        currTime=System.currentTimeMillis();
         initComponents();
     }
 
@@ -36,8 +41,18 @@ public class NpcMaker extends javax.swing.JFrame {
             public void paintComponent(java.awt.Graphics g){
                 super.paintComponent(g);
                 repaint();
-                if(currImage!=null)
-                g.drawImage(currImage,0,0,320,320,null);
+                if(currImage!=null){
+                    //currTime+=spf;
+                    //sleepTime = currTime - System.currentTimeMillis();
+                    //if(sleepTime>=0)
+                    //try{Thread.sleep(sleepTime);}catch(InterruptedException e){}
+                    if(System.currentTimeMillis()>=currTime+spf){
+                        frame++;
+                        currTime=System.currentTimeMillis();
+                    }
+                    frame=frame%currImage.length;
+                    g.drawImage(currImage[frame],0,0,320,320,null);
+                }
             }
         };
         jLabel1 = new javax.swing.JLabel();
@@ -77,6 +92,8 @@ public class NpcMaker extends javax.swing.JFrame {
         createBtn = new javax.swing.JButton();
         closeBtn = new javax.swing.JButton();
         helpBtn = new javax.swing.JButton();
+        label1 = new java.awt.Label();
+        fpsTxtField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -252,6 +269,21 @@ public class NpcMaker extends javax.swing.JFrame {
         });
 
         helpBtn.setText("Help");
+        helpBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpBtnActionPerformed(evt);
+            }
+        });
+
+        label1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        label1.setText("< FPS of animation (Not necesary the FPS this will animate in the game)");
+
+        fpsTxtField.setText("60");
+        fpsTxtField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fpsTxtFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -268,52 +300,58 @@ public class NpcMaker extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(nameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel6))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(walkLeftTxtField, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                                            .addComponent(walkRightTxtField)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel2))
-                                        .addGap(16, 16, 16)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(idleTxtField, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                                            .addComponent(walkUpTxtField)
-                                            .addComponent(walkDownTxtField)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel10))
-                                        .addGap(22, 22, 22)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(neutralTxtField)
-                                            .addComponent(happyTxtField)
-                                            .addComponent(sadTxtField)
-                                            .addComponent(angryTxtField))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(idleBtn)
-                                    .addComponent(upBtn)
-                                    .addComponent(downBtn)
-                                    .addComponent(leftBtn)
-                                    .addComponent(rightBtn)
-                                    .addComponent(neutralBtn)
-                                    .addComponent(happyBtn)
-                                    .addComponent(sadBtn)
-                                    .addComponent(angryBtn))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(nameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel5)
+                                                    .addComponent(jLabel6))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(walkLeftTxtField, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                                                    .addComponent(walkRightTxtField)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel4)
+                                                    .addComponent(jLabel3)
+                                                    .addComponent(jLabel2))
+                                                .addGap(16, 16, 16)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(idleTxtField, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                                                    .addComponent(walkUpTxtField)
+                                                    .addComponent(walkDownTxtField)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel7)
+                                                    .addComponent(jLabel8)
+                                                    .addComponent(jLabel9)
+                                                    .addComponent(jLabel10))
+                                                .addGap(22, 22, 22)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(neutralTxtField)
+                                                    .addComponent(happyTxtField)
+                                                    .addComponent(sadTxtField)
+                                                    .addComponent(angryTxtField))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(idleBtn)
+                                            .addComponent(upBtn)
+                                            .addComponent(downBtn)
+                                            .addComponent(leftBtn)
+                                            .addComponent(rightBtn)
+                                            .addComponent(neutralBtn)
+                                            .addComponent(happyBtn)
+                                            .addComponent(sadBtn)
+                                            .addComponent(angryBtn)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(fpsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel11)
@@ -381,8 +419,11 @@ public class NpcMaker extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(angryTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(angryBtn)))
-                    .addComponent(imgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(angryBtn))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fpsTxtField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -394,7 +435,7 @@ public class NpcMaker extends javax.swing.JFrame {
                     .addComponent(createBtn)
                     .addComponent(closeBtn)
                     .addComponent(helpBtn))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -403,7 +444,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void idleTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idleTxtFieldMouseEntered
         if(!idleTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(idleTxtField.getText()));
+                String[] paths = idleTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -413,7 +457,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void walkUpTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_walkUpTxtFieldMouseEntered
         if(!walkUpTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(walkUpTxtField.getText()));
+                String[] paths = walkUpTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -423,7 +470,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void walkDownTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_walkDownTxtFieldMouseEntered
         if(!walkDownTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(walkDownTxtField.getText()));
+                String[] paths = walkDownTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -433,7 +483,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void walkLeftTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_walkLeftTxtFieldMouseEntered
         if(!walkLeftTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(walkLeftTxtField.getText()));
+                String[] paths = walkLeftTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -443,7 +496,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void walkRightTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_walkRightTxtFieldMouseEntered
         if(!walkRightTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(walkRightTxtField.getText()));
+                String[] paths = walkRightTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -453,7 +509,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void neutralTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_neutralTxtFieldMouseEntered
         if(!neutralTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(neutralTxtField.getText()));
+                String[] paths = neutralTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -463,7 +522,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void happyTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_happyTxtFieldMouseEntered
         if(!happyTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(happyTxtField.getText()));
+                String[] paths = happyTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -473,7 +535,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void sadTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sadTxtFieldMouseEntered
         if(!sadTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(sadTxtField.getText()));
+                String[] paths = sadTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -483,7 +548,10 @@ public class NpcMaker extends javax.swing.JFrame {
     private void angryTxtFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_angryTxtFieldMouseEntered
         if(!angryTxtField.getText().equals("")){
             try{
-                currImage=javax.imageio.ImageIO.read(new java.io.File(angryTxtField.getText()));
+                String[] paths = angryTxtField.getText().split(",");
+                currImage = new java.awt.image.BufferedImage[paths.length];
+                for(int i=0;i<paths.length;i++)
+                    currImage[i] = javax.imageio.ImageIO.read(new java.io.File(paths[i]));
             }catch(java.io.IOException e){
                 e.printStackTrace();
             }
@@ -492,135 +560,171 @@ public class NpcMaker extends javax.swing.JFrame {
 
     private void idleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idleBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-                idleTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();//substring then add .
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    idleTxtField.setText(idleTxtField.getText()+","+relative);
+                else
+                    idleTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_idleBtnActionPerformed
 
     private void upBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-                walkUpTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    walkUpTxtField.setText(walkUpTxtField.getText()+","+relative);
+                else
+                    walkUpTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_upBtnActionPerformed
 
     private void downBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-                walkDownTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    walkDownTxtField.setText(walkDownTxtField.getText()+","+relative);
+                else
+                    walkDownTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_downBtnActionPerformed
 
     private void leftBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-                walkLeftTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    walkLeftTxtField.setText(walkLeftTxtField.getText()+","+relative);
+                else
+                    walkLeftTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_leftBtnActionPerformed
 
     private void rightBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-                walkRightTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    walkRightTxtField.setText(walkRightTxtField.getText()+","+relative);
+                else
+                    walkRightTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_rightBtnActionPerformed
 
     private void neutralBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_neutralBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-                neutralTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    neutralTxtField.setText(neutralTxtField.getText()+","+relative);
+                else
+                    neutralTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_neutralBtnActionPerformed
 
     private void happyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_happyBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-               happyTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    happyTxtField.setText(happyTxtField.getText()+","+relative);
+                else
+                    happyTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_happyBtnActionPerformed
 
     private void sadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sadBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-               sadTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    sadTxtField.setText(sadTxtField.getText()+","+relative);
+                else
+                    sadTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_sadBtnActionPerformed
 
     private void angryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_angryBtnActionPerformed
         JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.setCurrentDirectory(new java.io.File(System.getProperty("user.dir")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image","jpg", "jpeg","png","bmp","gif","tif","tiff");
         chooser.setFileFilter(filter);
         int value = chooser.showOpenDialog(this);
         if(value==JFileChooser.APPROVE_OPTION){
-            java.io.File file = chooser.getSelectedFile();
-            try{
-                angryTxtField.setText(file.getCanonicalPath());
-            }catch(java.io.IOException e){
-                e.printStackTrace();
+            java.io.File files[] = chooser.getSelectedFiles();
+            for(int i=0;i<files.length;i++){
+                String relative = '.'+files[i].getPath().substring(System.getProperty("user.dir").length());
+                if(i!=0)
+                    angryTxtField.setText(angryTxtField.getText()+","+relative);
+                else
+                    angryTxtField.setText(relative);
             }
         }
     }//GEN-LAST:event_angryBtnActionPerformed
@@ -661,6 +765,19 @@ public class NpcMaker extends javax.swing.JFrame {
     private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
         System.exit(0);
     }//GEN-LAST:event_closeBtnActionPerformed
+
+    private void fpsTxtFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fpsTxtFieldKeyReleased
+        try{
+            fps = Integer.parseInt(fpsTxtField.getText());
+            spf = 1000d/fps;
+        }catch(NumberFormatException e){
+            fps=0;
+        }
+    }//GEN-LAST:event_fpsTxtFieldKeyReleased
+
+    private void helpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpBtnActionPerformed
+        JOptionPane.showMessageDialog(this,"Formatting:\n<a>one guy talking\nAnother guy talking</a><b>Some text</b><c>more text later in the story</c> etc..\nnumbers do not have to be consecutive, but increasing\nSingle digit id's must be preceded by a \'0\'");
+    }//GEN-LAST:event_helpBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -704,6 +821,7 @@ public class NpcMaker extends javax.swing.JFrame {
     private javax.swing.JTextArea conversationTxtField;
     private javax.swing.JButton createBtn;
     private javax.swing.JButton downBtn;
+    private javax.swing.JTextField fpsTxtField;
     private javax.swing.JButton happyBtn;
     private javax.swing.JTextField happyTxtField;
     private javax.swing.JButton helpBtn;
@@ -724,6 +842,7 @@ public class NpcMaker extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private java.awt.Label label1;
     private javax.swing.JButton leftBtn;
     private javax.swing.JTextField nameTxtField;
     private javax.swing.JButton neutralBtn;
