@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Inn extends Npc{
+public class Inn extends Npc implements Talkable{
 	int price;
 	static Window yesNoWindow;
 	static byte answer = 0;
@@ -79,5 +79,30 @@ public class Inn extends Npc{
 				answer=0;
 			}
 		}
+	}
+	@Override
+	public Animation getNeutralFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getHappyFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getSadFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getAngryFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void talk() {
+		// TODO Auto-generated method stub
+		
 	}
 }

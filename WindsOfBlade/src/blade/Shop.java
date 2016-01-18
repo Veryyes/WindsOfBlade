@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Shop extends Npc{
+public class Shop extends Npc implements Talkable{
 	class PurchaseButton extends Button{
 		int price;
 		Item item;
@@ -106,6 +106,31 @@ public class Shop extends Npc{
 				addBtns=false;
 			}
 		}
+	}
+	@Override
+	public Animation getNeutralFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getHappyFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getSadFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Animation getAngryFace() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void talk() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

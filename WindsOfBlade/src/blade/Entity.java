@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 public abstract class Entity {
 	public String name;
 	Rectangle box;
-	Animation animation;
+	Animation animation; //Idle Animation for on entities that walk on the field
 	public Entity(){
 		box = new Rectangle();
 	}

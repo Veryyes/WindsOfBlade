@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class Npc extends Entity{
+public class Npc extends Entity{//TODO refactor......, Make Shop & Inn extend directly from Entity
 	int conversationIndex;
 	int speechIndex;
 	boolean isTalking;
@@ -17,6 +17,7 @@ public class Npc extends Entity{
 	int waitTime;
 	static Window textWindow;
 	static Window speakerWindow;
+	private Animation walkUp, walkDown, walkLeft, walkRight;
 	public Npc(int x, int y, String name){
 		super(x,y);
 		this.name=name;

@@ -2,7 +2,7 @@ package blade;
 
 import java.awt.Graphics;
 
-public class Partner extends Fighter{
+public class Partner extends Fighter implements Talkable{
 	public static Partner mage;
 	public static Partner apollo;
 	public static Partner artemis;
@@ -137,5 +137,32 @@ public class Partner extends Fighter{
 	}
 	public void update(Graphics g) {
 		super.update(g);
+	}
+	@Override
+	public Animation getNeutralFace() {
+		switch(this.name){
+		case "Mage":
+			//TODO stuff
+		}
+		return null;
+	}
+	@Override
+	public Animation getHappyFace() {
+		
+		return null;
+	}
+	@Override
+	public Animation getSadFace() {
+		
+		return null;
+	}
+	@Override
+	public Animation getAngryFace() {
+		
+		return null;
+	}
+	@Override
+	public void talk() {
+		
 	}
 }

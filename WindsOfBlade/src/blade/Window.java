@@ -76,7 +76,7 @@ public class Window {
 	 */
 	public void setParent(Window parent, boolean resize){
 		this.parent=parent;
-		if(parent!=null&&resize){
+		if(parent!=null&&parent.subWindows!=null&&resize){
 			width = (parent.width - 2*BORDER_SIZE - (parent.subWindows.numColumns()+1)*parent.hgap)/parent.subWindows.numColumns();
 			height = (parent.height - 2*BORDER_SIZE -(parent.subWindows.numRows()+1)*parent.vgap)/parent.subWindows.numRows();
 		}
