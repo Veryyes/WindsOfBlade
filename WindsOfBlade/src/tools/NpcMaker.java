@@ -94,6 +94,17 @@ public class NpcMaker extends javax.swing.JFrame {
         helpBtn = new javax.swing.JButton();
         label1 = new java.awt.Label();
         fpsTxtField = new javax.swing.JTextField();
+        npcRdBtn = new javax.swing.JRadioButton();
+        shopRdBtn = new javax.swing.JRadioButton();
+        innRdBtn = new javax.swing.JRadioButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        shopModel = new javax.swing.DefaultListModel<>();
+        shopList = new javax.swing.JList(shopModel);
+        label2 = new java.awt.Label();
+        shopAddBtn = new javax.swing.JButton();
+        shopRemoveBtn = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        priceTxtField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -285,6 +296,43 @@ public class NpcMaker extends javax.swing.JFrame {
             }
         });
 
+        npcRdBtn.setSelected(true);
+        npcRdBtn.setText("NPC");
+        npcRdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                npcRdBtnActionPerformed(evt);
+            }
+        });
+
+        shopRdBtn.setText("Shop");
+        shopRdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shopRdBtnActionPerformed(evt);
+            }
+        });
+
+        innRdBtn.setText("Inn");
+        innRdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                innRdBtnActionPerformed(evt);
+            }
+        });
+
+        shopList.setEnabled(false);
+        jScrollPane2.setViewportView(shopList);
+
+        label2.setText("Shop Merchandise");
+
+        shopAddBtn.setText("Add");
+        shopAddBtn.setEnabled(false);
+
+        shopRemoveBtn.setText("Remove");
+        shopRemoveBtn.setEnabled(false);
+
+        jLabel12.setText("Inn Price");
+
+        priceTxtField.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -292,8 +340,7 @@ public class NpcMaker extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator2)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(imgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -303,10 +350,6 @@ public class NpcMaker extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(nameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel5)
@@ -351,14 +394,43 @@ public class NpcMaker extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(fpsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(fpsTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(nameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(npcRdBtn)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(shopRdBtn)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(innRdBtn)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(priceTxtField))
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(shopRemoveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(shopAddBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(createBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(helpBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(closeBtn)))
@@ -368,74 +440,93 @@ public class NpcMaker extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(nameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(npcRdBtn)
+                                    .addComponent(shopRdBtn)
+                                    .addComponent(innRdBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(idleTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(idleBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(walkUpTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(upBtn))
+                                .addGap(3, 3, 3)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(walkDownTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(downBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(walkLeftTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(leftBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(walkRightTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(rightBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(neutralTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(neutralBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel8)
+                                    .addComponent(happyTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(happyBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel9)
+                                    .addComponent(sadTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sadBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(angryTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(angryBtn))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(imgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fpsTxtField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(shopAddBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(shopRemoveBtn)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(nameTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(idleTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(idleBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(walkUpTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(upBtn))
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(walkDownTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(downBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(walkLeftTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(leftBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(walkRightTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rightBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(neutralTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(neutralBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(happyTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(happyBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(sadTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sadBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(angryTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(angryBtn))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(imgPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fpsTxtField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel12)
+                            .addComponent(priceTxtField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(createBtn)
-                    .addComponent(closeBtn)
-                    .addComponent(helpBtn))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(helpBtn)
+                    .addComponent(closeBtn))
+                .addGap(16, 16, 16))
         );
 
         pack();
@@ -743,23 +834,66 @@ public class NpcMaker extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"NPC must have a neutral face image");
             return;
         }
-        //Writing
-        try(java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(nameTxtField.getText()+".npc"))){
-            fw.write(idleTxtField.getText()+'\n');
-            fw.write(walkUpTxtField.getText().length()!=0?walkUpTxtField.getText()+'\n':((char)0)+"\n");
-            fw.write(walkDownTxtField.getText().length()!=0?walkDownTxtField.getText()+'\n':((char)0)+"\n");
-            fw.write(walkLeftTxtField.getText().length()!=0?walkLeftTxtField.getText()+'\n':((char)0)+"\n");
-            fw.write(walkRightTxtField.getText().length()!=0?walkRightTxtField.getText()+'\n':((char)0)+"\n");
-            fw.write(neutralTxtField.getText()+'\n');
-            fw.write(happyTxtField.getText().length()!=0?happyTxtField.getText()+'\n':((char)0)+"\n");
-            fw.write(sadTxtField.getText().length()!=0?sadTxtField.getText()+'\n':((char)0)+"\n");
-            fw.write(angryTxtField.getText().length()!=0?angryTxtField.getText()+'\n':((char)0)+"\n");
-            fw.write(conversationTxtField.getText());
-            System.out.println("NPC Created!");
-            JOptionPane.showMessageDialog(this,"NPC Created!");
-        }catch(java.io.IOException e){
-            e.printStackTrace();
-        }
+        if(npcRdBtn.isSelected()){
+            //Writing
+            try(java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(nameTxtField.getText()+".npc"))){
+                fw.write(idleTxtField.getText()+'\n');
+                fw.write(walkUpTxtField.getText().length()!=0?walkUpTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(walkDownTxtField.getText().length()!=0?walkDownTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(walkLeftTxtField.getText().length()!=0?walkLeftTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(walkRightTxtField.getText().length()!=0?walkRightTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(neutralTxtField.getText()+'\n');
+                fw.write(happyTxtField.getText().length()!=0?happyTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(sadTxtField.getText().length()!=0?sadTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(angryTxtField.getText().length()!=0?angryTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(conversationTxtField.getText());
+                System.out.println("NPC Created!");
+                JOptionPane.showMessageDialog(this,"NPC Created!");
+            }catch(java.io.IOException e){
+                e.printStackTrace();
+            }
+        }else if(shopRdBtn.isSelected()){
+            try(java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(nameTxtField.getText()+".snpc"))){
+                fw.write(idleTxtField.getText()+'\n');
+                fw.write(neutralTxtField.getText()+'\n');
+                fw.write(happyTxtField.getText().length()!=0?happyTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(sadTxtField.getText().length()!=0?sadTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(angryTxtField.getText().length()!=0?angryTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(conversationTxtField.getText()+"\n");
+                //List
+                for(int i=0;i<shopModel.size();i++){
+                    fw.write(shopModel.get(i)+'\n');//NumberItemName
+                }
+                JOptionPane.showMessageDialog(this,"Shop NPC Created!");
+            }catch(java.io.IOException e){
+                e.printStackTrace();
+            }
+        }else if(innRdBtn.isSelected()){
+            int price=0;
+            try{
+                price = Integer.parseInt(priceTxtField.getText());
+                if(price<0){
+                    JOptionPane.showMessageDialog(this,"Price must be >= 0");
+                    return;
+                }
+            }catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(this,"Price must be a number >= 0");
+            }
+            try(java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(nameTxtField.getText()+".inpc"))){
+                fw.write((char)price);
+                fw.write(idleTxtField.getText()+'\n');
+                fw.write(neutralTxtField.getText()+'\n');
+                fw.write(happyTxtField.getText().length()!=0?happyTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(sadTxtField.getText().length()!=0?sadTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(angryTxtField.getText().length()!=0?angryTxtField.getText()+'\n':((char)0)+"\n");
+                fw.write(conversationTxtField.getText()+"\n");
+                JOptionPane.showMessageDialog(this,"Inn NPC Created!");
+            }catch(java.io.IOException e){
+                e.printStackTrace();
+            }
+        }else
+            JOptionPane.showMessageDialog(this, "Selected an NPC type!");
+        
     }//GEN-LAST:event_createBtnActionPerformed
 
     private void closeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeBtnActionPerformed
@@ -776,8 +910,62 @@ public class NpcMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_fpsTxtFieldKeyReleased
 
     private void helpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpBtnActionPerformed
-        JOptionPane.showMessageDialog(this,"Formatting:\n<a>one guy talking\nAnother guy talking</a><b>Some text</b><c>more text later in the story</c> etc..\nnumbers do not have to be consecutive, but increasing\nSingle digit id's must be preceded by a \'0\'");
+        JOptionPane.showMessageDialog(this,"Formatting For NPC:\n<a>one guy talking\nAnother guy talking</a><b>Some text</b><c>more text later in the story</c> etc..\nnumbers do not have to be consecutive, but increasing\nSingle digit id's must be preceded by a \'0\'");
     }//GEN-LAST:event_helpBtnActionPerformed
+
+    private void npcRdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_npcRdBtnActionPerformed
+        innRdBtn.setSelected(false);
+        shopRdBtn.setSelected(false);
+        shopAddBtn.setEnabled(false);
+        shopRemoveBtn.setEnabled(false);
+        shopList.setEnabled(false);
+        priceTxtField.setEnabled(false);
+        
+        walkUpTxtField.setEnabled(true);
+        walkDownTxtField.setEnabled(true);
+        walkLeftTxtField.setEnabled(true);
+        walkRightTxtField.setEnabled(true);
+        upBtn.setEnabled(true);
+        downBtn.setEnabled(true);
+        leftBtn.setEnabled(true);
+        rightBtn.setEnabled(true);
+    }//GEN-LAST:event_npcRdBtnActionPerformed
+
+    private void shopRdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shopRdBtnActionPerformed
+        innRdBtn.setSelected(false);
+        npcRdBtn.setSelected(false);
+        shopAddBtn.setEnabled(true);
+        shopRemoveBtn.setEnabled(true);
+        shopList.setEnabled(true);
+        priceTxtField.setEnabled(false);
+        
+        walkUpTxtField.setEnabled(false);
+        walkDownTxtField.setEnabled(false);
+        walkLeftTxtField.setEnabled(false);
+        walkRightTxtField.setEnabled(false);
+        upBtn.setEnabled(false);
+        downBtn.setEnabled(false);
+        leftBtn.setEnabled(false);
+        rightBtn.setEnabled(false);
+    }//GEN-LAST:event_shopRdBtnActionPerformed
+
+    private void innRdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_innRdBtnActionPerformed
+        npcRdBtn.setSelected(false);
+        shopRdBtn.setSelected(false);
+        shopAddBtn.setEnabled(false);
+        shopRemoveBtn.setEnabled(false);
+        shopList.setEnabled(false);
+        priceTxtField.setEnabled(true);
+        
+        walkUpTxtField.setEnabled(false);
+        walkDownTxtField.setEnabled(false);
+        walkLeftTxtField.setEnabled(false);
+        walkRightTxtField.setEnabled(false);
+        upBtn.setEnabled(false);
+        downBtn.setEnabled(false);
+        leftBtn.setEnabled(false);
+        rightBtn.setEnabled(false);
+    }//GEN-LAST:event_innRdBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -813,7 +1001,7 @@ public class NpcMaker extends javax.swing.JFrame {
             }
         });
     }
-
+    private javax.swing.DefaultListModel<String> shopModel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton angryBtn;
     private javax.swing.JTextField angryTxtField;
@@ -828,9 +1016,11 @@ public class NpcMaker extends javax.swing.JFrame {
     private javax.swing.JButton idleBtn;
     private javax.swing.JTextField idleTxtField;
     private javax.swing.JPanel imgPanel;
+    private javax.swing.JRadioButton innRdBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -840,16 +1030,24 @@ public class NpcMaker extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private java.awt.Label label1;
+    private java.awt.Label label2;
     private javax.swing.JButton leftBtn;
     private javax.swing.JTextField nameTxtField;
     private javax.swing.JButton neutralBtn;
     private javax.swing.JTextField neutralTxtField;
+    private javax.swing.JRadioButton npcRdBtn;
+    private javax.swing.JTextField priceTxtField;
     private javax.swing.JButton rightBtn;
     private javax.swing.JButton sadBtn;
     private javax.swing.JTextField sadTxtField;
+    private javax.swing.JButton shopAddBtn;
+    private javax.swing.JList shopList;
+    private javax.swing.JRadioButton shopRdBtn;
+    private javax.swing.JButton shopRemoveBtn;
     private javax.swing.JButton upBtn;
     private javax.swing.JTextField walkDownTxtField;
     private javax.swing.JTextField walkLeftTxtField;
