@@ -9,7 +9,7 @@ public class Player extends Fighter implements Talkable{
 	public LinkedList<Item> inventory;
 	public Fighter[] party;
 	static Line2D.Float top, bottom, left, right;
-	Npc talkingTarget;
+	Talkable talkingTarget;
 	private Animation walkUp, walkDown, walkLeft, walkRight;
 	public Player(){
 		super(Game.frameWidth/2-32,Game.frameHeight/2-32, new Animation(ImageManager.get("res/sprites/player/tempPlayer.png")));

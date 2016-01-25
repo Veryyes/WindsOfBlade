@@ -117,11 +117,11 @@ public class Npc extends Entity implements Talkable{//TODO refactor......, Make 
 		isTalking=false;
 		textWindow.visible=false;
 		speakerWindow.visible=false;
-		Inn.yesNoWindow.visible=false;
+		/*Inn.yesNoWindow.visible=false;
 		Inn.yesNoWindow.setVisibleAllSubWindows(false);
 		Shop.shopWindow.visible=false;
 		Shop.shopWindow.setVisibleAllSubWindows(false);
-		Item.itemDetail.visible=false;
+		Item.itemDetail.visible=false;*/
 		Camera.canMove=true;
 		Game.player.talkingTarget=null;
 	}
@@ -133,22 +133,8 @@ public class Npc extends Entity implements Talkable{//TODO refactor......, Make 
 			waitTime--;
 			if(waitTime<0)
 				waitTime=0;
-			if(KeyManager.isPressed(' ')&&waitTime==0){
-				//if(this instanceof Shop)
-				//	((Shop)this).addBtns=true;
-				Game.player.talkingTarget=this;
-				isTalking=true;
-				textWindow.visible=true;
-				speakerWindow.visible=true;
-				Camera.canMove=false;
-				conversationIndex++;
-				if(conversationIndex==conversation.get(speechIndex).size())
-					resetConversation();
-				else
-					textWindow.text = conversation.get(speechIndex).get(conversationIndex);
-				waitTime=15;
-			}
-			
+			if(KeyManager.isPressed(' ')&&waitTime==0)
+				talk();
 		}
 		if(isTalking)
 			speakerWindow.animation = animation;
@@ -172,7 +158,16 @@ public class Npc extends Entity implements Talkable{//TODO refactor......, Make 
 	}
 	@Override
 	public void talk() {
-		
-		
+		Game.player.talkingTarget=this;
+		isTalking=true;
+		textWindow.visible=true;
+		speakerWindow.visible=true;
+		Camera.canMove=false;
+		conversationIndex++;
+		if(conversationIndex==conversation.get(speechIndex).size())
+			resetConversation();
+		else
+			textWindow.text = conversation.get(speechIndex).get(conversationIndex);
+		waitTime=15;	
 	}
 }

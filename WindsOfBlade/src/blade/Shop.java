@@ -1,6 +1,7 @@
 package blade;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -34,7 +35,7 @@ public class Shop extends Entity implements Talkable{
 				if(contains(Game.frame.getMousePosition())){
 					drawFrame(g);
 					//if(Item.itemDetail.text.equals(""))
-						Item.itemDetail=item.createItemDetailWindow();
+					Item.itemDetail=item.createItemDetailWindow();
 					if(Game.mousePressed)
 						run();
 				}//else
@@ -47,89 +48,109 @@ public class Shop extends Entity implements Talkable{
 		public void run(){
 			if(Game.player.money>=price){
 				Game.player.money-=price;
-				
+				//TODO give play item
 			}
 		}
 	}
+	private Animation neutral, happy, sad, angry;
+	boolean isTalking;
+	int waitTime;
+	Rectangle conversationBox;
+	String text;
 	static Window shopWindow;
 	private LinkedList<PurchaseButton> pBtns;
-	public boolean addBtns=false;
 	public Shop(int x, int y, String name) {
-		super(x, y, name);
-	}
-	@Override
-	protected void loadData(){
-		pBtns = new LinkedList<PurchaseButton>();
-		try(BufferedReader br = new BufferedReader(new FileReader(new File("data/npc/"+name+".txt")))){
-			boolean inventoryParse = true;
-			String line="";
-			while(line!=null&&(line=br.readLine())!=null){
-				//Goods
-				if(inventoryParse){
-					if(line.contains("<SHOP>"))
-						inventoryParse=false;
-					else{
-						String[] buttonData = line.split("=");
-						Item product = Item.get(buttonData[0].substring(buttonData[0].indexOf('x')+1));
-						product.amount = Integer.parseInt(buttonData[0].substring(0,buttonData[0].indexOf('x')));
-						pBtns.add(new PurchaseButton(product,Integer.parseInt(buttonData[1])));
-					}
-				}else{
-					//Text
-					LinkedList<String> text = new LinkedList<String>();
-					while(line!=null&&!line.contains("<END>")){
-						text.add(line);
-						line=br.readLine();
-					}
-					conversation.add(text);
-				}
-			}
+		super(x, y);
+		this.name=name;
+		waitTime=0;
+		isTalking=false;
+		conversationBox = new Rectangle(box.x-8,box.y-8,80,80);
+		File f = new File("data/npc/"+name+".snpc");
+		try(BufferedReader br = new BufferedReader(new FileReader(f))){
+			String line = br.readLine();
+			animation = new Animation(ImageManager.getList(line.split(",")));//Should always be there
+			line=br.readLine();
+			neutral = new Animation(ImageManager.getList(line.split(",")));//Should always be there
+			line=br.readLine();
+			if(line.charAt(0)==(char)0)
+				happy=null;
+			else
+				happy = new Animation(ImageManager.getList(line.split(",")));
+			line=br.readLine();
+			if(line.charAt(0)==(char)0)
+				sad=null;
+			else
+				sad = new Animation(ImageManager.getList(line.split(",")));
+			line=br.readLine();
+			if(line.charAt(0)==(char)0)
+				angry=null;
+			else
+				angry = new Animation(ImageManager.getList(line.split(",")));
+			text = br.readLine();
+			int amount;
+			while((amount=br.read())!=-1&&(line=br.readLine())!=null)
+				pBtns.add(new PurchaseButton(Item.get(line),amount));
+			
 		}catch(IOException e){
 			e.printStackTrace();
-			LinkedList<String> defaultText = new LinkedList<String>();
-			defaultText.add(name+":Hello");
-			conversation.add(defaultText);
 		}
 	}
 	@Override
 	public void update(Graphics g){
 		super.update(g);
-		if(Game.player.talkingTarget==this){
-			shopWindow.visible=true;
-			shopWindow.setVisibleAllSubWindows(true);
-			if(addBtns){
-				shopWindow.setLayout(pBtns.size(), 1);
-				for(int i=0;i<pBtns.size();i++){
-					pBtns.get(i).setParent(shopWindow, true);
-					shopWindow.add(i,0,pBtns.get(i));
-				}
-				addBtns=false;
-			}
+		animation.getCurrentFrame().draw(box.x, box.y, g);
+		conversationBox = new Rectangle(box.x-8,box.y-8,80,80);
+		if(conversationBox.intersects(Game.player.box)){
+			waitTime--;
+			if(waitTime<0)
+				waitTime=0;
+			if(KeyManager.isPressed(' ')&&waitTime==0)
+				talk();
 		}
+	}
+	public void resetConversation(){
+		isTalking=false;
+		Npc.textWindow.visible=false;
+		Npc.speakerWindow.visible=false;
+		//Inn.yesNoWindow.visible=false;
+		//Inn.yesNoWindow.setVisibleAllSubWindows(false);
+		Shop.shopWindow.visible=false;
+		Shop.shopWindow.setVisibleAllSubWindows(false);
+		Item.itemDetail.visible=false;
+		Camera.canMove=true;
+		Game.player.talkingTarget=null;
 	}
 	@Override
 	public Animation getNeutralFace() {
-		// TODO Auto-generated method stub
-		return null;
+		return neutral;
 	}
 	@Override
 	public Animation getHappyFace() {
-		// TODO Auto-generated method stub
-		return null;
+		return happy;
 	}
 	@Override
 	public Animation getSadFace() {
-		// TODO Auto-generated method stub
-		return null;
+		return sad;
 	}
 	@Override
 	public Animation getAngryFace() {
-		// TODO Auto-generated method stub
-		return null;
+		return angry;
 	}
 	@Override
 	public void talk() {
-		// TODO Auto-generated method stub
+		if(isTalking)
+			resetConversation();
+		else{
+			isTalking=true;
+			shopWindow.visible=true;
+			shopWindow.setVisibleAllSubWindows(true);
+			shopWindow.setLayout(pBtns.size(), 1);
+			for(int i=0;i<pBtns.size();i++){
+				pBtns.get(i).setParent(shopWindow, true);
+				shopWindow.add(i,0,pBtns.get(i));
+			}
+			Npc.textWindow.text=text;
+		}
 		
 	}
 
